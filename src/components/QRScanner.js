@@ -5,6 +5,7 @@ const QRScanner = () => {
   const [result, setResult] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false); // State to track mobile device
+  const [facingMode, setFacingMode] = useState('environment'); // State to track camera facing mode
   const videoRef = useRef(null);
   const codeReader = useRef(null);
 
@@ -19,15 +20,11 @@ const QRScanner = () => {
 
   const initializeScanner = async () => {
     try {
-      let videoStream;
-      if (isMobileDevice) {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const rearCamera = devices.find(device => device.kind === 'videoinput' && device.label.toLowerCase().includes('back'));
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: rearCamera.deviceId } });
-      } else {
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
-      }
-      
+      const videoStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: isMobileDevice ? facingMode : 'user' // Use rear camera on mobile devices
+        } 
+      });
       videoRef.current.srcObject = videoStream;
       codeReader.current = new BrowserBarcodeReader();
       scanBarcode(); // Start scanning process
@@ -46,7 +43,7 @@ const QRScanner = () => {
         tracks.forEach(track => track.stop());
       }
     };
-  }, [isMobileDevice]); // Re-initialize scanner when device type changes
+  }, [isMobileDevice, facingMode]); // Re-initialize scanner when device type or facing mode changes
 
   const scanBarcode = async () => {
     try {
@@ -73,6 +70,10 @@ const QRScanner = () => {
     // Implement continue functionality here
   };
 
+  const toggleCamera = () => {
+    setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user')); // Toggle between front and rear cameras
+  };
+
   return (
     <div>
       <video ref={videoRef} className="video" autoPlay></video>
@@ -88,8 +89,13 @@ const QRScanner = () => {
           </div>
         </div>
       )}
+      {isMobileDevice && (
+        <div>
+          <button onClick={toggleCamera}>Toggle Camera</button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default QRScanner;
+export default QRScanner; 
