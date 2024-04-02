@@ -21,7 +21,7 @@ const QRScanner = () => {
     try {
       const videoStream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
-          facingMode: isMobileDevice ? 'environment' : 'user' // Use rear camera on mobile devices
+          facingMode: isMobileDevice ? { exact: 'environment' } : 'user' // Use rear camera on mobile devices
         } 
       });
       videoRef.current.srcObject = videoStream;
