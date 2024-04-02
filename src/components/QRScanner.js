@@ -6,15 +6,30 @@ const QRScanner = () => {
   const [showModal, setShowModal] = useState(false);
   const cameraRef = useRef(null);
   const codeReader = useRef(null);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   useEffect(() => {
     const initializeScanner = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        cameraRef.current.srcObject = stream;
-        cameraRef.current.play().catch(error => console.error('Error playing camera:', error));
-        codeReader.current = new BrowserBarcodeReader();
-        scanBarcode(); // Start scanning process
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+        // Find the rear camera (facingMode: 'environment') if available
+        const rearCamera = videoDevices.find(device => device.label.toLowerCase().includes('back') || device.facingMode === 'environment');
+
+        // Use the first available camera if rear camera not found
+        const selectedCamera = rearCamera || videoDevices[0];
+
+        if (selectedCamera) {
+          setSelectedDeviceId(selectedCamera.deviceId);
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: selectedCamera.deviceId } });
+          cameraRef.current.srcObject = stream;
+          cameraRef.current.play().catch(error => console.error('Error playing camera:', error));
+          codeReader.current = new BrowserBarcodeReader();
+          scanBarcode(); // Start scanning process
+        } else {
+          console.error('No video devices found');
+        }
       } catch (error) {
         console.error('Error accessing camera:', error);
       }
@@ -32,7 +47,9 @@ const QRScanner = () => {
 
   const scanBarcode = async () => {
     try {
+      console.log('Scanning barcode...');
       const newResult = await codeReader.current.decodeFromVideoElement(cameraRef.current);
+      console.log('Decoded result:', newResult);
       setResult(newResult.text);
       setShowModal(true); // Show modal when barcode is detected
       cameraRef.current.pause(); // Pause the camera stream after scanning a barcode
