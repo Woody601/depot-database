@@ -19,11 +19,15 @@ const QRScanner = () => {
 
   const initializeScanner = async () => {
     try {
-      const videoStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: isMobileDevice ? { exact: 'environment' } : 'user' // Use rear camera on mobile devices
-        } 
-      });
+      let videoStream;
+      if (isMobileDevice) {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const rearCamera = devices.find(device => device.kind === 'videoinput' && device.label.toLowerCase().includes('back'));
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: rearCamera.deviceId } });
+      } else {
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      }
+      
       videoRef.current.srcObject = videoStream;
       codeReader.current = new BrowserBarcodeReader();
       scanBarcode(); // Start scanning process
