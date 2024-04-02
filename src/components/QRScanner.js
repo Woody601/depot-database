@@ -4,6 +4,7 @@ import { BrowserBarcodeReader } from '@zxing/library';
 const QRScanner = () => {
   const [result, setResult] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isFrontCamera, setIsFrontCamera] = useState(true); // State to track camera mode
   const cameraRef = useRef(null);
   const codeReader = useRef(null);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
@@ -18,7 +19,7 @@ const QRScanner = () => {
         const rearCamera = videoDevices.find(device => device.label.toLowerCase().includes('back') || device.facingMode === 'environment');
 
         // Use the first available camera if rear camera not found
-        const selectedCamera = rearCamera || videoDevices[0];
+        const selectedCamera = isFrontCamera ? videoDevices[0] : rearCamera || videoDevices[0];
 
         if (selectedCamera) {
           setSelectedDeviceId(selectedCamera.deviceId);
@@ -43,7 +44,7 @@ const QRScanner = () => {
         tracks.forEach(track => track.stop());
       }
     };
-  }, []);
+  }, [isFrontCamera]); // Add isFrontCamera to the dependency array
 
   const scanBarcode = async () => {
     try {
@@ -58,6 +59,10 @@ const QRScanner = () => {
       // If scanning fails, try again after a short delay
       setTimeout(scanBarcode, 1000);
     }
+  };
+
+  const handleToggleCamera = () => {
+    setIsFrontCamera(prevState => !prevState); // Toggle camera mode
   };
 
   const handleRescan = () => {
@@ -88,6 +93,7 @@ const QRScanner = () => {
   return (
     <div>
       <h2>Barcode and QR Code Scanner</h2>
+      <button onClick={handleToggleCamera}>Switch Camera</button>
       <video ref={cameraRef} width="300" height="200" autoPlay></video>
       {showModal && (
         <div className="modal">
