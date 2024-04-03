@@ -5,7 +5,6 @@ const QRScanner = () => {
   const [result, setResult] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false); // State to track mobile device
-  const [facingMode, setFacingMode] = useState('environment'); // State to track camera facing mode
   const [videoConstraints, setVideoConstraints] = useState({}); // State to track video constraints
   const videoRef = useRef(null);
   const codeReader = useRef(null);
@@ -33,8 +32,11 @@ const QRScanner = () => {
     try {
       const supportedConstraints = await getSupportedVideoConstraints();
       const constraints = {
-        facingMode: isMobileDevice ? facingMode : 'user',
+        facingMode: isMobileDevice ? 'environment' : 'user', // Always use rear camera on mobile devices
         ...videoConstraints, // Include additional video constraints
+        width: { ideal: supportedConstraints.width.max }, // Use maximum available resolution
+        height: { ideal: supportedConstraints.height.max }, // Use maximum available resolution
+        frameRate: { ideal: supportedConstraints.frameRate.max }, // Use maximum available frame rate
       };
 
       const videoStream = await navigator.mediaDevices.getUserMedia({ video: constraints });
@@ -56,7 +58,7 @@ const QRScanner = () => {
         tracks.forEach(track => track.stop());
       }
     };
-  }, [isMobileDevice, facingMode, videoConstraints]); // Re-initialize scanner when device type, facing mode, or video constraints change
+  }, [isMobileDevice, videoConstraints]); // Re-initialize scanner when device type or video constraints change
 
   const scanBarcode = async () => {
     try {
@@ -83,18 +85,6 @@ const QRScanner = () => {
     // Implement continue functionality here
   };
 
-  const toggleCamera = () => {
-    setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user')); // Toggle between front and rear cameras
-  };
-
-  const handleQualityChange = (event) => {
-    const { name, value } = event.target;
-    setVideoConstraints(prevConstraints => ({
-      ...prevConstraints,
-      [name]: value,
-    }));
-  };
-
   return (
     <div>
       <video ref={videoRef} className="video" autoPlay></video>
@@ -108,27 +98,6 @@ const QRScanner = () => {
               <button onClick={handleContinue}>Continue</button>
             </div>
           </div>
-        </div>
-      )}
-      {isMobileDevice && (
-        <div>
-          <button onClick={toggleCamera}>Toggle Camera</button>
-          <label>
-            Resolution:
-            <select name="width" onChange={handleQualityChange}>
-              <option value="640">640p</option>
-              <option value="1280">720p</option>
-              <option value="1920">1080p</option>
-            </select>
-          </label>
-          <label>
-            Frame Rate:
-            <select name="frameRate" onChange={handleQualityChange}>
-              <option value="30">30fps</option>
-              <option value="60">60fps</option>
-            </select>
-          </label>
-          {/* Add more quality settings as needed */}
         </div>
       )}
     </div>
