@@ -1,14 +1,13 @@
-// pages/index.js
-
 import React from 'react';
-import QRScanner from '../components/QRScanner';
+import Scanner from '../components/Scanner';
 
-const IndexPage = () => {
+const Home = () => {
   return (
     <div>
-      <QRScanner />
+      <h1>QR and Barcode Scanner</h1>
+      <Scanner />
     </div>
   );
 };
 
-export default IndexPage;
+export default Home;
