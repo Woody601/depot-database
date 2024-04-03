@@ -5,7 +5,6 @@ const QRScanner = () => {
   const [result, setResult] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false); // State to track mobile device
-  const [videoConstraints, setVideoConstraints] = useState({}); // State to track video constraints
   const videoRef = useRef(null);
   const codeReader = useRef(null);
 
@@ -18,28 +17,15 @@ const QRScanner = () => {
     checkMobileDevice(); // Check if the device is mobile on component mount
   }, []);
 
-  const getSupportedVideoConstraints = async () => {
-    try {
-      const supportedConstraints = await navigator.mediaDevices.getSupportedConstraints();
-      return supportedConstraints;
-    } catch (error) {
-      console.error('Error getting supported video constraints:', error);
-      return {};
-    }
-  };
-
   const initializeScanner = async () => {
     try {
-      const supportedConstraints = await getSupportedVideoConstraints();
       const constraints = {
-        facingMode: isMobileDevice ? 'environment' : 'user', // Always use rear camera on mobile devices
-        ...videoConstraints, // Include additional video constraints
-        width: { ideal: supportedConstraints.width.max }, // Use maximum available resolution
-        height: { ideal: supportedConstraints.height.max }, // Use maximum available resolution
-        frameRate: { ideal: supportedConstraints.frameRate.max }, // Use maximum available frame rate
+        video: {
+          facingMode: { ideal: 'environment' } // Prefer rear camera
+        }
       };
 
-      const videoStream = await navigator.mediaDevices.getUserMedia({ video: constraints });
+      const videoStream = await navigator.mediaDevices.getUserMedia(constraints);
       videoRef.current.srcObject = videoStream;
       codeReader.current = new BrowserBarcodeReader();
       scanBarcode(); // Start scanning process
@@ -58,7 +44,7 @@ const QRScanner = () => {
         tracks.forEach(track => track.stop());
       }
     };
-  }, [isMobileDevice, videoConstraints]); // Re-initialize scanner when device type or video constraints change
+  }, []);
 
   const scanBarcode = async () => {
     try {
