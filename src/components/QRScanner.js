@@ -6,6 +6,7 @@ const QRScanner = () => {
   const [showModal, setShowModal] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false); // State to track mobile device
   const [facingMode, setFacingMode] = useState('environment'); // State to track camera facing mode
+  const [videoConstraints, setVideoConstraints] = useState({}); // State to track video constraints
   const videoRef = useRef(null);
   const codeReader = useRef(null);
 
@@ -18,13 +19,25 @@ const QRScanner = () => {
     checkMobileDevice(); // Check if the device is mobile on component mount
   }, []);
 
+  const getSupportedVideoConstraints = async () => {
+    try {
+      const supportedConstraints = await navigator.mediaDevices.getSupportedConstraints();
+      return supportedConstraints;
+    } catch (error) {
+      console.error('Error getting supported video constraints:', error);
+      return {};
+    }
+  };
+
   const initializeScanner = async () => {
     try {
-      const videoStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: isMobileDevice ? facingMode : 'user' // Use rear camera on mobile devices
-        } 
-      });
+      const supportedConstraints = await getSupportedVideoConstraints();
+      const constraints = {
+        facingMode: isMobileDevice ? facingMode : 'user',
+        ...videoConstraints, // Include additional video constraints
+      };
+
+      const videoStream = await navigator.mediaDevices.getUserMedia({ video: constraints });
       videoRef.current.srcObject = videoStream;
       codeReader.current = new BrowserBarcodeReader();
       scanBarcode(); // Start scanning process
@@ -43,7 +56,7 @@ const QRScanner = () => {
         tracks.forEach(track => track.stop());
       }
     };
-  }, [isMobileDevice, facingMode]); // Re-initialize scanner when device type or facing mode changes
+  }, [isMobileDevice, facingMode, videoConstraints]); // Re-initialize scanner when device type, facing mode, or video constraints change
 
   const scanBarcode = async () => {
     try {
@@ -55,7 +68,7 @@ const QRScanner = () => {
     } catch (error) {
       console.error('Barcode scanning error:', error);
       // If scanning fails, try again after a short delay
-      setTimeout(scanBarcode, 1000);
+      setTimeout(scanBarcode, 0);
     }
   };
 
@@ -72,6 +85,14 @@ const QRScanner = () => {
 
   const toggleCamera = () => {
     setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user')); // Toggle between front and rear cameras
+  };
+
+  const handleQualityChange = (event) => {
+    const { name, value } = event.target;
+    setVideoConstraints(prevConstraints => ({
+      ...prevConstraints,
+      [name]: value,
+    }));
   };
 
   return (
@@ -92,10 +113,26 @@ const QRScanner = () => {
       {isMobileDevice && (
         <div>
           <button onClick={toggleCamera}>Toggle Camera</button>
+          <label>
+            Resolution:
+            <select name="width" onChange={handleQualityChange}>
+              <option value="640">640p</option>
+              <option value="1280">720p</option>
+              <option value="1920">1080p</option>
+            </select>
+          </label>
+          <label>
+            Frame Rate:
+            <select name="frameRate" onChange={handleQualityChange}>
+              <option value="30">30fps</option>
+              <option value="60">60fps</option>
+            </select>
+          </label>
+          {/* Add more quality settings as needed */}
         </div>
       )}
     </div>
   );
 };
 
-export default QRScanner; 
+export default QRScanner;
