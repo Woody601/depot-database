@@ -1,0 +1,85 @@
+.navHolder {
+  position: fixed;
+  background-color: #000;
+  width: 100vw;
+  min-height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  top: 0;
+  left: 0;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+}
+
+.logo {
+  height: 30px;
+  width: 100px;
+  margin-left: 10px;
+}
+.logo img {
+  height: 30px;
+  margin: auto;
+}
+
+.bars {
+  display: none;
+  margin: 10px;
+  float: right;
+  cursor: pointer;
+}
+
+.bars .bar {
+  display: block;
+  width: 25px;
+  margin: 5px 0;
+  background-color: #fff;
+  height: 3px;
+  border-radius: 5px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.bars.active .bar:nth-child(1) {
+  -webkit-transform: translateY(8px) rotate(-45deg);
+          transform: translateY(8px) rotate(-45deg);
+}
+
+.bars.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.bars.active .bar:nth-child(3) {
+  -webkit-transform: translateY(-8px) rotate(45deg);
+          transform: translateY(-8px) rotate(45deg);
+}
+
+.links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  /* background-color: aqua; */
+  height: 50px;
+  width: 100vw;
+  overflow: hidden;
+  -webkit-transition: height 0.5s, opacity 0.5s ease-in;
+  transition: height 0.5s, opacity 0.5s ease-in;
+}
+
+.links a {
+  text-decoration: none;
+  color: #fff;
+}

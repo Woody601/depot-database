@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: 0;
+          box-sizing: 0;
+}
+
+html,
+body {
+  /* height: 100%; */
+  font-family: Roboto Slab;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 16px;
+}
+
+.app {
+  max-width: 1000px;
+  width: 85%;
+  margin: auto;
+}
+
+/* The pagescroll is made to keep the scrolling bar of the page's content out of the nav bar that is at the top. */
+.pagescroll {
+  width: 100%;
+  margin-top: 50px;
+  margin: 50px auto auto;
+  overflow-y: auto;
+  /* The height is calulated to be the full height of the device's screen, minus 50px to compensate for the nav bar at the top. */
+  height: calc(100vh - 50px);
+}
+
+.navHolder {
+  position: fixed;
+  background-color: #000;
+  width: 100vw;
+  min-height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  top: 0;
+  left: 0;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+  z-index: 1;
+}
+
+.logo {
+  height: 30px;
+  width: 100px;
+  margin-left: 10px;
+}
+.logo img {
+  height: 30px;
+  margin: auto;
+}
+
+.bars {
+  display: none;
+  margin: 10px;
+  float: right;
+  cursor: pointer;
+}
+
+.bars .bar {
+  display: block;
+  width: 25px;
+  margin: 5px 0;
+  background-color: #fff;
+  height: 3px;
+  border-radius: 5px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.bars.active .bar:nth-child(1) {
+  -webkit-transform: translateY(8px) rotate(-45deg);
+          transform: translateY(8px) rotate(-45deg);
+}
+
+.bars.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.bars.active .bar:nth-child(3) {
+  -webkit-transform: translateY(-8px) rotate(45deg);
+          transform: translateY(-8px) rotate(45deg);
+}
+
+.links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  /* background-color: aqua; */
+  height: 50px;
+  width: 100vw;
+  overflow: hidden;
+  -webkit-transition: height 0.4s, opacity 0.4s ease-in;
+  transition: height 0.4s, opacity 0.4s ease-in;
+}
+
+.links a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.portrait {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto 16px;
+}
+
+.gamePicture {
+  display: block;
+  width: 100%;
+  margin: 0 auto 16px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@media screen and (max-width: 960px) {
+  .navHolder {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .bars {
+    display: block;
+  }
+  .logo {
+    margin-top: 10px;
+  }
+  .links {
+    height: 0;
+    opacity: 0;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .links.active {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: calc(100vh - 50px);
+    opacity: 1;
+  }
+}
