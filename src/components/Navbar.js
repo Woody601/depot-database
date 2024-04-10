@@ -43,11 +43,11 @@ export default function Navbar() {
           <Link href="/QRCodeScanner" onClick={toggleNav}>
             QR Code Scanner
           </Link>
-          <Link href="/games" onClick={toggleNav}>
-            Games
+          <Link href="/barcodeScanner" onClick={toggleNav}>
+            Barcode Scanner
           </Link>
-          <Link href="/contact" onClick={toggleNav}>
-            Contact
+          <Link href="/login" onClick={toggleNav}>
+            Login
           </Link>
         </div>
       </div>
