@@ -30,8 +30,8 @@ p {
       -ms-flex-pack: center;
           justify-content: center;
   max-width: 1000px;
-  width: 85%;
   margin: auto;
+  overflow-x: clip;
 }
 
 /* The pagescroll is made to keep the scrolling bar of the page's content out of the nav bar that is at the top. */
