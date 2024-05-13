@@ -36,15 +36,19 @@ export default function QRCodeScanner() {
         const sourceSelect = document.getElementById('sourceSelect');
         const rearCamera = videoInputDevices.find(device => device.label.toLowerCase().includes('rear'));
         const frontCamera = videoInputDevices.find(device => device.label.toLowerCase().includes('front'));
-        const selectedCamera = rearCamera || frontCamera;
-        
-        selectedDeviceId = selectedCamera ? selectedCamera.deviceId : null;
 
-        if (selectedCamera) {
-          const sourceOption = document.createElement('option');
-          sourceOption.text = selectedCamera.label;
-          sourceOption.value = selectedCamera.deviceId;
-          sourceSelect.appendChild(sourceOption);
+        if (rearCamera) {
+          const rearOption = document.createElement('option');
+          rearOption.text = rearCamera.label;
+          rearOption.value = rearCamera.deviceId;
+          sourceSelect.appendChild(rearOption);
+        }
+
+        if (frontCamera) {
+          const frontOption = document.createElement('option');
+          frontOption.text = frontCamera.label;
+          frontOption.value = frontCamera.deviceId;
+          sourceSelect.appendChild(frontOption);
         }
 
         sourceSelect.onchange = (event) => {
@@ -61,7 +65,8 @@ export default function QRCodeScanner() {
         });
 
         // Start decoding once the component mounts
-        if (selectedDeviceId) {
+        if (rearCamera || frontCamera) {
+          selectedDeviceId = rearCamera ? rearCamera.deviceId : frontCamera.deviceId;
           decodeOnce(codeReader, selectedDeviceId);
         }
       })
