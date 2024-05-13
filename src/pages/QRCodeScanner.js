@@ -30,14 +30,22 @@ export default function QRCodeScanner() {
     let selectedDeviceId;
     const codeReader = new ZXing.BrowserQRCodeReader();
   
+    // Function to switch between input devices
+    const switchInput = () => {
+      const sourceSelect = document.getElementById('sourceSelect');
+      selectedDeviceId = selectedDeviceId === videoInputDevices[0].deviceId ?
+                         videoInputDevices[1].deviceId : videoInputDevices[0].deviceId;
+      sourceSelect.value = selectedDeviceId;
+      changeVideoSource(selectedDeviceId); // Automatically change video source
+    };
+  
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
         const sourceSelect = document.getElementById('sourceSelect');
         selectedDeviceId = videoInputDevices[0].deviceId;
+        
         if (videoInputDevices.length >= 1) {
-          // Add only two devices
-          for (let i = 0; i < 2; i++) {
-            const element = videoInputDevices[i];
+          videoInputDevices.forEach((element) => {
             // Check if an option with the same label already exists
             const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
             if (!existingOption) {
@@ -46,7 +54,7 @@ export default function QRCodeScanner() {
               sourceOption.value = element.deviceId;
               sourceSelect.appendChild(sourceOption);
             }
-          }
+          });
   
           sourceSelect.onchange = (event) => {
             selectedDeviceId = event.target.value;
@@ -63,6 +71,11 @@ export default function QRCodeScanner() {
           rescan(codeReader, selectedDeviceId);
           console.log('Rescanning...');
         });
+  
+        // Adding a button to switch between input devices
+        const switchButton = document.getElementById('switchButton');
+        switchButton.addEventListener('click', switchInput);
+  
         // Start decoding once the component mounts
         decodeOnce(codeReader, selectedDeviceId);
       })
@@ -71,7 +84,6 @@ export default function QRCodeScanner() {
       });
   }
   
-
 
   function changeVideoSource(deviceId) {
     const videoElement = document.getElementById('video');
