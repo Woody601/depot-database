@@ -19,7 +19,8 @@ p {
 }
 
 .app {
-    
+    display: flex;
+    justify-content: center;
     max-width: 1000px;
     width: 85%;
     margin: auto;

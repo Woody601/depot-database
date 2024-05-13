@@ -54,7 +54,9 @@ export default function QRCodeScanner() {
           const sourceSelectPanel = document.getElementById('sourceSelectPanel');
           sourceSelectPanel.style.display = 'block';
         }
-
+        if (videoInputDevices.length == 1) {
+          sourceSelectPanel.style.display = 'none';
+        }
         document.getElementById('rescanButton').addEventListener('click', () => {
           rescan(codeReader, selectedDeviceId);
           console.log('Rescanning...');
@@ -122,7 +124,7 @@ export default function QRCodeScanner() {
         src="https://unpkg.com/@zxing/library@latest"
         onLoad={() => window.onZXingLoaded()} // Call the callback when the library is loaded
       />
-      <video id="video"/>
+      <video id="video" className={styles.video}/>
       <main className="wrapper">
         <section className="container" id="demo-content">
             
@@ -135,10 +137,12 @@ export default function QRCodeScanner() {
       {/* Overlay with buttons */}
       <div id="overlay" className={styles.overlay}>
         <div className={styles.overlayContent}>
-          <label>Result:</label>
+          <h3>Result:</h3>
           <pre><code id="result" /></pre>
+          <div className={styles.overlayButtons}>
           <button id="rescanButton">Rescan</button>
           <button onClick={() => { document.getElementById('overlay').style.display = 'none'; }}>Continue</button>
+          </div>
         </div>
       </div>
     </div>

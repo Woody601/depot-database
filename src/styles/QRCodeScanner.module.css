@@ -1,3 +1,8 @@
+.video {
+  height: calc(100vh - 50px);
+  margin: auto;
+}
+
 .overlay {
   display: none;
   -webkit-box-align: center;
@@ -7,29 +12,56 @@
       -ms-flex-pack: center;
           justify-content: center;
   position: absolute;
-  top: 0;
+  top: 50px;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 50px);
   background: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: 1;
 }
 
 .overlayContent {
   background-color: #fff;
   padding: 1rem;
+  max-width: 75%;
 }
-.overlayContent label {
+.overlayContent h3 {
   font-size: 20px;
+  margin-bottom: 8px;
 }
-.overlayContent code {
+.overlayContent pre {
+  display: block;
+  margin-bottom: 16px;
+}
+.overlayContent pre code {
   font-size: 16px;
+  text-wrap: wrap;
+  word-break: break-all; /* Allow long words to break */
 }
-
-#overlayContent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+.overlayContent .overlayButtons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-column-gap: 16px;
+     -moz-column-gap: 16px;
+          column-gap: 16px;
+  row-gap: 16px;
+}
+.overlayContent .overlayButtons button {
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: Roboto Slab;
+  background-color: #e5e7eb;
+}
+.overlayContent .overlayButtons button:hover {
+  background-color: #d1d5db;
+  cursor: pointer;
 }
