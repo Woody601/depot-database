@@ -116,8 +116,8 @@ p {
   height: 50px;
   width: 100vw;
   overflow: hidden;
-  -webkit-transition: height 0.4s, opacity 0.4s ease-in;
-  transition: height 0.4s, opacity 0.4s ease-in;
+  -webkit-transition: height 0.4s, opacity 0.4s ease-in-out;
+  transition: height 0.4s, opacity 0.4s ease-in-out;
 }
 
 .links a {
