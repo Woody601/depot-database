@@ -27,41 +27,51 @@ export default function QRCodeScanner() {
   }, [libraryLoaded]);
 
   function initializeScanner() {
+    let selectedDeviceId;
     const codeReader = new ZXing.BrowserQRCodeReader();
-    const sourceSelect = document.getElementById('sourceSelect');
-    let addedSources = 0;
   
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
-        videoInputDevices.forEach((device) => {
-          if (addedSources < 2) {
-            addOption(device);
-            addedSources++;
+        const sourceSelect = document.getElementById('sourceSelect');
+        selectedDeviceId = videoInputDevices[0].deviceId;
+        if (videoInputDevices.length >= 1) {
+          // Add only two devices
+          for (let i = 0; i < 2; i++) {
+            const element = videoInputDevices[i];
+            // Check if an option with the same label already exists
+            const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
+            if (!existingOption) {
+              const sourceOption = document.createElement('option');
+              sourceOption.text = element.label;
+              sourceOption.value = element.deviceId;
+              sourceSelect.appendChild(sourceOption);
+            }
           }
-        });
   
-        if (sourceSelect.options.length > 0) {
-          sourceSelect.style.display = 'block';
-          sourceSelect.onchange = (event) => changeVideoSource(event.target.value);
-          document.getElementById('rescanButton').addEventListener('click', () => {
-            rescan(codeReader, sourceSelect.value);
-            console.log('Rescanning...');
-          });
-          decodeOnce(codeReader, sourceSelect.value);
+          sourceSelect.onchange = (event) => {
+            selectedDeviceId = event.target.value;
+            changeVideoSource(selectedDeviceId); // Automatically change video source
+          };
+  
+          const sourceSelectPanel = document.getElementById('sourceSelectPanel');
+          sourceSelectPanel.style.display = 'block';
         }
+        if (videoInputDevices.length == 1) {
+          sourceSelectPanel.style.display = 'none';
+        }
+        document.getElementById('rescanButton').addEventListener('click', () => {
+          rescan(codeReader, selectedDeviceId);
+          console.log('Rescanning...');
+        });
+        // Start decoding once the component mounts
+        decodeOnce(codeReader, selectedDeviceId);
       })
       .catch((err) => {
         console.error(err);
       });
-  
-    function addOption(device) {
-      const sourceOption = document.createElement('option');
-      sourceOption.text = device.label || `Camera ${addedSources}`;
-      sourceOption.value = device.deviceId;
-      sourceSelect.appendChild(sourceOption);
-    }
   }
   
+
 
   function changeVideoSource(deviceId) {
     const videoElement = document.getElementById('video');
