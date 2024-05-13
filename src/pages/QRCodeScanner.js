@@ -146,7 +146,10 @@ export default function QRCodeScanner() {
           <div id="sourceSelectPanel" style={{ display: 'none' }}>
             <label htmlFor="sourceSelect">Change video source:</label>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
+            
           </div>
+          <button id="switchButton">Switch Input</button>
+
         </section>
       </main>
       {/* Overlay with buttons */}
