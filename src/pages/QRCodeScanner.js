@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script'; // Import next/script
 import styles from "@/styles/QRCodeScanner.module.css";
+
 export default function QRCodeScanner() {
   const [libraryLoaded, setLibraryLoaded] = useState(false);
 
@@ -29,61 +30,45 @@ export default function QRCodeScanner() {
   function initializeScanner() {
     let selectedDeviceId;
     const codeReader = new ZXing.BrowserQRCodeReader();
-  
-    // Function to switch between input devices
-    const switchInput = () => {
-      const sourceSelect = document.getElementById('sourceSelect');
-      selectedDeviceId = selectedDeviceId === videoInputDevices[0].deviceId ?
-                         videoInputDevices[1].deviceId : videoInputDevices[0].deviceId;
-      sourceSelect.value = selectedDeviceId;
-      changeVideoSource(selectedDeviceId); // Automatically change video source
-    };
-  
+
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
         const sourceSelect = document.getElementById('sourceSelect');
-        selectedDeviceId = videoInputDevices[0].deviceId;
+        const rearCamera = videoInputDevices.find(device => device.label.toLowerCase().includes('rear'));
+        const frontCamera = videoInputDevices.find(device => device.label.toLowerCase().includes('front'));
+        const selectedCamera = rearCamera || frontCamera;
         
-        if (videoInputDevices.length >= 1) {
-          videoInputDevices.forEach((element) => {
-            // Check if an option with the same label already exists
-            const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
-            if (!existingOption) {
-              const sourceOption = document.createElement('option');
-              sourceOption.text = element.label;
-              sourceOption.value = element.deviceId;
-              sourceSelect.appendChild(sourceOption);
-            }
-          });
-  
-          sourceSelect.onchange = (event) => {
-            selectedDeviceId = event.target.value;
-            changeVideoSource(selectedDeviceId); // Automatically change video source
-          };
-  
-          const sourceSelectPanel = document.getElementById('sourceSelectPanel');
-          sourceSelectPanel.style.display = 'block';
+        selectedDeviceId = selectedCamera ? selectedCamera.deviceId : null;
+
+        if (selectedCamera) {
+          const sourceOption = document.createElement('option');
+          sourceOption.text = selectedCamera.label;
+          sourceOption.value = selectedCamera.deviceId;
+          sourceSelect.appendChild(sourceOption);
         }
-        if (videoInputDevices.length == 1) {
-          sourceSelectPanel.style.display = 'none';
-        }
+
+        sourceSelect.onchange = (event) => {
+          selectedDeviceId = event.target.value;
+          changeVideoSource(selectedDeviceId); // Automatically change video source
+        };
+
+        const sourceSelectPanel = document.getElementById('sourceSelectPanel');
+        sourceSelectPanel.style.display = 'block';
+
         document.getElementById('rescanButton').addEventListener('click', () => {
           rescan(codeReader, selectedDeviceId);
           console.log('Rescanning...');
         });
-  
-        // Adding a button to switch between input devices
-        const switchButton = document.getElementById('switchButton');
-        switchButton.addEventListener('click', switchInput);
-  
+
         // Start decoding once the component mounts
-        decodeOnce(codeReader, selectedDeviceId);
+        if (selectedDeviceId) {
+          decodeOnce(codeReader, selectedDeviceId);
+        }
       })
       .catch((err) => {
         console.error(err);
       });
   }
-  
 
   function changeVideoSource(deviceId) {
     const videoElement = document.getElementById('video');
@@ -108,7 +93,7 @@ export default function QRCodeScanner() {
       document.getElementById('result').textContent = result.text;
       const overlay = document.getElementById('overlay');
       overlay.style.display = 'flex';
-  
+
       // Pause the video
       videoElement.pause();
     }).catch((err) => {
@@ -133,7 +118,6 @@ export default function QRCodeScanner() {
     <div>
       <Head>
         <title>ZXing TypeScript | Decoding from camera stream</title>
-        
       </Head>
       <Script
         src="https://unpkg.com/@zxing/library@latest"
@@ -142,16 +126,11 @@ export default function QRCodeScanner() {
       <video id="video" className={styles.video}/>
       <main className="wrapper">
         <section className="container" id="demo-content">
-            
           <div id="sourceSelectPanel" style={{ display: 'none' }}>
             <label htmlFor="sourceSelect">Change video source:</label>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
-            
           </div>
-          
-
         </section>
-        <button id="switchButton">Switch Input</button>
       </main>
       {/* Overlay with buttons */}
       <div id="overlay" className={styles.overlay}>
@@ -159,8 +138,8 @@ export default function QRCodeScanner() {
           <h3>Result:</h3>
           <pre><code id="result" /></pre>
           <div className={styles.overlayButtons}>
-          <button id="rescanButton">Rescan</button>
-          <button onClick={() => { document.getElementById('overlay').style.display = 'none'; }}>Continue</button>
+            <button id="rescanButton">Rescan</button>
+            <button onClick={() => { document.getElementById('overlay').style.display = 'none'; }}>Continue</button>
           </div>
         </div>
       </div>
