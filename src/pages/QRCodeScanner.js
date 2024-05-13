@@ -148,9 +148,10 @@ export default function QRCodeScanner() {
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
             
           </div>
-          <button id="switchButton">Switch Input</button>
+          
 
         </section>
+        <button id="switchButton">Switch Input</button>
       </main>
       {/* Overlay with buttons */}
       <div id="overlay" className={styles.overlay}>
