@@ -56,6 +56,7 @@ export default function QRCodeScanner() {
         }
         if (videoInputDevices.length == 1) {
           sourceSelectPanel.style.display = 'none';
+          selectedDeviceId = videoInputDevices[0].deviceId;
         }
         document.getElementById('rescanButton').addEventListener('click', () => {
           rescan(codeReader, selectedDeviceId);
