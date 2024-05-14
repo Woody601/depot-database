@@ -33,30 +33,35 @@
       codeReader.getVideoInputDevices()
         .then((videoInputDevices) => {
           const sourceSelect = document.getElementById('sourceSelect');
-          let facingBackDeviceAdded = false;
-          let facingFrontDeviceAdded = false;
+          const facingBackDevices = [];
+          const facingFrontDevices = [];
     
           videoInputDevices.forEach((element) => {
-            // Check if an option with the same label already exists
-            const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
-            
-            // Check if the device is a video input device and if it's already added to the dropdown
-            if (element.kind === 'videoinput' && !existingOption) {
-              // Check the facing mode of the device and add it to the dropdown accordingly
-              if (element.facingMode === 'environment' && !facingBackDeviceAdded) {
-                const sourceOption = document.createElement('option');
-                sourceOption.text = element.label;
-                sourceOption.value = element.deviceId;
-                sourceSelect.appendChild(sourceOption);
-                facingBackDeviceAdded = true;
-              } else if (element.facingMode === 'user' && !facingFrontDeviceAdded) {
-                const sourceOption = document.createElement('option');
-                sourceOption.text = element.label;
-                sourceOption.value = element.deviceId;
-                sourceSelect.appendChild(sourceOption);
-                facingFrontDeviceAdded = true;
+            // Check if the device is a video input device
+            if (element.kind === 'videoinput') {
+              // Check the facing mode of the device and add it to the appropriate array
+              if (element.facingMode === 'environment') {
+                facingBackDevices.push(element);
+              } else if (element.facingMode === 'user') {
+                facingFrontDevices.push(element);
               }
             }
+          });
+    
+          // Add options for back-facing cameras
+          facingBackDevices.forEach((device) => {
+            const sourceOption = document.createElement('option');
+            sourceOption.text = device.label;
+            sourceOption.value = device.deviceId;
+            sourceSelect.appendChild(sourceOption);
+          });
+    
+          // Add options for front-facing cameras
+          facingFrontDevices.forEach((device) => {
+            const sourceOption = document.createElement('option');
+            sourceOption.text = device.label;
+            sourceOption.value = device.deviceId;
+            sourceSelect.appendChild(sourceOption);
           });
     
           sourceSelect.onchange = (event) => {
@@ -78,6 +83,7 @@
       // Start decoding once the component mounts
       decodeOnce(codeReader, selectedDeviceId);
     }
+    
     
 
     function changeVideoSource(deviceId) {
