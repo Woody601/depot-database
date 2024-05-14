@@ -126,8 +126,7 @@ export default function QRCodeScanner() {
   return (
     <div className={styles.videoContainer}>
       <Head>
-        <title>ZXing TypeScript | Decoding from camera stream</title>
-        
+        <title>QR Code Scanner</title>
       </Head>
       <Script
         src="https://unpkg.com/@zxing/library@latest"
