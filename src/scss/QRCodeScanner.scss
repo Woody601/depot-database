@@ -1,7 +1,30 @@
+.videoContainer {
+    height: calc(100vh - 50px);
+    overflow-y: clip;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    button {
+        padding: 8px 16px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: Roboto Slab;
+        background-color: #e5e7eb;
+    }
+    button:hover {
+        background-color: #d1d5db;
+        cursor: pointer;
+    }
+}
 .video {
-    height: calc(100vh - 55px);
-    margin: auto;
+    height: calc(100vh - 50px);
     overflow: hidden;
+}
+.toggleSettings {
+    position: absolute;
+    margin: 1rem;
 }
 .overlay {
     display: none;
@@ -32,24 +55,32 @@
             word-break: break-all; /* Allow long words to break */
         }
     }
+
     .overlayButtons {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         column-gap: 16px;
         row-gap: 16px;
-        button {
-            padding: 8px 16px;
-            border: none;
-            outline: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: Roboto Slab;
-            background-color: #e5e7eb;
-        }
-        button:hover {
-            background-color: #d1d5db;
-            cursor: pointer;
-        }
+        
+    }
+}
+.sourceSelectPanel {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: clip;
+    column-gap: 16px;
+    row-gap: 8px;
+}
+#overlaySettings {
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+@media screen and (max-width: 668px) {
+    .toggleSettings {
+        right: 0; // This will force the toggle settings button to stay in line, on the right side of the video frame, so it doesn't get lost with the rest of the screen crunch.
     }
 }

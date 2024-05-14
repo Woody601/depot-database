@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script'; // Import next/script
 import styles from "@/styles/QRCodeScanner.module.css";
+
 export default function QRCodeScanner() {
   const [libraryLoaded, setLibraryLoaded] = useState(false);
 
@@ -41,6 +42,8 @@ export default function QRCodeScanner() {
             if (!existingOption) {
               const sourceOption = document.createElement('option');
               sourceOption.text = element.label;
+              console.log(element.label);
+              console.log(element.deviceId);
               sourceOption.value = element.deviceId;
               sourceSelect.appendChild(sourceOption);
             }
@@ -50,12 +53,9 @@ export default function QRCodeScanner() {
             selectedDeviceId = event.target.value;
             changeVideoSource(selectedDeviceId); // Automatically change video source
           };
-
-          const sourceSelectPanel = document.getElementById('sourceSelectPanel');
-          sourceSelectPanel.style.display = 'block';
         }
         if (videoInputDevices.length == 1) {
-          sourceSelectPanel.style.display = 'none';
+          document.getElementById('settingsBtn').style.display = 'none';
           selectedDeviceId = videoInputDevices[0].deviceId;
         }
         document.getElementById('rescanButton').addEventListener('click', () => {
@@ -63,7 +63,7 @@ export default function QRCodeScanner() {
           console.log('Rescanning...');
         });
         // Start decoding once the component mounts
-        decodeOnce(codeReader, selectedDeviceId);
+        scanQRCode(codeReader, selectedDeviceId);
       })
       .catch((err) => {
         console.error(err);
@@ -86,7 +86,7 @@ export default function QRCodeScanner() {
     }
   }
 
-  function decodeOnce(codeReader, selectedDeviceId) {
+  function scanQRCode(codeReader, selectedDeviceId) {
     const videoElement = document.getElementById('video');
     codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
       console.log(result);
@@ -101,13 +101,12 @@ export default function QRCodeScanner() {
       document.getElementById('result').textContent = err;
     });
   }
-  
 
   function rescan(codeReader, selectedDeviceId) {
     resetScanner(codeReader);
     const overlay = document.getElementById('overlay');
     overlay.style.display = 'none';
-    decodeOnce(codeReader, selectedDeviceId);
+    scanQRCode(codeReader, selectedDeviceId);
   }
 
   function resetScanner(codeReader) {
@@ -115,8 +114,17 @@ export default function QRCodeScanner() {
     document.getElementById('result').textContent = '';
   }
 
+  function toggleSettingsOverlay() {
+    const overlaySettings = document.getElementById('overlay-settings');
+    if (overlaySettings.style.display === 'none' || overlaySettings.style.display === '') {
+      overlaySettings.style.display = 'flex';
+    } else {
+      overlaySettings.style.display = 'none';
+    }
+  }
+
   return (
-    <div>
+    <div className={styles.videoContainer}>
       <Head>
         <title>ZXing TypeScript | Decoding from camera stream</title>
         
@@ -126,23 +134,25 @@ export default function QRCodeScanner() {
         onLoad={() => window.onZXingLoaded()} // Call the callback when the library is loaded
       />
       <video id="video" className={styles.video}/>
-      <main className="wrapper">
-        <section className="container" id="demo-content">
-            
-          <div id="sourceSelectPanel" style={{ display: 'none' }}>
-            <label htmlFor="sourceSelect">Change video source:</label>
-            <select id="sourceSelect" style={{ maxWidth: '400px' }} />
-          </div>
-        </section>
-      </main>
+      <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}>Settings</button>
+      {/* Overlay with buttons */}
+      <div id="overlay-settings" className={styles.overlay}>
+        <div className={styles.overlayContent}>
+        <button className={styles.overlayButton} onClick={toggleSettingsOverlay}>Close</button>
+        <div className={styles.sourceSelectPanel}>
+              <label htmlFor="sourceSelect">Change video source:</label>
+              <select id="sourceSelect" style={{ maxWidth: '400px' }} />
+              </div>
+        </div>
+      </div>
       {/* Overlay with buttons */}
       <div id="overlay" className={styles.overlay}>
         <div className={styles.overlayContent}>
           <h3>Result:</h3>
           <pre><code id="result" /></pre>
           <div className={styles.overlayButtons}>
-          <button id="rescanButton">Rescan</button>
-          <button onClick={() => { document.getElementById('overlay').style.display = 'none'; }}>Continue</button>
+            <button id="rescanButton">Rescan</button>
+            <button onClick={() => { document.getElementById('overlay').style.display = 'none'; }}>Continue</button>
           </div>
         </div>
       </div>
