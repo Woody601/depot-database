@@ -29,45 +29,56 @@ export default function QRCodeScanner() {
   function initializeScanner() {
     let selectedDeviceId;
     const codeReader = new ZXing.BrowserQRCodeReader();
-
+  
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
         const sourceSelect = document.getElementById('sourceSelect');
-        selectedDeviceId = videoInputDevices[0].deviceId;
-        if (videoInputDevices.length >= 1) {
-          videoInputDevices.forEach((element) => {
-            // Check if an option with the same label already exists
-            const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
-            if (!existingOption) {
+        let facingBackDeviceAdded = false;
+        let facingFrontDeviceAdded = false;
+  
+        videoInputDevices.forEach((element) => {
+          // Check if an option with the same label already exists
+          const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
+          
+          // Check if the device is a video input device and if it's already added to the dropdown
+          if (element.kind === 'videoinput' && !existingOption) {
+            // Check the facing mode of the device and add it to the dropdown accordingly
+            if (element.facingMode === 'environment' && !facingBackDeviceAdded) {
               const sourceOption = document.createElement('option');
               sourceOption.text = element.label;
               sourceOption.value = element.deviceId;
               sourceSelect.appendChild(sourceOption);
+              facingBackDeviceAdded = true;
+            } else if (element.facingMode === 'user' && !facingFrontDeviceAdded) {
+              const sourceOption = document.createElement('option');
+              sourceOption.text = element.label;
+              sourceOption.value = element.deviceId;
+              sourceSelect.appendChild(sourceOption);
+              facingFrontDeviceAdded = true;
             }
-          });
-
-          sourceSelect.onchange = (event) => {
-            selectedDeviceId = event.target.value;
-            changeVideoSource(selectedDeviceId); // Automatically change video source
-          };
-
-          const sourceSelectPanel = document.getElementById('sourceSelectPanel');
-          sourceSelectPanel.style.display = 'block';
-        }
-        if (videoInputDevices.length == 1) {
-          sourceSelectPanel.style.display = 'none';
-        }
-        document.getElementById('rescanButton').addEventListener('click', () => {
-          rescan(codeReader, selectedDeviceId);
-          console.log('Rescanning...');
+          }
         });
-        // Start decoding once the component mounts
-        decodeOnce(codeReader, selectedDeviceId);
+  
+        sourceSelect.onchange = (event) => {
+          selectedDeviceId = event.target.value;
+          changeVideoSource(selectedDeviceId); // Automatically change video source
+        };
+  
+        const sourceSelectPanel = document.getElementById('sourceSelectPanel');
+        sourceSelectPanel.style.display = 'block';
       })
       .catch((err) => {
         console.error(err);
       });
+  
+    document.getElementById('rescanButton').addEventListener('click', () => {
+      rescan(codeReader, selectedDeviceId);
+      console.log('Rescanning...');
+    });
+    // Start decoding once the component mounts
+    decodeOnce(codeReader, selectedDeviceId);
   }
+  
 
   function changeVideoSource(deviceId) {
     const videoElement = document.getElementById('video');
