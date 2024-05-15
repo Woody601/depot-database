@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script'; // Import next/script
+import ToggleSwitch from "@/components/ToggleSwitch";
 import styles from "@/styles/QRCodeScanner.module.css";
 
 export default function QRCodeScanner() {
@@ -55,7 +56,7 @@ export default function QRCodeScanner() {
           };
         }
         if (videoInputDevices.length == 1) {
-          document.getElementById('settingsBtn').style.display = 'none';
+          document.getElementById('sourceSelectOption').style.display = 'none';
           selectedDeviceId = videoInputDevices[0].deviceId;
         }
         document.getElementById('rescanButton').addEventListener('click', () => {
@@ -84,6 +85,7 @@ export default function QRCodeScanner() {
     } else {
       console.error('getUserMedia is not supported');
     }
+    toggleSettingsOverlay();
   }
 
   function scanQRCode(codeReader, selectedDeviceId) {
@@ -93,7 +95,11 @@ export default function QRCodeScanner() {
       document.getElementById('result').textContent = result.text;
       const overlay = document.getElementById('overlay');
       overlay.style.display = 'flex';
-  
+     
+      // Check if the result is a link
+      const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
+      // Update the result element to show the result as a link if it is a link
+      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
       // Pause the video
       videoElement.pause();
     }).catch((err) => {
@@ -123,6 +129,16 @@ export default function QRCodeScanner() {
     }
   }
 
+  function toggleAspectRatio() {
+    const scannerVideo = document.getElementById('video');
+    if (scannerVideo.style.width === '100%') {
+        scannerVideo.style.width = 'auto'; // Set width to 100%
+    } else {
+        scannerVideo.style.width = '100%'; // Reset width to auto
+    }
+}
+
+
   return (
     <div className={styles.videoContainer}>
       <Head>
@@ -133,14 +149,18 @@ export default function QRCodeScanner() {
         onLoad={() => window.onZXingLoaded()} // Call the callback when the library is loaded
       />
       <video id="video" className={styles.video}/>
-      <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}>Settings</button>
+      <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}><i className="fa fa-gear"></i></button>
       {/* Overlay with buttons */}
       <div id="overlay-settings" className={styles.overlay}>
         <div className={styles.overlayContent}>
-        <button className={styles.overlayButton} onClick={toggleSettingsOverlay}>Close</button>
-        <div className={styles.sourceSelectPanel}>
-              <label htmlFor="sourceSelect">Change video source:</label>
+        <button className={styles.overlayButton} onClick={toggleSettingsOverlay}><i className="fa fa-close"></i></button>
+        <div id="sourceSelectOption"className={styles.settingsOption}>
+              <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
               <select id="sourceSelect" style={{ maxWidth: '400px' }} />
+              </div>
+              <div className={styles.settingsOption}>
+              <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
+              <ToggleSwitch round onChange={toggleAspectRatio} />
               </div>
         </div>
       </div>
