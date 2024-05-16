@@ -140,7 +140,6 @@ export default function QRCodeScanner() {
     } else {
       console.error('getUserMedia is not supported');
     }
-    toggleSettingsOverlay();
   }
 
   function scanQRCode(codeReader, selectedDeviceId) {
