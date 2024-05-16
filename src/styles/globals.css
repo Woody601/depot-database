@@ -124,6 +124,9 @@ p {
   overflow: hidden;
   -webkit-transition: height 0.4s, opacity 0.4s ease-in-out;
   transition: height 0.4s, opacity 0.4s ease-in-out;
+  -webkit-column-gap: 32px;
+     -moz-column-gap: 32px;
+          column-gap: 32px;
 }
 
 .links a {
@@ -151,7 +154,7 @@ p {
   background-size: contain;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 656px) {
   .navHolder {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;

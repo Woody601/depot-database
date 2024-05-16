@@ -160,10 +160,7 @@
           align-items: right;
 }
 
-@media screen and (max-width: 668px) {
-  .toggleSettings {
-    right: 0;
-  }
+@media screen and (max-width: 656px) {
   .videoContainer i {
     font-size: 24px;
   }

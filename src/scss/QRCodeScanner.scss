@@ -107,10 +107,7 @@
     flex-direction: column;
     align-items: right;
 }
-@media screen and (max-width: 668px) {
-    .toggleSettings {
-        right: 0; // This will force the toggle settings button to stay in line, on the right side of the video frame, so it doesn't get lost with the rest of the screen crunch.
-    }
+@media screen and (max-width: 656px) {
     .videoContainer {
         i {
             font-size: 24px;

@@ -28,6 +28,29 @@ export default function QRCodeScanner() {
     }
   }, [libraryLoaded]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const videoElement = document.getElementById('video');
+      const toggleSettingsElement = document.getElementById('settingsBtn');
+      if (videoElement && toggleSettingsElement) {
+        if (window.innerWidth < videoElement.offsetWidth) {
+          toggleSettingsElement.style.right = '0'; // Example style
+          // Add other styles as needed
+        } else {
+          toggleSettingsElement.style.right = 'unset'; // Reset to default
+          // Reset other styles as needed
+        }
+      }
+    };
+  
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call initially to set the correct style on load
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   function initializeScanner() {
     let selectedDeviceId;
     const codeReader = new ZXing.BrowserQRCodeReader();
@@ -130,11 +153,21 @@ export default function QRCodeScanner() {
   }
 
   function toggleAspectRatio() {
-    const scannerVideo = document.getElementById('video');
-    if (scannerVideo.style.width === '100%') {
-        scannerVideo.style.width = 'auto'; // Set width to 100%
+    const videoElement = document.getElementById('video');
+    const toggleSettingsElement = document.getElementById('settingsBtn');
+    if (videoElement.style.width === '100%') {
+      videoElement.style.width = 'auto'; // Set width to 100%
+      if (videoElement && toggleSettingsElement) {
+        if (window.innerWidth < videoElement.offsetWidth) {
+          toggleSettingsElement.style.right = '0'; // Example style
+          // Add other styles as needed
+        } else {
+          toggleSettingsElement.style.right = 'unset'; // Reset to default
+          // Reset other styles as needed
+        }
+      }
     } else {
-        scannerVideo.style.width = '100%'; // Reset width to auto
+      videoElement.style.width = '100%'; // Reset width to auto
     }
 }
 
