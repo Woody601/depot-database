@@ -1,0 +1,30 @@
+.gameContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.gameTitle {
+  min-height: 64px;
+}
+
+.gameHolder {
+  width: 150px;
+  margin-bottom: 30px;
+  border-bottom: solid 1px #000;
+  min-height: 363px;
+  cursor: pointer;
+}
+.gameImage {
+  min-height: 250px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+}
+.briefRating {
+  // display: flex;
+  font-size: 9px;
+  margin-bottom: 10px;
+}
+.briefDes {
+  margin-bottom: 10px;
+}

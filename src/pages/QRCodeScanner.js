@@ -32,9 +32,11 @@ export default function QRCodeScanner() {
     const handleResize = () => {
       const videoElement = document.getElementById('video');
       const toggleSettingsElement = document.getElementById('settingsBtn');
+      
       if (videoElement && toggleSettingsElement) {
-        if (window.innerWidth < videoElement.offsetWidth) {
-          toggleSettingsElement.style.right = '0'; // Example style
+        const videoWidth = videoElement.getBoundingClientRect().width;
+        if (window.innerWidth < videoWidth) {
+          toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
           // Add other styles as needed
         } else {
           toggleSettingsElement.style.right = 'unset'; // Reset to default
@@ -44,12 +46,42 @@ export default function QRCodeScanner() {
     };
   
     window.addEventListener('resize', handleResize);
-    handleResize(); // Call initially to set the correct style on load
+  
+    const videoElement = document.getElementById('video');
+    if (videoElement) {
+      videoElement.addEventListener('loadedmetadata', handleResize);
+    }
   
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (videoElement) {
+        videoElement.removeEventListener('loadedmetadata', handleResize);
+      }
     };
   }, []);
+  
+  useEffect(() => {
+    // Additional call to handleResize after initial load and another call after a short delay
+    const handleResize = () => {
+      const videoElement = document.getElementById('video');
+      const toggleSettingsElement = document.getElementById('settingsBtn');
+      
+      if (videoElement && toggleSettingsElement) {
+        const videoWidth = videoElement.getBoundingClientRect().width;
+        if (window.innerWidth < videoWidth) {
+          toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
+          // Add other styles as needed
+        } else {
+          toggleSettingsElement.style.right = 'unset'; // Reset to default
+          // Reset other styles as needed
+        }
+      }
+    };
+  
+    handleResize(); // Initial call
+  
+  }, [libraryLoaded]); // This useEffect will rerun when libraryLoaded changes
+  
 
   function initializeScanner() {
     let selectedDeviceId;

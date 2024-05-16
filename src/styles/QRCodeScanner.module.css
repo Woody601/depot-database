@@ -4,7 +4,6 @@
 }
 
 .videoContainer {
-  height: calc(100vh - 50px);
   overflow-y: clip;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -49,8 +48,6 @@
 .video {
   height: calc(100vh - 50px);
   overflow: hidden;
-  -webkit-transition: 0.4s width, 0.4s height;
-  transition: 0.4s width, 0.4s height;
 }
 
 .overlay {
@@ -167,5 +164,12 @@
   .videoContainer button {
     height: 40px;
     width: 40px;
+  }
+  .video {
+    height: calc(100vh - 60px);
+  }
+  .overlay {
+    top: 60px;
+    height: calc(100vh - 60px);
   }
 }

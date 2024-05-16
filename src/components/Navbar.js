@@ -7,9 +7,13 @@ export default function Navbar() {
   const [isToggled, setToggled] = useState(false);
 
   const toggleNav = () => {
-    if (screenWidth <= 960) {
+    if (screenWidth <= 656) {
       setToggled(!isToggled);
     }
+  };
+
+  const closeNav = () => {
+    setToggled(false);
   };
 
   const updateScreenWidth = () => {
@@ -23,10 +27,10 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (screenWidth >= 960 && isToggled) {
-      setToggled(false);
+    if (screenWidth >= 656 && isToggled) {
+      closeNav();
     }
-  }, [isToggled]);
+  }, [screenWidth, isToggled]);  // Added screenWidth to dependencies
 
   return (
     <>

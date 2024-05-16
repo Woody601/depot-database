@@ -1,0 +1,34 @@
+@media screen and (max-width: 656px) {
+  .navHolder {
+    flex-wrap: wrap;
+    min-height: 60px;
+  }
+  .bars {
+    display: block;
+  }
+
+  .logo {
+    margin-top: 10px;
+  }
+
+  .links {
+    height: 0;
+    opacity: 0;
+    flex-direction: column;
+    //border: 1px solid;
+    
+  }
+
+  .links.active {
+    height: calc(100vh - 60px);
+    opacity: 1;
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+  .pagescroll {
+    margin: 60px auto auto;
+    /* The height is calulated to be the full height of the device's screen, minus 60px to compensate for the nav bar at the top. */
+    height: calc(100vh - 60px);
+}
+}
