@@ -1,0 +1,25 @@
+@media screen and (max-width: 960px) {
+  .navHolder {
+    flex-wrap: wrap;
+  }
+  .bars {
+    display: block;
+  }
+
+  .logo {
+    margin-top: 10px;
+  }
+
+  .links {
+    height: 0;
+    opacity: 0;
+    flex-direction: column;
+    border: 1px solid;
+  }
+
+  .links.active {
+    display: flex;
+    height: calc(100vh - 50px);
+    opacity: 1;
+  }
+}

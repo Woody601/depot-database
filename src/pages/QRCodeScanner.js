@@ -1,9 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Script from 'next/script'; // Import next/script
+import ToggleSwitch from "@/components/ToggleSwitch";
+import styles from "@/styles/QRCodeScanner.module.css";
 
-const QRCodeScanner = () => {
+export default function QRCodeScanner() {
+  const [libraryLoaded, setLibraryLoaded] = useState(false);
 
   useEffect(() => {
+    // Set up a flag to indicate when the library is loaded
+    const libraryLoadCallback = () => {
+      setLibraryLoaded(true);
+    };
+
+    // Attach the callback to the window object
+    window.onZXingLoaded = libraryLoadCallback;
+
+    return () => {
+      window.onZXingLoaded = null; // Clean up the callback when unmounting
+    };
+  }, []);
+
+  useEffect(() => {
+    if (libraryLoaded) {
+      // If the library is loaded, initialize the scanner
+      initializeScanner();
+    }
+  }, [libraryLoaded]);
+
+  function initializeScanner() {
     let selectedDeviceId;
     const codeReader = new ZXing.BrowserQRCodeReader();
 
@@ -13,118 +38,143 @@ const QRCodeScanner = () => {
         selectedDeviceId = videoInputDevices[0].deviceId;
         if (videoInputDevices.length >= 1) {
           videoInputDevices.forEach((element) => {
-            const sourceOption = document.createElement('option');
-            sourceOption.text = element.label;
-            sourceOption.value = element.deviceId;
-            sourceSelect.appendChild(sourceOption);
+            // Check if an option with the same label already exists
+            const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
+            if (!existingOption) {
+              const sourceOption = document.createElement('option');
+              sourceOption.text = element.label;
+              console.log(element.label);
+              console.log(element.deviceId);
+              sourceOption.value = element.deviceId;
+              sourceSelect.appendChild(sourceOption);
+            }
           });
 
-          sourceSelect.onchange = () => {
-            selectedDeviceId = sourceSelect.value;
+          sourceSelect.onchange = (event) => {
+            selectedDeviceId = event.target.value;
+            changeVideoSource(selectedDeviceId); // Automatically change video source
           };
-
-          const sourceSelectPanel = document.getElementById('sourceSelectPanel');
-          sourceSelectPanel.style.display = 'block';
         }
-
-        document.getElementById('startButton').addEventListener('click', () => {
-          const decodingStyle = document.getElementById('decoding-style').value;
-          if (decodingStyle === "once") {
-            decodeOnce(codeReader, selectedDeviceId);
-          } else {
-            decodeContinuously(codeReader, selectedDeviceId);
-          }
-          console.log(`Started decode from camera with id ${selectedDeviceId}`);
+        if (videoInputDevices.length == 1) {
+          document.getElementById('sourceSelectOption').style.display = 'none';
+          selectedDeviceId = videoInputDevices[0].deviceId;
+        }
+        document.getElementById('rescanButton').addEventListener('click', () => {
+          rescan(codeReader, selectedDeviceId);
+          console.log('Rescanning...');
         });
-
-        document.getElementById('resetButton').addEventListener('click', () => {
-          codeReader.reset();
-          document.getElementById('result').textContent = '';
-          console.log('Reset.');
-        });
-
+        // Start decoding once the component mounts
+        scanQRCode(codeReader, selectedDeviceId);
       })
       .catch((err) => {
         console.error(err);
       });
+  }
 
-    function decodeOnce(codeReader, selectedDeviceId) {
-      codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
-        console.log(result);
-        document.getElementById('result').textContent = result.text;
-      }).catch((err) => {
-        console.error(err);
-        document.getElementById('result').textContent = err;
-      });
+  function changeVideoSource(deviceId) {
+    const videoElement = document.getElementById('video');
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: deviceId } } })
+        .then((stream) => {
+          videoElement.srcObject = stream;
+          videoElement.play(); // Start playing the video with the new source
+        })
+        .catch((err) => {
+          console.error('Error accessing media devices: ', err);
+        });
+    } else {
+      console.error('getUserMedia is not supported');
     }
+    toggleSettingsOverlay();
+  }
 
-    function decodeContinuously(codeReader, selectedDeviceId) {
-      codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
-        if (result) {
-          console.log('Found QR code!', result);
-          document.getElementById('result').textContent = result.text;
-        }
+  function scanQRCode(codeReader, selectedDeviceId) {
+    const videoElement = document.getElementById('video');
+    codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
+      console.log(result);
+      document.getElementById('result').textContent = result.text;
+      const overlay = document.getElementById('overlay');
+      overlay.style.display = 'flex';
+     
+      // Check if the result is a link
+      const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
+      // Update the result element to show the result as a link if it is a link
+      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
+      // Pause the video
+      videoElement.pause();
+    }).catch((err) => {
+      console.error(err);
+      document.getElementById('result').textContent = err;
+    });
+  }
 
-        if (err) {
-          if (err instanceof ZXing.NotFoundException) {
-            console.log('No QR code found.');
-          }
+  function rescan(codeReader, selectedDeviceId) {
+    resetScanner(codeReader);
+    const overlay = document.getElementById('overlay');
+    overlay.style.display = 'none';
+    scanQRCode(codeReader, selectedDeviceId);
+  }
 
-          if (err instanceof ZXing.ChecksumException) {
-            console.log('A code was found, but it\'s read value was not valid.');
-          }
+  function resetScanner(codeReader) {
+    codeReader.reset();
+    document.getElementById('result').textContent = '';
+  }
 
-          if (err instanceof ZXing.FormatException) {
-            console.log('A code was found, but it was in a invalid format.');
-          }
-        }
-      });
+  function toggleSettingsOverlay() {
+    const overlaySettings = document.getElementById('overlay-settings');
+    if (overlaySettings.style.display === 'none' || overlaySettings.style.display === '') {
+      overlaySettings.style.display = 'flex';
+    } else {
+      overlaySettings.style.display = 'none';
     }
-  }, []);
+  }
+
+  function toggleAspectRatio() {
+    const scannerVideo = document.getElementById('video');
+    if (scannerVideo.style.width === '100%') {
+        scannerVideo.style.width = 'auto'; // Set width to 100%
+    } else {
+        scannerVideo.style.width = '100%'; // Reset width to auto
+    }
+}
+
 
   return (
-    <div>
+    <div className={styles.videoContainer}>
       <Head>
-        <title>ZXing TypeScript | Decoding from camera stream</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
-        <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.0/normalize.css" />
-        <link rel="stylesheet" href="https://unpkg.com/milligram@1.3.0/dist/milligram.min.css" />
-        <script src="https://unpkg.com/@zxing/library@latest" />
+        <title>QR Code Scanner</title>
       </Head>
-      <main className="wrapper" style={{ paddingTop: '2em' }}>
-        <section className="container" id="demo-content">
-          <div>
-            <a className="button" id="startButton">Start</a>
-            <a className="button" id="resetButton">Reset</a>
-          </div>
-          <div>
-            <video id="video" width="300" height="200" style={{ border: '1px solid gray' }} />
-          </div>
-          <div id="sourceSelectPanel" style={{ display: 'none' }}>
-            <label htmlFor="sourceSelect">Change video source:</label>
-            <select id="sourceSelect" style={{ maxWidth: '400px' }} />
-          </div>
-          <div style={{ display: 'table' }}>
-            <label htmlFor="decoding-style"> Decoding Style:</label>
-            <select id="decoding-style" size="1" defaultValue="continuously">
-              <option value="once">Decode once</option>
-              <option value="continuously">Decode continuously</option>
-            </select>
-          </div>
-          <label>Result:</label>
+      <Script
+        src="https://unpkg.com/@zxing/library@latest"
+        onLoad={() => window.onZXingLoaded()} // Call the callback when the library is loaded
+      />
+      <video id="video" className={styles.video}/>
+      <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}><i className="fa fa-gear"></i></button>
+      {/* Overlay with buttons */}
+      <div id="overlay-settings" className={styles.overlay}>
+        <div className={styles.overlayContent}>
+        <button className={styles.overlayButton} onClick={toggleSettingsOverlay}><i className="fa fa-close"></i></button>
+        <div id="sourceSelectOption"className={styles.settingsOption}>
+              <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
+              <select id="sourceSelect" style={{ maxWidth: '400px' }} />
+              </div>
+              <div className={styles.settingsOption}>
+              <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
+              <ToggleSwitch round onChange={toggleAspectRatio} />
+              </div>
+        </div>
+      </div>
+      {/* Overlay with buttons */}
+      <div id="overlay" className={styles.overlay}>
+        <div className={styles.overlayContent}>
+          <h3>Result:</h3>
           <pre><code id="result" /></pre>
-          <p>See the <a href="https://github.com/zxing-js/library/tree/master/docs/examples/qr-camera/">source code</a> for
-            this example.</p>
-        </section>
-        <footer className="footer">
-          <section className="container">
-            <p>ZXing TypeScript Demo. Licensed under the <a target="_blank"
-              href="https://github.com/zxing-js/library#license" title="MIT">MIT</a>.</p>
-          </section>
-        </footer>
-      </main>
+          <div className={styles.overlayButtons}>
+            <button id="rescanButton">Rescan</button>
+            <button onClick={() => { document.getElementById('overlay').style.display = 'none'; }}>Continue</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
-export default QRCodeScanner;
