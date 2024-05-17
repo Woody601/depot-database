@@ -13,22 +13,32 @@
 
   .links {
     height: 0;
-    opacity: 0;
     flex-direction: column;
     //border: 1px solid;
-    
+    position: fixed;
+    top: 60px;
+    background-color: black;
+    transition: height 0.4s;
+    a {
+      transition: color 0.4s ease;
+      color: #000;
+    }
   }
 
   .links.active {
-    height: calc(100vh - 60px);
-    opacity: 1;
+    height: calc(100% - 60px);
+    a {
+      color: #fff;
+    }
     a:hover {
       text-decoration: underline;
     }
   }
   .pagescroll {
-    margin: 60px auto auto;
+    margin: auto auto;
     /* The height is calulated to be the full height of the device's screen, minus 60px to compensate for the nav bar at the top. */
-    height: calc(100vh - 60px);
+    height: calc(100% - 60px);
+    top: 60px;
+    position: absolute;
 }
 }

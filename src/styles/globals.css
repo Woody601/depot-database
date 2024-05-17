@@ -9,7 +9,7 @@
 
 html,
 body {
-  /* height: 100%; */
+  height: 100%;
   font-family: Roboto Slab;
 }
 
@@ -33,19 +33,22 @@ p {
   max-width: 1000px;
   margin: auto;
   overflow-x: clip;
+  height: -webkit-fill-available;
 }
 
 /* The pagescroll is made to keep the scrolling bar of the page's content out of the nav bar that is at the top. */
 .pagescroll {
   width: 100%;
-  margin: 50px auto auto;
+  margin: auto auto;
+  top: 50px;
   overflow-y: auto;
+  position: absolute;
   /* The height is calulated to be the full height of the device's screen, minus 50px to compensate for the nav bar at the top. */
-  height: calc(100vh - 50px);
+  height: calc(100% - 50px);
 }
 
 .navHolder {
-  position: fixed;
+  position: absolute;
   background-color: #000;
   width: 100vw;
   display: -webkit-box;
@@ -81,6 +84,7 @@ p {
   float: right;
   cursor: pointer;
   height: 30px;
+  z-index: 9999;
 }
 
 .bars .bar {
@@ -131,11 +135,6 @@ p {
   height: 50px;
   width: 100vw;
   overflow: hidden;
-  -webkit-transition: height 0.4s, opacity 0.4s ease-in-out;
-  transition: height 0.4s, opacity 0.4s ease-in-out;
-  -webkit-column-gap: px;
-     -moz-column-gap: px;
-          column-gap: px;
 }
 
 .links a {
@@ -177,22 +176,35 @@ p {
   }
   .links {
     height: 0;
-    opacity: 0;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+    position: fixed;
+    top: 60px;
+    background-color: black;
+    -webkit-transition: height 0.4s;
+    transition: height 0.4s;
+  }
+  .links a {
+    -webkit-transition: color 0.4s ease;
+    transition: color 0.4s ease;
+    color: #000;
   }
   .links.active {
-    height: calc(100vh - 60px);
-    opacity: 1;
+    height: calc(100% - 60px);
+  }
+  .links.active a {
+    color: #fff;
   }
   .links.active a:hover {
     text-decoration: underline;
   }
   .pagescroll {
-    margin: 60px auto auto;
+    margin: auto auto;
     /* The height is calulated to be the full height of the device's screen, minus 60px to compensate for the nav bar at the top. */
-    height: calc(100vh - 60px);
+    height: calc(100% - 60px);
+    top: 60px;
+    position: absolute;
   }
 }
