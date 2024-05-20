@@ -17,15 +17,16 @@
 }
 .videoContainer i {
   font-size: 20px;
+  color: #fff;
 }
 .videoContainer button {
   padding: 0;
   border: none;
   outline: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
   font-family: Roboto Slab;
-  background-color: #e5e7eb;
+  background-color: #cf4b04;
   height: 36px;
   width: 36px;
   display: -webkit-box;
@@ -37,17 +38,18 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-transition: 0.4s background-color;
-  transition: 0.4s background-color;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 .videoContainer button:hover {
-  background-color: #ccc;
+  background-color: #f7941e;
   cursor: pointer;
 }
 
 .video {
-  height: calc(100vh - 50px);
+  height: 100%;
   overflow: hidden;
+  display: block;
 }
 
 .overlay {
@@ -164,9 +166,6 @@
   .videoContainer button {
     height: 40px;
     width: 40px;
-  }
-  .video {
-    height: 100%;
   }
   .overlay {
     top: 60px;

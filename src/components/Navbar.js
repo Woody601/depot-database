@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import "@/styles/Navbar.module.css"; 
+import Image from "next/image";
 
 export default function Navbar() {
   const [screenWidth, setScreenWidth] = useState(0);
   const [isToggled, setToggled] = useState(false);
 
   const toggleNav = () => {
-    if (screenWidth <= 656) {
+    if (screenWidth <= 753) {
       setToggled(!isToggled);
     }
   };
@@ -27,7 +28,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (screenWidth >= 656 && isToggled) {
+    if (screenWidth >= 754 && isToggled) {
       closeNav();
     }
   }, [screenWidth, isToggled]);  // Added screenWidth to dependencies
@@ -40,7 +41,10 @@ export default function Navbar() {
           <span className="bar"></span>
           <span className="bar"></span>
         </div>
-        <div className={isToggled ? "links active" : "links"}>
+        <div className="logo">
+          <Image src={'/logo.png'} width={190.22} height={50}/>
+        </div>
+        <div className={isToggled ? "links active" : "links"}>          
           <Link href="/" onClick={toggleNav}>
             Home
           </Link>

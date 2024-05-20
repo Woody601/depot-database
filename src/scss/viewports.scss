@@ -1,0 +1,42 @@
+@media screen and (max-width: 754px) {
+  .navHolder {
+    flex-wrap: wrap;
+    min-height: 60px;
+  }
+  .bars {
+    display: block;
+  }
+
+  .links {
+    height: 0;
+    flex-direction: column;
+    //border: 1px solid;
+    position: fixed;
+    top: 60px;
+    transition: height 0.4s;
+    margin: auto;
+    width: 100%;
+    justify-content: flex-start;
+    background-color: #fff;
+    a {
+      padding: 11px 30px;
+      border-bottom: 1px solid #e2e2e2;
+      font-size: 16px;
+      font-family: Roboto;
+    }
+
+    a::after {
+      border: none;
+    }
+    a:hover {
+      background-color: #f9f9fb;
+    }
+  }
+  .links :nth-child(1) {
+    border-top: 1px solid #e2e2e2;
+    margin-top: 30px;
+  }
+  .links.active {
+    height: calc(31px + (42px * 4));
+  }
+}
