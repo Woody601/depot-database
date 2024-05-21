@@ -32,15 +32,22 @@ export default function QRCodeScanner() {
     const handleResize = () => {
       const videoElement = document.getElementById('video');
       const toggleSettingsElement = document.getElementById('settingsBtn');
-      
+      const aspectRatioSetting = document.getElementById('aspectRatioSetting');
       if (videoElement && toggleSettingsElement) {
         const videoWidth = videoElement.getBoundingClientRect().width;
         if (window.innerWidth < videoWidth) {
           toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
           // Add other styles as needed
+          aspectRatioSetting.style.display = 'flex'; // 
         } else {
           toggleSettingsElement.style.right = 'unset'; // Reset to default
           // Reset other styles as needed
+          if (window.innerWidth == videoWidth) {
+            aspectRatioSetting.style.display = 'flex ';
+          }
+          else {
+            aspectRatioSetting.style.display = 'none';
+          }
         }
       }
     };
@@ -71,9 +78,11 @@ export default function QRCodeScanner() {
         if (window.innerWidth < videoWidth) {
           toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
           // Add other styles as needed
+          
         } else {
           toggleSettingsElement.style.right = 'unset'; // Reset to default
           // Reset other styles as needed
+          
         }
       }
     };
@@ -93,16 +102,12 @@ export default function QRCodeScanner() {
         selectedDeviceId = videoInputDevices[0].deviceId;
         if (videoInputDevices.length >= 1) {
           videoInputDevices.forEach((element) => {
-            // Check if an option with the same label already exists
-            const existingOption = Array.from(sourceSelect.options).find(option => option.text === element.label);
-            if (!existingOption) {
-              const sourceOption = document.createElement('option');
+            const sourceOption = document.createElement('option');
               sourceOption.text = element.label;
               console.log(element.label);
               console.log(element.deviceId);
               sourceOption.value = element.deviceId;
               sourceSelect.appendChild(sourceOption);
-            }
           });
 
           sourceSelect.onchange = (event) => {
@@ -201,7 +206,14 @@ export default function QRCodeScanner() {
       videoElement.style.width = '100%'; // Reset width to auto
     }
 }
-
+function toggleMirroredVideo() {
+  const videoElement = document.getElementById('video');
+  if (videoElement.style.transform === 'scaleX(-1)') {
+    videoElement.style.transform = 'scaleX(1)';
+  } else {
+    videoElement.style.transform = 'scaleX(-1)';
+  }
+}
 
   return (
     <div className={styles.videoContainer}>
@@ -222,9 +234,13 @@ export default function QRCodeScanner() {
               <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
               <select id="sourceSelect" style={{ maxWidth: '400px' }} />
               </div>
-              <div className={styles.settingsOption}>
+              <div id='aspectRatioSetting' className={styles.settingsOption}>
               <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
               <ToggleSwitch round onChange={toggleAspectRatio} />
+              </div>
+              <div id='mirrorSetting' className={styles.settingsOption}>
+              <label title='Flip the video horizontally to create a mirrored effect.' className={styles.settingLabel}>Mirror Video</label>
+              <ToggleSwitch round onChange={toggleMirroredVideo} />
               </div>
         </div>
       </div>

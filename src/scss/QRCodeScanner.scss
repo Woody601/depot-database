@@ -1,0 +1,147 @@
+.toggleSettings {
+  position: absolute;
+  margin: 1rem;
+}
+
+.videoContainer {
+  overflow-y: clip;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.videoContainer i {
+  font-size: 20px;
+  color: #fff;
+}
+
+.videoContainer button {
+  padding: 0;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #cf4b04;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center; /* Corrected */
+  justify-content: center;
+  transition: all 0.2s;
+  color: #fff;
+  font-family: Roboto;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.videoContainer button:hover {
+  background-color: #f7941e;
+  cursor: pointer;
+}
+
+.video {
+  height: 100%;
+  overflow: hidden;
+  display: block;
+}
+
+.overlay {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  padding-top: 60px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 60px);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.overlayContent {
+  background-color: #fff;
+  padding: 1rem;
+  max-width: 75%;
+}
+
+.overlayContent h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+.overlayContent pre {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.overlayContent pre code {
+  font-size: 16px;
+  text-wrap: wrap;
+  word-break: break-all; /* Allow long words to break */
+}
+
+.overlayContent .overlayButtons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+  row-gap: 16px;
+}
+
+.overlayContent .overlayButtons button {
+  padding: 16px 24px;
+  height: unset;
+  width: unset;
+  display: block;
+
+}
+
+.settingsOption {
+  margin: 16px 0 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  overflow: clip;
+  column-gap: 1rem;
+  row-gap: 0.5rem;
+  user-select: none;
+}
+
+.settingsOption .settingLabel {
+  width: 11rem;
+}
+
+.settingsOption select {
+  height: 25.5px;
+  outline: none;
+  // border: 2px solid #000;
+  background-color: #fff;
+}
+
+#overlaySettings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: right;
+      -ms-flex-align: right;
+          align-items: flex-end; /* Corrected */
+}
+
+@media screen and (max-width: 656px) {
+  .videoContainer i {
+      font-size: 24px;
+  }
+
+  .videoContainer button {
+      height: 40px;
+      width: 40px;
+  }
+}

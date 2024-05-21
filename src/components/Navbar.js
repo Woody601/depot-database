@@ -42,7 +42,7 @@ export default function Navbar() {
           <span className="bar"></span>
         </div>
         <div className="logo">
-          <Image src={'/logo.png'} width={190.22} height={50}/>
+          <Image priority={true} src={'/logo.png'} width={190.22} height={50} alt="logo" />
         </div>
         <div className={isToggled ? "links active" : "links"}>          
           <Link href="/" onClick={toggleNav}>

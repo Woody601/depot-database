@@ -15,17 +15,18 @@
       -ms-flex-align: start;
           align-items: flex-start;
 }
+
 .videoContainer i {
   font-size: 20px;
   color: #fff;
 }
+
 .videoContainer button {
   padding: 0;
   border: none;
   outline: none;
   border-radius: 6px;
   font-size: 14px;
-  font-family: Roboto Slab;
   background-color: #cf4b04;
   height: 36px;
   width: 36px;
@@ -34,13 +35,19 @@
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-items: center; /* Corrected */
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+  color: #fff;
+  font-family: Roboto;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
 }
+
 .videoContainer button:hover {
   background-color: #f7941e;
   cursor: pointer;
@@ -61,10 +68,11 @@
       -ms-flex-pack: center;
           justify-content: center;
   position: fixed;
-  top: 50px;
+  padding-top: 60px;
+  top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 50px);
+  height: calc(100% - 60px);
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
@@ -74,6 +82,7 @@
   padding: 1rem;
   max-width: 75%;
 }
+
 .overlayContent h3 {
   font-size: 20px;
   margin-bottom: 8px;
@@ -82,21 +91,22 @@
       -ms-user-select: none;
           user-select: none;
 }
+
 .overlayContent pre {
   display: block;
   margin-bottom: 16px;
 }
+
 .overlayContent pre code {
   font-size: 16px;
   text-wrap: wrap;
   word-break: break-all; /* Allow long words to break */
 }
+
 .overlayContent .overlayButtons {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -105,8 +115,9 @@
           column-gap: 16px;
   row-gap: 16px;
 }
+
 .overlayContent .overlayButtons button {
-  padding: 8px 16px;
+  padding: 16px 24px;
   height: unset;
   width: unset;
   display: block;
@@ -136,13 +147,14 @@
       -ms-user-select: none;
           user-select: none;
 }
+
 .settingsOption .settingLabel {
   width: 11rem;
 }
+
 .settingsOption select {
   height: 25.5px;
   outline: none;
-  border: 2px solid #000;
   background-color: #fff;
 }
 
@@ -155,8 +167,8 @@
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-align: right;
-      -ms-flex-align: right;
-          align-items: right;
+  -ms-flex-align: right;
+  align-items: flex-end; /* Corrected */
 }
 
 @media screen and (max-width: 656px) {
@@ -166,9 +178,5 @@
   .videoContainer button {
     height: 40px;
     width: 40px;
-  }
-  .overlay {
-    top: 60px;
-    height: calc(100% - 60px);
   }
 }
