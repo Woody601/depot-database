@@ -6,7 +6,10 @@ import styles from "@/styles/QRCodeScanner.module.css";
 
 export default function QRCodeScanner() {
   const [libraryLoaded, setLibraryLoaded] = useState(false);
-
+  // SO = Settings Overlay
+  const [isSOToggled, setSOToggled] = useState(false);
+  // RO = Results Overlay
+  const [isROToggled, setROToggled] = useState(false);
   useEffect(() => {
     // Set up a flag to indicate when the library is loaded
     const libraryLoadCallback = () => {
@@ -152,8 +155,7 @@ export default function QRCodeScanner() {
     codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
       console.log(result);
       document.getElementById('result').textContent = result.text;
-      const overlay = document.getElementById('overlay');
-      overlay.style.display = 'flex';
+      setROToggled(!isROToggled);
      
       // Check if the result is a link
       const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
@@ -168,9 +170,9 @@ export default function QRCodeScanner() {
   }
 
   function rescan(codeReader, selectedDeviceId) {
-    resetScanner(codeReader);
-    const overlay = document.getElementById('overlay');
-    overlay.style.display = 'none';
+    setTimeout(() => {
+      resetScanner(codeReader);
+    }, 400);
     scanQRCode(codeReader, selectedDeviceId);
   }
 
@@ -180,12 +182,11 @@ export default function QRCodeScanner() {
   }
 
   function toggleSettingsOverlay() {
-    const overlaySettings = document.getElementById('overlay-settings');
-    if (overlaySettings.style.display === 'none' || overlaySettings.style.display === '') {
-      overlaySettings.style.display = 'flex';
-    } else {
-      overlaySettings.style.display = 'none';
-    }
+    setSOToggled(!isSOToggled);    
+  }
+
+  function toggleResultsOverlay() {
+    setROToggled(!isROToggled);    
   }
 
   function toggleAspectRatio() {
@@ -227,7 +228,7 @@ function toggleMirroredVideo() {
       <video id="video" className={styles.video}/>
       <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}><i className="fa fa-gear"></i></button>
       {/* Overlay with buttons */}
-      <div id="overlay-settings" className={styles.overlay}>
+      <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
         <button className={styles.overlayButton} onClick={toggleSettingsOverlay}><i className="fa fa-close"></i></button>
         <div id="sourceSelectOption"className={styles.settingsOption}>
@@ -245,13 +246,13 @@ function toggleMirroredVideo() {
         </div>
       </div>
       {/* Overlay with buttons */}
-      <div id="overlay" className={styles.overlay}>
+      <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <h3>Result:</h3>
           <pre><code id="result" /></pre>
           <div className={styles.overlayButtons}>
-            <button id="rescanButton">Rescan</button>
-            <button onClick={() => { document.getElementById('overlay').style.display = 'none'; }}>Continue</button>
+            <button id="rescanButton" onClick={toggleResultsOverlay}>Rescan</button>
+            <button onClick={toggleResultsOverlay}>Continue</button>
           </div>
         </div>
       </div>

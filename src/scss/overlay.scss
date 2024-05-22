@@ -1,0 +1,27 @@
+.overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    padding-top: 60px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    background: rgba(0, 0, 0, 0.75);
+    transition: opacity .4s, z-index 1.2s;
+    opacity: 0;
+    z-index: -99;
+}
+.nav.overlay {
+    transition: opacity .4s, z-index 1.2s;
+    z-index: -999;
+}
+.nav.overlay.active {
+    z-index: 999;
+}
+.overlay.active {
+    opacity: 1;
+    z-index: 99;
+    transition: opacity .4s, z-index 0s;
+}

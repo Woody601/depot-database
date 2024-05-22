@@ -46,19 +46,7 @@
   display: block;
 }
 
-.overlay {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  padding-top: 60px;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 60px);
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-}
+@import "overlay.scss";
 
 .overlayContent {
   background-color: #fff;
@@ -84,8 +72,6 @@
 }
 
 .overlayContent .overlayButtons {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: center;
   column-gap: 16px;
@@ -97,13 +83,10 @@
   height: unset;
   width: unset;
   display: block;
-
 }
 
 .settingsOption {
   margin: 16px 0 8px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -126,13 +109,9 @@
 }
 
 #overlaySettings {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   flex-direction: column;
-  -webkit-box-align: right;
-      -ms-flex-align: right;
-          align-items: flex-end; /* Corrected */
+  align-items: flex-end; /* Corrected */
 }
 
 @media screen and (max-width: 656px) {

@@ -58,7 +58,9 @@ export default function Navbar() {
             Login
           </Link>
         </div>
+        
       </div>
+      <div className={isToggled ? "nav overlay active" : "nav overlay"} onClick={closeNav}/>
     </>
   );
 }
