@@ -37,10 +37,10 @@
   }
   .links :nth-child(1) {
     border-top: 1px solid #e2e2e2;
-    margin-top: 30px;
+    margin-top: 21px;
   }
   .links.active {
-    height: calc(31px + (42px * 4));
+    height: calc(22px + (42px * 4));
   }
 }
 @media screen and (max-width: 271px) {

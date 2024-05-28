@@ -17,6 +17,7 @@
     width: fit-content;
     float: left;
     user-select: none;
+    pointer-events: none;
 }
 
 .bars {
@@ -25,7 +26,7 @@
     float: right;
     cursor: pointer;
     height: 30px;
-    z-index: 9999;
+    z-index: 9999
 }
 
 .bars .bar {
@@ -41,24 +42,20 @@
     margin: 4.2px 0 6px
 }
 
-.bar:nth-child(2) {
-    margin: 6px 0
-}
-
 .bar:nth-child(3) {
     margin: 6px 0 4.2px
 }
 
-.bars.active .bar:first-child {
-    transform: translateY(9.6px) rotate(-45deg)
-}
-
-.bars.active .bar:nth-child(2) {
-    opacity: 0
-}
-
-.bars.active .bar:nth-child(3) {
-    transform: translateY(-9.6px) rotate(45deg)
+.bars.active {
+    .bar:first-child {
+        transform: translateY(9.6px) rotate(-45deg)
+    }
+    .bar:nth-child(2) {
+        opacity: 0
+    }
+    .bar:nth-child(3) {
+        transform: translateY(-9.6px) rotate(45deg)
+    }
 }
 
 .links {

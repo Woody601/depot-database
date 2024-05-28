@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
-import Script from 'next/script'; // Import next/script
+import Script from 'next/script';
+import Webcam from 'react-webcam'; // Import react-webcam
 import ToggleSwitch from "@/components/ToggleSwitch";
 import styles from "@/styles/QRCodeScanner.module.css";
 
@@ -10,6 +11,9 @@ export default function QRCodeScanner() {
   const [isSOToggled, setSOToggled] = useState(false);
   // RO = Results Overlay
   const [isROToggled, setROToggled] = useState(false);
+  const webcamRef = useRef(null);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
+
   useEffect(() => {
     // Set up a flag to indicate when the library is loaded
     const libraryLoadCallback = () => {
@@ -41,27 +45,26 @@ export default function QRCodeScanner() {
         if (window.innerWidth < videoWidth) {
           toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
           // Add other styles as needed
-          aspectRatioSetting.style.display = 'flex'; // 
+          aspectRatioSetting.style.display = 'flex'; 
         } else {
           toggleSettingsElement.style.right = 'unset'; // Reset to default
           // Reset other styles as needed
-          if (window.innerWidth == videoWidth) {
-            aspectRatioSetting.style.display = 'flex ';
-          }
-          else {
+          if (window.innerWidth === videoWidth) {
+            aspectRatioSetting.style.display = 'flex';
+          } else {
             aspectRatioSetting.style.display = 'none';
           }
         }
       }
     };
-  
+
     window.addEventListener('resize', handleResize);
-  
+
     const videoElement = document.getElementById('video');
     if (videoElement) {
       videoElement.addEventListener('loadedmetadata', handleResize);
     }
-  
+
     return () => {
       window.removeEventListener('resize', handleResize);
       if (videoElement) {
@@ -69,131 +72,105 @@ export default function QRCodeScanner() {
       }
     };
   }, []);
-  
+
   useEffect(() => {
-    // Additional call to handleResize after initial load and another call after a short delay
     const handleResize = () => {
       const videoElement = document.getElementById('video');
       const toggleSettingsElement = document.getElementById('settingsBtn');
-      
+
       if (videoElement && toggleSettingsElement) {
         const videoWidth = videoElement.getBoundingClientRect().width;
         if (window.innerWidth < videoWidth) {
           toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
           // Add other styles as needed
-          
         } else {
           toggleSettingsElement.style.right = 'unset'; // Reset to default
           // Reset other styles as needed
-          
         }
       }
     };
-  
+
     handleResize(); // Initial call
-  
+
   }, [libraryLoaded]); // This useEffect will rerun when libraryLoaded changes
-  
 
   function initializeScanner() {
-    let selectedDeviceId;
     const codeReader = new ZXing.BrowserQRCodeReader();
-
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
         const sourceSelect = document.getElementById('sourceSelect');
-        selectedDeviceId = videoInputDevices[0].deviceId;
-        if (videoInputDevices.length >= 1) {
-          videoInputDevices.forEach((element) => {
-            const sourceOption = document.createElement('option');
-              sourceOption.text = element.label;
-              console.log(element.label);
-              console.log(element.deviceId);
-              sourceOption.value = element.deviceId;
-              sourceSelect.appendChild(sourceOption);
+        
+        if (videoInputDevices.length > 0) {
+          setSelectedDeviceId(videoInputDevices[0].deviceId);
+          videoInputDevices.forEach((device) => {
+            const option = document.createElement('option');
+            option.value = device.deviceId;
+            option.text = device.label;
+            sourceSelect.appendChild(option);
           });
-
           sourceSelect.onchange = (event) => {
-            selectedDeviceId = event.target.value;
-            changeVideoSource(selectedDeviceId); // Automatically change video source
+            setSelectedDeviceId(event.target.value);
           };
+          
         }
         if (videoInputDevices.length == 1) {
           document.getElementById('sourceSelectOption').style.display = 'none';
-          selectedDeviceId = videoInputDevices[0].deviceId;
+          setSelectedDeviceId(videoInputDevices[0].deviceId);
         }
         document.getElementById('rescanButton').addEventListener('click', () => {
           rescan(codeReader, selectedDeviceId);
           console.log('Rescanning...');
         });
         // Start decoding once the component mounts
-        scanQRCode(codeReader, selectedDeviceId);
+        scanQRCode(codeReader);
       })
       .catch((err) => {
         console.error(err);
       });
   }
 
-  function changeVideoSource(deviceId) {
-    const videoElement = document.getElementById('video');
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: deviceId } } })
-        .then((stream) => {
-          videoElement.srcObject = stream;
-          videoElement.play(); // Start playing the video with the new source
-        })
-        .catch((err) => {
-          console.error('Error accessing media devices: ', err);
-        });
-    } else {
-      console.error('getUserMedia is not supported');
+  function scanQRCode(codeReader) {
+    if (webcamRef.current) {
+      const videoElement = webcamRef.current.video;
+      codeReader.decodeFromVideoDevice(selectedDeviceId, videoElement, (result, err) => {
+        if (result) {
+          console.log(result);
+          document.getElementById('result').textContent = result.text;
+          setROToggled(true);
+          setSOToggled(false);
+          const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
+          document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
+          videoElement.pause();
+        }
+        if (err && !(err instanceof ZXing.NotFoundException)) {
+          console.error(err);
+          document.getElementById('result').textContent = err;
+        }
+      });
     }
   }
 
-  function scanQRCode(codeReader, selectedDeviceId) {
-    const videoElement = document.getElementById('video');
-    codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
-      console.log(result);
-      document.getElementById('result').textContent = result.text;
-      setROToggled(!isROToggled);
-     
-      // Check if the result is a link
-      const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
-      // Update the result element to show the result as a link if it is a link
-      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
-      // Pause the video
-      videoElement.pause();
-    }).catch((err) => {
-      console.error(err);
-      document.getElementById('result').textContent = err;
-    });
-  }
-
-  function rescan(codeReader, selectedDeviceId) {
-    setTimeout(() => {
-      resetScanner(codeReader);
-    }, 400);
-    scanQRCode(codeReader, selectedDeviceId);
-  }
-
-  function resetScanner(codeReader) {
+  function rescan(codeReader) {
     codeReader.reset();
-    document.getElementById('result').textContent = '';
+    setTimeout(() => {
+      document.getElementById('result').textContent = '';
+      scanQRCode(codeReader);
+    }, 400);
   }
 
   function toggleSettingsOverlay() {
-    setSOToggled(!isSOToggled);    
+    setSOToggled(!isSOToggled);
   }
 
   function toggleResultsOverlay() {
-    setROToggled(!isROToggled);    
+    setROToggled(!isROToggled);
   }
 
   function toggleAspectRatio() {
-    const videoElement = document.getElementById('video');
+    const videoElement = webcamRef.current.video;
     const toggleSettingsElement = document.getElementById('settingsBtn');
     if (videoElement.style.width === '100%') {
-      videoElement.style.width = 'auto'; // Set width to 100%
+      videoElement.style.width = 'auto';
       if (videoElement && toggleSettingsElement) {
         if (window.innerWidth < videoElement.offsetWidth) {
           toggleSettingsElement.style.right = '0'; // Example style
@@ -206,15 +183,16 @@ export default function QRCodeScanner() {
     } else {
       videoElement.style.width = '100%'; // Reset width to auto
     }
-}
-function toggleMirroredVideo() {
-  const videoElement = document.getElementById('video');
-  if (videoElement.style.transform === 'scaleX(-1)') {
-    videoElement.style.transform = 'scaleX(1)';
-  } else {
-    videoElement.style.transform = 'scaleX(-1)';
   }
-}
+
+  function toggleMirroredVideo() {
+    const videoElement = webcamRef.current.video;
+    if (videoElement.style.transform === 'scaleX(-1)') {
+      videoElement.style.transform = 'scaleX(1)';
+    } else {
+      videoElement.style.transform = 'scaleX(-1)';
+    }
+  }
 
   return (
     <div className={styles.videoContainer}>
@@ -223,29 +201,33 @@ function toggleMirroredVideo() {
       </Head>
       <Script
         src="https://unpkg.com/@zxing/library@latest"
-        onLoad={() => window.onZXingLoaded()} // Call the callback when the library is loaded
+        onLoad={() => setLibraryLoaded(true)}
       />
-      <video id="video" className={styles.video}/>
+      <Webcam 
+        id="video" 
+        className={styles.video} 
+        audio={false} 
+        ref={webcamRef} 
+        videoConstraints={{ deviceId: selectedDeviceId }} 
+      />
       <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}><i className="fa fa-gear"></i></button>
-      {/* Overlay with buttons */}
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
-        <button className={styles.overlayButton} onClick={toggleSettingsOverlay}><i className="fa fa-close"></i></button>
-        <div id="sourceSelectOption"className={styles.settingsOption}>
-              <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
-              <select id="sourceSelect" style={{ maxWidth: '400px' }} />
-              </div>
-              <div id='aspectRatioSetting' className={styles.settingsOption}>
-              <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
-              <ToggleSwitch round onChange={toggleAspectRatio} />
-              </div>
-              <div id='mirrorSetting' className={styles.settingsOption}>
-              <label title='Flip the video horizontally to create a mirrored effect.' className={styles.settingLabel}>Mirror Video</label>
-              <ToggleSwitch round onChange={toggleMirroredVideo} />
-              </div>
+          <button className={styles.overlayButton} onClick={toggleSettingsOverlay}><i className="fa fa-close"></i></button>
+          <div id="sourceSelectOption" className={styles.settingsOption}>
+            <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
+            <select id="sourceSelect" style={{ maxWidth: '400px' }} />
+          </div>
+          <div id='aspectRatioSetting' className={styles.settingsOption}>
+            <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
+            <ToggleSwitch round onChange={toggleAspectRatio} />
+          </div>
+          <div id='mirrorSetting' className={styles.settingsOption}>
+            <label title='Flip the video horizontally to create a mirrored effect.' className={styles.settingLabel}>Mirror Video</label>
+            <ToggleSwitch round onChange={toggleMirroredVideo} />
+          </div>
         </div>
       </div>
-      {/* Overlay with buttons */}
       <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <h3>Result:</h3>
@@ -258,4 +240,4 @@ function toggleMirroredVideo() {
       </div>
     </div>
   );
-};
+}
