@@ -13,6 +13,7 @@ export default function QRCodeScanner() {
   const [isROToggled, setROToggled] = useState(false);
   const webcamRef = useRef(null);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
+  const [isVideoMirrored, setVideoMirrored] = useState(false);
 
   useEffect(() => {
     // Set up a flag to indicate when the library is loaded
@@ -162,6 +163,10 @@ export default function QRCodeScanner() {
     setSOToggled(!isSOToggled);
   }
 
+  function closeSettingsOverlay() {
+    setSOToggled(false);
+  }
+
   function toggleResultsOverlay() {
     setROToggled(!isROToggled);
   }
@@ -186,11 +191,11 @@ export default function QRCodeScanner() {
   }
 
   function toggleMirroredVideo() {
-    const videoElement = webcamRef.current.video;
-    if (videoElement.style.transform === 'scaleX(-1)') {
-      videoElement.style.transform = 'scaleX(1)';
-    } else {
-      videoElement.style.transform = 'scaleX(-1)';
+    if (isVideoMirrored == false) {
+      setVideoMirrored(true);
+    }
+    else {
+      setVideoMirrored(false);
     }
   }
 
@@ -206,14 +211,14 @@ export default function QRCodeScanner() {
       <Webcam 
         id="video" 
         className={styles.video} 
-        audio={false} 
         ref={webcamRef} 
-        videoConstraints={{ deviceId: selectedDeviceId }} 
+        mirrored={isVideoMirrored}
+        videoConstraints={{facingMode: {exact: 'environment'} }} 
       />
       <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}><i className="fa fa-gear"></i></button>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
-          <button className={styles.overlayButton} onClick={toggleSettingsOverlay}><i className="fa fa-close"></i></button>
+          <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"></i></button>
           <div id="sourceSelectOption" className={styles.settingsOption}>
             <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
