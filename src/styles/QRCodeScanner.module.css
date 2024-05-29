@@ -1,27 +1,42 @@
 .toggleSettings {
-  position: absolute;
   margin: 1rem;
-  right: 0;
+  position: sticky;
+  right: 1rem;
 }
 
-.videoContainer {
-  overflow-y: clip;
+.controls {
+  width: -webkit-fill-available;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  position: absolute;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
 }
 
+.videoContainer {
+  overflow-y: clip;
+  overflow-x: clip;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  position: absolute;
+  height: 100%;
+}
 .videoContainer i {
   font-size: 20px;
   color: #fff;
 }
-
 .videoContainer button {
   padding: 0;
   border: none;
@@ -48,14 +63,17 @@
   font-style: normal;
   text-transform: uppercase;
 }
-
 .videoContainer button:hover {
   background-color: #f7941e;
   cursor: pointer;
 }
 
+.switchCamBtn {
+  position: absolute;
+  bottom: 3rem;
+}
+
 .video {
-  height: 100%;
   overflow: hidden;
   display: block;
 }

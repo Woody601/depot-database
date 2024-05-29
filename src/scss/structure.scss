@@ -25,6 +25,7 @@ p {
     margin: auto;
     overflow-x: clip;
     height: -webkit-fill-available;
+    position: relative;
 }
   
 /* The pagescroll is made to keep the scrolling bar of the page's content out of the nav bar that is at the top. */

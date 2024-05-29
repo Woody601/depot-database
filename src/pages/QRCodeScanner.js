@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Script from 'next/script';
 import Webcam from 'react-webcam'; // Import react-webcam
@@ -14,6 +15,9 @@ export default function QRCodeScanner() {
   const webcamRef = useRef(null);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   const [isVideoMirrored, setVideoMirrored] = useState(false);
+  const [result, setResult] = useState('');
+  const router = useRouter();
+
 
   useEffect(() => {
     // Set up a flag to indicate when the library is loaded
@@ -36,27 +40,20 @@ export default function QRCodeScanner() {
     }
   }, [libraryLoaded]);
 
+
   useEffect(() => {
     const handleResize = () => {
-      const videoElement = document.getElementById('video');
-      const toggleSettingsElement = document.getElementById('settingsBtn');
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');
-      if (videoElement && toggleSettingsElement) {
-        const videoWidth = videoElement.getBoundingClientRect().width;
+      const videoWidth = document.getElementById('video').getBoundingClientRect().width;
         if (window.innerWidth < videoWidth) {
-          toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
-          // Add other styles as needed
           aspectRatioSetting.style.display = 'flex'; 
         } else {
-          toggleSettingsElement.style.right = 'unset'; // Reset to default
-          // Reset other styles as needed
-          if (window.innerWidth === videoWidth) {
+          if (window.innerWidth == videoWidth) {
             aspectRatioSetting.style.display = 'flex';
           } else {
             aspectRatioSetting.style.display = 'none';
           }
         }
-      }
     };
 
     window.addEventListener('resize', handleResize);
@@ -74,43 +71,27 @@ export default function QRCodeScanner() {
     };
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const videoElement = document.getElementById('video');
-      const toggleSettingsElement = document.getElementById('settingsBtn');
-
-      if (videoElement && toggleSettingsElement) {
-        const videoWidth = videoElement.getBoundingClientRect().width;
-        if (window.innerWidth < videoWidth) {
-          toggleSettingsElement.style.right = '0'; // Apply the style when window width is less than video width
-          // Add other styles as needed
-        } else {
-          toggleSettingsElement.style.right = 'unset'; // Reset to default
-          // Reset other styles as needed
-        }
-      }
-    };
-
-    handleResize(); // Initial call
-
-  }, [libraryLoaded]); // This useEffect will rerun when libraryLoaded changes
-
   function initializeScanner() {
     const codeReader = new ZXing.BrowserQRCodeReader();
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
-        const sourceSelect = document.getElementById('sourceSelect');
-        document.getElementById('rescanButton').addEventListener('click', () => {
-          rescan(codeReader, selectedDeviceId);
-          console.log('Rescanning...');
-        });
+        const sourceSelectElement = document.getElementById('sourceSelectOption');
+        const switchCamBtnElement = document.getElementById('switchCamDir');
+        // if (videoInputDevices.length == 1) {
+        //   sourceSelectElement.style.display = 'none';
+        // }
+        sourceSelectElement.style.display = 'none';
         // Start decoding once the component mounts
         scanQRCode(codeReader);
       })
       .catch((err) => {
         console.error(err);
       });
-  }
+  
+    document.getElementById('rescanButton').addEventListener('click', () => {
+      rescan(codeReader);
+    });
+  }  
 
   function scanQRCode(codeReader) {
     if (webcamRef.current) {
@@ -125,13 +106,12 @@ export default function QRCodeScanner() {
           document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
           videoElement.pause();
         }
-        if (err && !(err instanceof ZXing.NotFoundException)) {
-          console.error(err);
-          document.getElementById('result').textContent = err;
-        }
+        
       });
     }
   }
+
+
 
   function rescan(codeReader) {
     codeReader.reset();
@@ -152,21 +132,14 @@ export default function QRCodeScanner() {
   function toggleResultsOverlay() {
     setROToggled(!isROToggled);
   }
+  function closeResultsOverlay() {
+    setROToggled(false);
+  }
 
   function toggleAspectRatio() {
     const videoElement = webcamRef.current.video;
-    const toggleSettingsElement = document.getElementById('settingsBtn');
     if (videoElement.style.width === '100%') {
       videoElement.style.width = 'auto';
-      if (videoElement && toggleSettingsElement) {
-        if (window.innerWidth < videoElement.offsetWidth) {
-          toggleSettingsElement.style.right = '0'; // Example style
-          // Add other styles as needed
-        } else {
-          toggleSettingsElement.style.right = 'unset'; // Reset to default
-          // Reset other styles as needed
-        }
-      }
     } else {
       videoElement.style.width = '100%'; // Reset width to auto
     }
@@ -181,6 +154,17 @@ export default function QRCodeScanner() {
     }
   }
 
+  function continueButtonClicked(resultText) {
+    // Store the result in localStorage
+    closeResultsOverlay();
+    setTimeout(() => {
+      localStorage.setItem('qrCodeResult', resultText);
+    // Navigate to another page
+    router.push('/Result');
+    }, 400);
+  }
+
+
   return (
     <div className={styles.videoContainer}>
       <Head>
@@ -191,13 +175,19 @@ export default function QRCodeScanner() {
         onLoad={() => setLibraryLoaded(true)}
       />
       <Webcam 
-        id="video" 
-        className={styles.video} 
-        ref={webcamRef} 
-        mirrored={isVideoMirrored}
-        videoConstraints={{facingMode: {exact: 'environment'} }} 
-      />
-      <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay}><i className="fa fa-gear"></i></button>
+  id="video" 
+  className={styles.video} 
+  ref={webcamRef} 
+  mirrored={isVideoMirrored}
+  forceScreenshotSourceSize={true}
+  videoConstraints={{
+    facingMode: "environment"
+  }}
+
+/>
+      <div className={styles.controls}>
+        <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
+      </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"></i></button>
@@ -205,13 +195,13 @@ export default function QRCodeScanner() {
             <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
           </div>
-          <div id='aspectRatioSetting' className={styles.settingsOption}>
-            <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
-            <ToggleSwitch round onChange={toggleAspectRatio} />
-          </div>
           <div id='mirrorSetting' className={styles.settingsOption}>
             <label title='Flip the video horizontally to create a mirrored effect.' className={styles.settingLabel}>Mirror Video</label>
             <ToggleSwitch round onChange={toggleMirroredVideo} />
+          </div>
+          <div id='aspectRatioSetting' className={styles.settingsOption}>
+            <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
+            <ToggleSwitch round onChange={toggleAspectRatio} />
           </div>
         </div>
       </div>
@@ -220,8 +210,8 @@ export default function QRCodeScanner() {
           <h3>Result:</h3>
           <pre><code id="result" /></pre>
           <div className={styles.overlayButtons}>
-            <button id="rescanButton" onClick={toggleResultsOverlay}>Rescan</button>
-            <button onClick={toggleResultsOverlay}>Continue</button>
+            <button id="rescanButton" onClick={closeResultsOverlay}>Rescan</button>
+            <button onClick={() => continueButtonClicked(document.getElementById('result').textContent)}>Continue</button>
           </div>
         </div>
       </div>

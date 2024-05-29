@@ -1,48 +1,64 @@
 .toggleSettings {
-  position: absolute;
   margin: 1rem;
-  right: 0;
+  position: sticky;
+  right: 1rem;
+}
+
+
+
+.controls {
+  width: -webkit-fill-available;
+  height: max-content;
+  // background-color: teal;
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .videoContainer {
   overflow-y: clip;
+  overflow-x: clip;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-}
-
-.videoContainer i {
-  font-size: 20px;
-  color: #fff;
-}
-
-.videoContainer button {
-  padding: 0;
-  border: none;
-  outline: none;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #cf4b04;
-  height: 36px;
-  width: 36px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  transition: all 0.2s;
-  color: #fff;
-  font-family: Roboto;
-  font-weight: 700;
-  font-style: normal;
-  text-transform: uppercase;
+  align-items: stretch;
+  position: absolute;
+  height: 100%;
+  i {
+    font-size: 20px;
+    color: #fff;
+  }
+  button {
+    padding: 0;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #cf4b04;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    color: #fff;
+    font-family: Roboto;
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+  }
+  button:hover {
+    background-color: #f7941e;
+    cursor: pointer;
+  }
 }
 
-.videoContainer button:hover {
-  background-color: #f7941e;
-  cursor: pointer;
+.switchCamBtn {
+  position: absolute;
+  bottom: 3rem;
 }
 
 .video {
-  height: 100%;
+  // height: 100%;
   overflow: hidden;
   display: block;
 }
