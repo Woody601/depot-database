@@ -100,24 +100,6 @@ export default function QRCodeScanner() {
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
         const sourceSelect = document.getElementById('sourceSelect');
-        
-        if (videoInputDevices.length > 0) {
-          setSelectedDeviceId(videoInputDevices[0].deviceId);
-          videoInputDevices.forEach((device) => {
-            const option = document.createElement('option');
-            option.value = device.deviceId;
-            option.text = device.label;
-            sourceSelect.appendChild(option);
-          });
-          sourceSelect.onchange = (event) => {
-            setSelectedDeviceId(event.target.value);
-          };
-          
-        }
-        if (videoInputDevices.length == 1) {
-          document.getElementById('sourceSelectOption').style.display = 'none';
-          setSelectedDeviceId(videoInputDevices[0].deviceId);
-        }
         document.getElementById('rescanButton').addEventListener('click', () => {
           rescan(codeReader, selectedDeviceId);
           console.log('Rescanning...');
