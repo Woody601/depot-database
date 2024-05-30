@@ -225,7 +225,7 @@ export default function QRCodeScanner() {
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"></i></button>
-          <div id="sourceSelectOption" className={styles.settingsOption}>
+          <div id="sourceSelectOption" className={styles.settingsOption} style={{ display: 'none' }}>
             <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
           </div>
