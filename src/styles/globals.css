@@ -50,7 +50,7 @@ p {
 }
 
 .navHolder {
-  position: absolute;
+  position: fixed;
   background-color: #fff;
   width: 100vw;
   top: 0;
