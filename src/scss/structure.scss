@@ -21,6 +21,8 @@ p {
 .app {
     display: flex;
     flex-direction: column;
+    word-break: break-all; // Allow long words to break
+    width: 80%;
     align-items: center;
     max-width: 1000px;
     margin: auto;
