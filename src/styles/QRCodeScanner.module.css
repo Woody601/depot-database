@@ -230,4 +230,7 @@
   .overlayContent .overlayButtons button:first-child {
     margin-right: 16px;
   }
+  .videoContainer {
+    height: calc(100vh - 60px);
+  }
 }
