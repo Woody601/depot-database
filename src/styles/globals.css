@@ -289,9 +289,11 @@ p {
         -ms-flex-pack: start;
             justify-content: flex-start;
     background-color: #fff;
+    padding-right: 0;
   }
   .links a {
-    padding: 11px 30px;
+    padding: 0 30px;
+    min-height: 59.34px;
     border-bottom: 1px solid #e2e2e2;
     font-size: 16px;
     font-family: Roboto;
@@ -308,7 +310,7 @@ p {
     margin-top: 21px;
   }
   .links.active {
-    height: 190px;
+    height: 262px;
   }
 }
 @media screen and (max-width: 271px) {

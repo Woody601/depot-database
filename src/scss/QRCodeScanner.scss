@@ -21,7 +21,7 @@
   align-items: stretch;
   position: absolute;
   height: 100%;
-  background-color: #000;
+  
   i {
     font-size: 20px;
     color: #fff;
@@ -146,7 +146,12 @@
 }
 
 @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
-  .overlayButtons:first-child {
-    margin-right: 16px;
+  .overlayContent {
+    .overlayButtons {
+      column-gap: 0;
+      button:first-child {
+        margin-right: 16px;
+      }
+    }
   }
 }

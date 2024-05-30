@@ -32,7 +32,6 @@
           align-items: stretch;
   position: absolute;
   height: 100%;
-  background-color: #000;
 }
 .videoContainer i {
   font-size: 20px;
@@ -223,7 +222,12 @@
   }
 }
 @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
-  .overlayButtons:first-child {
+  .overlayContent .overlayButtons {
+    -webkit-column-gap: 0;
+       -moz-column-gap: 0;
+            column-gap: 0;
+  }
+  .overlayContent .overlayButtons button:first-child {
     margin-right: 16px;
   }
 }
