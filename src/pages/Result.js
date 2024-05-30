@@ -1,20 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Result() {
-  useEffect(() => {
-    // Retrieve the result from localStorage
-    const result = localStorage.getItem('qrCodeResult');
-    console.log('QR Code Result:', result);
+  const [result, setResult] = useState(null);
 
-    // Optionally, clear the result from localStorage after retrieving it
-    localStorage.removeItem('qrCodeResult');
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Retrieve the result from localStorage
+      const storedResult = localStorage.getItem('qrCodeResult');
+      setResult(storedResult);
+
+      // Optionally, clear the result from localStorage after retrieving it
+      localStorage.removeItem('qrCodeResult');
+    }
   }, []);
 
   return (
     <div>
-      <h1>Result Page</h1>
-      <p>Result: {localStorage.getItem('qrCodeResult')}</p>
-      {/* Additional content */}
+      <h3>QR Code Result:</h3>
+      <p>{result}</p>
     </div>
   );
 }

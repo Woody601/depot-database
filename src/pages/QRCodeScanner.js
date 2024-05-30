@@ -121,12 +121,14 @@ export default function QRCodeScanner() {
     }, 400);
   }
 
-  function toggleSettingsOverlay() {
+  function openSettingsOverlay() {
+    webcamRef.current.video.pause();
     setSOToggled(!isSOToggled);
   }
 
   function closeSettingsOverlay() {
     setSOToggled(false);
+    webcamRef.current.video.play();
   }
 
   function toggleResultsOverlay() {
@@ -153,27 +155,30 @@ export default function QRCodeScanner() {
       setVideoMirrored(false);
     }
   }
-
   function continueButtonClicked(resultText) {
-    // Store the result in localStorage
-    closeResultsOverlay();
-    setTimeout(() => {
-      localStorage.setItem('qrCodeResult', resultText);
-    // Navigate to another page
-    router.push('/Result');
+    if (typeof window !== 'undefined') {
+      // Store the result in localStorage
+      closeResultsOverlay();
+      setTimeout(() => {
+        localStorage.setItem('qrCodeResult', resultText);
+      // Navigate to another page
+      router.push('/Result');
     }, 400);
+      // Navigate to another page
+      router.push('/Result');
+    }
   }
 
-
   return (
-    <div className={styles.videoContainer}>
-      <Head>
+    <>
+    <Head>
         <title>QR Code Scanner</title>
       </Head>
       <Script
         src="https://unpkg.com/@zxing/library@latest"
         onLoad={() => setLibraryLoaded(true)}
       />
+    <div className={styles.videoContainer}>
       <Webcam 
   id="video" 
   className={styles.video} 
@@ -186,7 +191,7 @@ export default function QRCodeScanner() {
 
 />
       <div className={styles.controls}>
-        <button id="settingsBtn" className={styles.toggleSettings} onClick={toggleSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
+        <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
@@ -216,5 +221,6 @@ export default function QRCodeScanner() {
         </div>
       </div>
     </div>
+    </>
   );
 }
