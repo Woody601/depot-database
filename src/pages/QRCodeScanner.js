@@ -17,7 +17,7 @@ export default function QRCodeScanner() {
   const [isVideoMirrored, setVideoMirrored] = useState(false);
   const [result, setResult] = useState('');
   const router = useRouter();
-
+  const codeReaderRef = useRef(null); // Add this line\
 
   useEffect(() => {
     // Set up a flag to indicate when the library is loaded
@@ -39,7 +39,33 @@ export default function QRCodeScanner() {
       initializeScanner();
     }
   }, [libraryLoaded]);
+  useEffect(() => {
+  // Reset libraryLoaded state
+  setLibraryLoaded(false);
 
+  // Load ZXing library script again
+  const script = document.createElement('script');
+  script.src = 'https://unpkg.com/@zxing/library@latest';
+  script.onload = () => {
+    setLibraryLoaded(true);
+  };
+  document.body.appendChild(script);
+
+  const handleRouteChange = () => {
+    if (codeReaderRef.current) {
+      codeReaderRef.current.reset(); // Stop the ZXing scanner
+    }
+    if (webcamRef.current && webcamRef.current.stream) {
+      webcamRef.current.stream.getTracks().forEach(track => track.stop()); // Stop the video stream
+    }
+  };
+
+  router.events.on('routeChangeStart', handleRouteChange);
+
+  return () => {
+    router.events.off('routeChangeStart', handleRouteChange);
+  };
+}, [router]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,18 +96,31 @@ export default function QRCodeScanner() {
       }
     };
   }, []);
-
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (codeReaderRef.current) {
+        codeReaderRef.current.reset(); // Stop the ZXing scanner
+      }
+      if (webcamRef.current && webcamRef.current.stream) {
+        webcamRef.current.stream.getTracks().forEach(track => track.stop()); // Stop the video stream
+      }
+    };
+  
+    router.events.on('routeChangeStart', handleRouteChange);
+  
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router]);
+  
   function initializeScanner() {
     const codeReader = new ZXing.BrowserQRCodeReader();
+    codeReaderRef.current = codeReader; // Add this line
     codeReader.getVideoInputDevices()
       .then((videoInputDevices) => {
         const sourceSelectElement = document.getElementById('sourceSelectOption');
         const switchCamBtnElement = document.getElementById('switchCamDir');
-        // if (videoInputDevices.length == 1) {
-        //   sourceSelectElement.style.display = 'none';
-        // }
         sourceSelectElement.style.display = 'none';
-        // Start decoding once the component mounts
         scanQRCode(codeReader);
       })
       .catch((err) => {
@@ -91,8 +130,8 @@ export default function QRCodeScanner() {
     document.getElementById('rescanButton').addEventListener('click', () => {
       rescan(codeReader);
     });
-  }  
-
+  }
+  
   function scanQRCode(codeReader) {
     if (webcamRef.current) {
       const videoElement = webcamRef.current.video;
@@ -100,8 +139,12 @@ export default function QRCodeScanner() {
         if (result) {
           console.log(result);
           document.getElementById('result').textContent = result.text;
+          // Opens the Results Overlay to show the Result.
           setROToggled(true);
-          setSOToggled(false);
+          // Sets the Settings Overlay to False, if it is open.
+          if (isSOToggled == true) {
+            setSOToggled(false);
+          }
           const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
           document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
           videoElement.pause();
@@ -110,8 +153,6 @@ export default function QRCodeScanner() {
       });
     }
   }
-
-
 
   function rescan(codeReader) {
     codeReader.reset();
@@ -123,7 +164,7 @@ export default function QRCodeScanner() {
 
   function openSettingsOverlay() {
     webcamRef.current.video.pause();
-    setSOToggled(!isSOToggled);
+    setSOToggled(true);
   }
 
   function closeSettingsOverlay() {
@@ -131,9 +172,6 @@ export default function QRCodeScanner() {
     webcamRef.current.video.play();
   }
 
-  function toggleResultsOverlay() {
-    setROToggled(!isROToggled);
-  }
   function closeResultsOverlay() {
     setROToggled(false);
   }
@@ -156,17 +194,17 @@ export default function QRCodeScanner() {
     }
   }
   function continueButtonClicked(resultText) {
-    if (typeof window !== 'undefined') {
-      // Store the result in localStorage
-      closeResultsOverlay();
-      setTimeout(() => {
-        localStorage.setItem('qrCodeResult', resultText);
-      // Navigate to another page
+    if (codeReaderRef.current) {
+      codeReaderRef.current.reset(); // Stop the ZXing scanner
+    }
+    if (webcamRef.current && webcamRef.current.stream) {
+      webcamRef.current.stream.getTracks().forEach(track => track.stop()); // Stop the video stream
+    }
+    closeResultsOverlay();
+    setTimeout(() => {
+      localStorage.setItem('qrCodeResult', resultText);
       router.push('/Result');
     }, 400);
-      // Navigate to another page
-      router.push('/Result');
-    }
   }
 
   return (

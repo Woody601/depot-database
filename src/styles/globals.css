@@ -134,6 +134,10 @@ p {
   width: auto;
   overflow: hidden;
   float: right;
+  -webkit-column-gap: 35px;
+     -moz-column-gap: 35px;
+          column-gap: 35px;
+  padding-right: 35px;
 }
 
 .links a {
@@ -153,7 +157,6 @@ p {
   position: relative;
   -webkit-transition: color 0.2s linear, background-color 0.2s linear;
   transition: color 0.2s linear, background-color 0.2s linear;
-  margin-right: 35px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -226,6 +229,17 @@ p {
   transition: opacity 0.4s, z-index 0s;
 }
 
+@media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
+  .links {
+    -webkit-column-gap: 0;
+       -moz-column-gap: 0;
+            column-gap: 0;
+    padding-right: 0;
+  }
+  .links a {
+    margin-right: 35px;
+  }
+}
 .portrait {
   display: block;
   max-width: 300px;
@@ -242,7 +256,7 @@ p {
   background-size: contain;
 }
 
-@media screen and (max-width: 754px) {
+@media screen and (max-width: 768px) {
   .navHolder {
     display: -webkit-box;
     display: -ms-flexbox;

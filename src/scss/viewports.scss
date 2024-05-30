@@ -1,4 +1,4 @@
-@media screen and (max-width: 754px) {
+@media screen and (max-width: 768px) {
   .navHolder {
     display: flex;
     flex-direction: row-reverse;
@@ -43,6 +43,8 @@
     height: calc(22px + (42px * 4));
   }
 }
+
+
 @media screen and (max-width: 271px) {
   .logo {
     img {

@@ -21,6 +21,7 @@
   align-items: stretch;
   position: absolute;
   height: 100%;
+  background-color: #000;
   i {
     font-size: 20px;
     color: #fff;
@@ -43,6 +44,7 @@
     font-weight: 700;
     font-style: normal;
     text-transform: uppercase;
+    pointer-events:fill;
   }
   button:hover {
     background-color: #f7941e;
@@ -59,6 +61,7 @@
   // height: 100%;
   overflow: hidden;
   display: block;
+  pointer-events: none;
 }
 
 @import "overlay.scss";
@@ -83,11 +86,12 @@
   }
   .overlayButtons {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     column-gap: 16px;
     row-gap: 16px;
     button {
-      padding: 16px 24px;
+      padding: 10px 15px;
       height: unset;
       width: unset;
       display: block;
@@ -122,7 +126,7 @@
   align-items: flex-end;
 }
 
-@media screen and (max-width: 754px) {
+@media screen and (max-width: 768px) {
   .videoContainer {
     i {
       font-size: 24px;
@@ -131,5 +135,18 @@
       height: 40px;
       width: 40px;
     }
+  }
+  .overlayContent {
+    .overlayButtons {
+      button {
+        padding: 12px 18px;
+      }
+    }
+  }
+}
+
+@media not all and (max-height: 899px) and (min-resolution:.1dpi) {
+  .overlayButtons:first-child {
+    margin-right: 16px;
   }
 }

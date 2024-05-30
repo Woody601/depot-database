@@ -65,7 +65,9 @@
     height: 60px;
     width: auto;
     overflow: hidden;
-    float: right
+    float: right;
+    column-gap: 35px;
+    padding-right: 35px;
 }
 
 .links a {
@@ -80,7 +82,6 @@
     align-items: center;
     position: relative;
     transition: color .2s linear,background-color .2s linear;
-    margin-right: 35px;
     user-select: none;
 }
 
@@ -105,3 +106,13 @@
 }
 
 @import "overlay.scss";
+
+@media not all and (max-height: 899px) and (min-resolution:.1dpi) {
+    .links {
+        column-gap: 0;
+        padding-right: 0;
+        a {
+            margin-right: 35px;
+        }
+    }
+  }
