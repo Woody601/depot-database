@@ -39,34 +39,7 @@ export default function QRCodeScanner() {
       initializeScanner();
     }
   }, [libraryLoaded]);
-  useEffect(() => {
-  // Reset libraryLoaded state
-  setLibraryLoaded(false);
-
-  // Load ZXing library script again
-  const script = document.createElement('script');
-  script.src = 'https://unpkg.com/@zxing/library@latest';
-  script.onload = () => {
-    setLibraryLoaded(true);
-  };
-  document.body.appendChild(script);
-
-  const handleRouteChange = () => {
-    if (codeReaderRef.current) {
-      codeReaderRef.current.reset(); // Stop the ZXing scanner
-    }
-    if (webcamRef.current && webcamRef.current.stream) {
-      webcamRef.current.stream.getTracks().forEach(track => track.stop()); // Stop the video stream
-    }
-  };
-
-  router.events.on('routeChangeStart', handleRouteChange);
-
-  return () => {
-    router.events.off('routeChangeStart', handleRouteChange);
-  };
-}, [router]);
-
+  
   useEffect(() => {
     const handleResize = () => {
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');

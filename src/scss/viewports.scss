@@ -4,6 +4,7 @@
     flex-direction: row-reverse;
     justify-content: space-between;
     min-height: 60px;
+    border-bottom: 1px solid #e2e2e2;
   }
   .bars {
     display: block;
@@ -23,9 +24,9 @@
     padding-right: 0;
     a {
       padding: 0 30px;
-      min-height: 59.34px;
+      min-height: 60px;
       border-bottom: 1px solid #e2e2e2;
-      font-size: 16px;
+      //font-size: 18px;
       font-family: Roboto;
       margin: 0;
     }
@@ -42,7 +43,7 @@
     margin-top: 21px;
   }
   .links.active {
-    height: calc(22px + (60px * 4));
+    height: calc(22px + (61px * 4));
   }
 }
 
