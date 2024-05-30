@@ -116,16 +116,7 @@ export default function QRCodeScanner() {
   function initializeScanner() {
     const codeReader = new ZXing.BrowserQRCodeReader();
     codeReaderRef.current = codeReader; // Add this line
-    codeReader.getVideoInputDevices()
-      .then((videoInputDevices) => {
-        const sourceSelectElement = document.getElementById('sourceSelectOption');
-        const switchCamBtnElement = document.getElementById('switchCamDir');
-        sourceSelectElement.style.display = 'none';
-        scanQRCode(codeReader);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    scanQRCode(codeReader);
   
     document.getElementById('rescanButton').addEventListener('click', () => {
       rescan(codeReader);
