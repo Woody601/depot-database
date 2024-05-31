@@ -131,6 +131,9 @@
       -ms-user-select: none;
           user-select: none;
 }
+.overlayContent p {
+  margin-bottom: 0;
+}
 .overlayContent pre {
   display: block;
   margin-bottom: 16px;
@@ -223,7 +226,6 @@
   }
   .overlayContent p {
     font-size: 18px;
-    margin: 0;
   }
   .overlayContent .overlayButtons button {
     padding: 12px 18px;

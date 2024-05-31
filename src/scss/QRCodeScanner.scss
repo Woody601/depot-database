@@ -74,6 +74,9 @@
     margin-bottom: 8px;
     user-select: none;
   }
+  p {
+    margin-bottom: 0;
+  }
   pre {
     display: block;
     margin-bottom: 16px;
@@ -145,7 +148,6 @@
   .overlayContent {
     p {
       font-size: 18px;
-      margin: 0;
     }
     .overlayButtons {
       button {
