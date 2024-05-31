@@ -71,6 +71,9 @@ export default function QRCodeScanner() {
     const handleResize = () => {
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');
       const videoWidth = document.getElementById('video').getBoundingClientRect().width;
+      const targetElement = document.getElementById('controls');
+      targetElement.style.width = `${videoWidth}px`;
+
         if (window.innerWidth < videoWidth) {
           aspectRatioSetting.style.display = 'flex'; 
         } else {
@@ -115,42 +118,37 @@ export default function QRCodeScanner() {
   
   function initializeScanner() {
     const codeReader = new ZXing.BrowserQRCodeReader();
-    codeReaderRef.current = codeReader; // Add this line
+    codeReaderRef.current = codeReader;
     scanQRCode(codeReader);
-  
     document.getElementById('rescanButton').addEventListener('click', () => {
-      rescan(codeReader);
+      codeReader.reset();
+      setTimeout(() => {
+        scanQRCode(codeReader);
+      }, 400);
     });
   }
   
   function scanQRCode(codeReader) {
     if (webcamRef.current) {
       const videoElement = webcamRef.current.video;
+      document.getElementById('result').textContent = '';
       codeReader.decodeFromVideoDevice(selectedDeviceId, videoElement, (result, err) => {
         if (result) {
-          console.log(result);
           document.getElementById('result').textContent = result.text;
-          // Opens the Results Overlay to show the Result.
-          setROToggled(true);
-          // Sets the Settings Overlay to False, if it is open.
-          if (isSOToggled == true) {
-            setSOToggled(false);
-          }
           const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
           document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
+          // Sets the Settings Overlay to False, if it is open.
+          setSOToggled(false);
+          // Opens the Results Overlay to show the Result.
+          setROToggled(true);
           videoElement.pause();
         }
-        
       });
     }
   }
 
   function rescan(codeReader) {
-    codeReader.reset();
-    setTimeout(() => {
-      document.getElementById('result').textContent = '';
-      scanQRCode(codeReader);
-    }, 400);
+    
   }
 
   function openSettingsOverlay() {
@@ -169,7 +167,7 @@ export default function QRCodeScanner() {
 
   function toggleAspectRatio() {
     const videoElement = webcamRef.current.video;
-    if (videoElement.style.width === '100%') {
+    if (videoElement.style.width == '100%') {
       videoElement.style.width = 'auto';
     } else {
       videoElement.style.width = '100%'; // Reset width to auto
@@ -188,12 +186,9 @@ export default function QRCodeScanner() {
     if (codeReaderRef.current) {
       codeReaderRef.current.reset(); // Stop the ZXing scanner
     }
-    if (webcamRef.current && webcamRef.current.stream) {
-      webcamRef.current.stream.getTracks().forEach(track => track.stop()); // Stop the video stream
-    }
     closeResultsOverlay();
+    localStorage.setItem('qrCodeResult', resultText);
     setTimeout(() => {
-      localStorage.setItem('qrCodeResult', resultText);
       router.push('/Result');
     }, 400);
   }
@@ -214,6 +209,11 @@ function resetCamera() {
     navigator.mediaDevices.getUserMedia({ video: videoConstraints }).then(stream => {
       webcamRef.current.video.srcObject = stream;
       webcamRef.current.stream = stream;
+      if (isSOToggled == true) {
+        setTimeout(() => {
+          webcamRef.current.video.pause();
+        }, 50);
+      }
     }).catch(err => {
       console.error("Error reinitializing webcam:", err);
     });
@@ -241,27 +241,26 @@ function resetCamera() {
   }}
 
 />
-      <div className={styles.controls}>
+      <div id='controls' className={styles.controls}>
         <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
           <div id="sourceSelectOption" className={styles.settingsOption} style={{ display: 'none' }}>
-            <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
+            <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
           </div>
           <div id='mirrorSetting' className={styles.settingsOption}>
-            <label title='Flip the video horizontally to create a mirrored effect.' className={styles.settingLabel}>Mirror Video</label>
+            <p title='Flip the video horizontally to create a mirrored effect.' className={styles.settingLabel}>Mirror Video</p>
             <ToggleSwitch round onChange={toggleMirroredVideo} />
           </div>
           <div id='aspectRatioSetting' className={styles.settingsOption}>
-            <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
+            <p title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</p>
             <ToggleSwitch round onChange={toggleAspectRatio} />
           </div>
           <div id='resetCamSetting' className={styles.settingsOption}>
-            <label title='Reset the camera, if there are issues with it.' className={styles.settingLabel}>Reset Camera</label>
-            <button onClick={resetCamera}><i className="fa fa-refresh"/></button>
+            <button onClick={resetCamera} title='Reset the camera, if there are issues with it.'>Reset Camera</button>
           </div>
         </div>
       </div>

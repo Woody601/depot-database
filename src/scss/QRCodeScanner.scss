@@ -38,7 +38,6 @@
     cursor: pointer;
   }
   .controls {
-    width: -webkit-fill-available;
     height: max-content;
     // background-color: teal;
     position: absolute;
@@ -104,6 +103,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   overflow: clip;
   column-gap: 1rem;
   row-gap: 0.5rem;
@@ -116,6 +116,13 @@
     outline: none;
     // border: 2px solid #000;
     background-color: #fff;
+  }
+  button {
+    padding: 10px 15px;
+    width: unset;
+    height: unset;
+    margin-top: 1rem;
+    display: block;
   }
 }
 
@@ -136,10 +143,22 @@
     }
   }
   .overlayContent {
+    p {
+      font-size: 18px;
+      margin: 0;
+    }
     .overlayButtons {
       button {
         padding: 12px 18px;
       }
+    }
+  }
+  .settingsOption {
+    button {
+      width: unset;
+      height: unset;
+      padding: 12px 18px;
+      font-size: 18px;
     }
   }
 }
