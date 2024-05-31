@@ -197,6 +197,28 @@ export default function QRCodeScanner() {
       router.push('/Result');
     }, 400);
   }
+  // Function to reset the camera
+function resetCamera() {
+  if (webcamRef.current && webcamRef.current.stream) {
+    webcamRef.current.stream.getTracks().forEach(track => track.stop()); // Stop the current video stream
+  }
+  if (webcamRef.current) {
+    webcamRef.current.video.srcObject = null; // Clear the video element's source
+  }
+  // Reinitialize the webcam
+  const videoConstraints = {
+    facingMode: "environment"
+  };
+  if (webcamRef.current) {
+    webcamRef.current.video.srcObject = null;
+    navigator.mediaDevices.getUserMedia({ video: videoConstraints }).then(stream => {
+      webcamRef.current.video.srcObject = stream;
+      webcamRef.current.stream = stream;
+    }).catch(err => {
+      console.error("Error reinitializing webcam:", err);
+    });
+  }
+}
 
   return (
     <>
@@ -224,7 +246,7 @@ export default function QRCodeScanner() {
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
-          <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"></i></button>
+          <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
           <div id="sourceSelectOption" className={styles.settingsOption} style={{ display: 'none' }}>
             <label htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</label>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
@@ -236,6 +258,10 @@ export default function QRCodeScanner() {
           <div id='aspectRatioSetting' className={styles.settingsOption}>
             <label title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</label>
             <ToggleSwitch round onChange={toggleAspectRatio} />
+          </div>
+          <div id='resetCamSetting' className={styles.settingsOption}>
+            <label title='Reset the camera, if there are issues with it.' className={styles.settingLabel}>Reset Camera</label>
+            <button onClick={resetCamera}><i className="fa fa-refresh"/></button>
           </div>
         </div>
       </div>
