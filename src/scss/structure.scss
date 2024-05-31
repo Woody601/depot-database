@@ -28,6 +28,7 @@ p {
     overflow-x: clip;
     height: -webkit-fill-available;
     position: relative;
+    scroll-behavior: smooth;
 }
   
 /* The pagescroll is made to keep the scrolling bar of the page's content out of the nav bar that is at the top. */
@@ -39,4 +40,5 @@ p {
     position: fixed;
     /* The height is calulated to be the full height of the device's screen, minus 60px to compensate for the nav bar at the top. */
     height: calc(100% - 60px);
+    scroll-behavior: smooth;
 }
