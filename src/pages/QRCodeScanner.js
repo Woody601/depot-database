@@ -212,7 +212,7 @@ function resetCamera() {
       if (isSOToggled == true) {
         setTimeout(() => {
           webcamRef.current.video.pause();
-        }, 50);
+        }, 100);
       }
     }).catch(err => {
       console.error("Error reinitializing webcam:", err);
