@@ -65,10 +65,6 @@ p {
   z-index: 9999;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.118);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.118);
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
 }
 
 .logo {
@@ -149,6 +145,13 @@ p {
      -moz-column-gap: 35px;
           column-gap: 35px;
   padding-right: 35px;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  will-change: transform;
 }
 
 .links a {
