@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Script from 'next/script';
 import Webcam from 'react-webcam'; // Import react-webcam
 import ToggleSwitch from "@/components/ToggleSwitch";
-import styles from "@/styles/QRCodeScanner.module.css";
+import styles from "@/styles/CodeScanner.module.css";
 
 export default function QRCodeScanner() {
   const [libraryLoaded, setLibraryLoaded] = useState(false);
@@ -67,38 +67,7 @@ export default function QRCodeScanner() {
   };
 }, [router]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const aspectRatioSetting = document.getElementById('aspectRatioSetting');
-      const videoWidth = document.getElementById('video').getBoundingClientRect().width;
-      const targetElement = document.getElementById('controls');
-      targetElement.style.width = `${videoWidth}px`;
 
-        if (window.innerWidth < videoWidth) {
-          aspectRatioSetting.style.display = 'flex'; 
-        } else {
-          if (window.innerWidth == videoWidth) {
-            aspectRatioSetting.style.display = 'flex';
-          } else {
-            aspectRatioSetting.style.display = 'none';
-          }
-        }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    const videoElement = document.getElementById('video');
-    if (videoElement) {
-      videoElement.addEventListener('loadedmetadata', handleResize);
-    }
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (videoElement) {
-        videoElement.removeEventListener('loadedmetadata', handleResize);
-      }
-    };
-  }, []);
   useEffect(() => {
     const handleRouteChange = () => {
       if (codeReaderRef.current) {
@@ -235,7 +204,6 @@ function resetCamera() {
   className={styles.video} 
   ref={webcamRef} 
   mirrored={isVideoMirrored}
-  forceScreenshotSourceSize={true}
   videoConstraints={{
     facingMode: "environment"
   }}
@@ -264,16 +232,7 @@ function resetCamera() {
           </div>
         </div>
       </div>
-      <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
-        <div className={styles.overlayContent}>
-          <h3>Result:</h3>
-          <pre><code id="result" /></pre>
-          <div className={styles.overlayButtons}>
-            <button id="rescanButton" onClick={closeResultsOverlay}>Rescan</button>
-            <button onClick={() => continueButtonClicked(document.getElementById('result').textContent)}>Continue</button>
-          </div>
-        </div>
-      </div>
+      
     </div>
     </>
   );
