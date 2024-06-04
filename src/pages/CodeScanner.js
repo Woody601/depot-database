@@ -72,20 +72,27 @@ export default function CodeScanner() {
     setSOToggled(false);
     document.getElementById('video').play();
   }
-  function closeResultsOverlay() {
+
+  function closeResultsOverlay(playOrPause) {
     setROToggled(false);
-    document.getElementById('video').play();
-  }
+    if (playOrPause === 'pause') {
+        document.getElementById('video').pause();
+    } else {
+        document.getElementById('video').play();
+    }
+}
 
   function continueButtonClicked(resultText) {
-    closeResultsOverlay();
+    setROToggled(false);
     localStorage.setItem('qrCodeResult', resultText);
-    router.push('/Result');
+    setTimeout(() => {
+      router.push('/Result');
+    }, 400);
   }
   return (
     <>
     <Head>
-        <title>QR Code Scanner</title>
+        <title>Code Scanner</title>
       </Head>
     <div className={styles.videoContainer}>
 <video id="video" className={styles.video} ref={ref}/>
@@ -99,17 +106,17 @@ export default function CodeScanner() {
             <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
             <select id="sourceSelect" style={{ maxWidth: '400px' }} />
           </div>
-          <div id='mirrorSetting' className={styles.settingsOption}>
-            <p title='Flip the video horizontally to create a mirrored effect.' className={styles.settingLabel}>Mirror Video</p>
+          <div className={styles.settingsOption}>
+            <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
             <ToggleSwitch round onChange={toggleMirroredVideo} />
           </div>
           <div id='aspectRatioSetting' className={styles.settingsOption}>
-            <p title='Set the camera to its original size.' className={styles.settingLabel}>Original Aspect Ratio</p>
+            <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
             <ToggleSwitch round onChange={toggleAspectRatio} />
           </div>
-          <div id='resetCamSetting' className={styles.settingsOption}>
-            {/* <button onClick={resetCamera} title='Reset the camera, if there are issues with it.'>Reset Camera</button> */}
-          </div>
+          {/* <div id='resetCamSetting' className={styles.settingsOption}>
+            <button onClick={resetCamera} title='Reset the camera, if there are issues with it.'>Reset Camera</button>
+          </div> */}
         </div>
       </div>
       <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>

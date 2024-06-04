@@ -21,7 +21,7 @@ h4,
 h5,
 h6,
 p {
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .app {
@@ -36,7 +36,7 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  max-width: 1000px;
+  max-width: 62.5rem;
   margin: auto;
   overflow-x: clip;
   height: -webkit-fill-available;
@@ -47,11 +47,11 @@ p {
 .pagescroll {
   width: 100%;
   margin: auto auto;
-  top: 60px;
+  top: 3.75rem;
   overflow-y: auto;
   position: fixed;
-  /* The height is calulated to be the full height of the device's screen, minus 60px to compensate for the nav bar at the top. */
-  height: calc(100% - 60px);
+  /* The height is calulated to be the full height of the device's screen, minus 60px (3.75rem) to compensate for the nav bar at the top. */
+  height: calc(100% - 3.75rem);
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
@@ -63,20 +63,14 @@ p {
   top: 0;
   left: 0;
   z-index: 9999;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.118);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.118);
+  -webkit-box-shadow: 0 0.063rem 0.188rem rgba(0, 0, 0, 0.118);
+          box-shadow: 0 0.063rem 0.188rem rgba(0, 0, 0, 0.118);
 }
 
 .logo {
-  margin: 5px 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  max-width: 190.22px;
-  max-height: 50px;
+  margin: 0.313rem 0.625rem;
+  max-width: 11.889rem;
+  max-height: 3.125rem;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -86,45 +80,50 @@ p {
       -ms-user-select: none;
           user-select: none;
   pointer-events: none;
+  position: relative;
+}
+.logo img {
+  width: 11.889rem;
+  height: 3.125rem;
 }
 
 .bars {
   display: none;
-  margin: 15px;
+  margin: 0.938rem;
   float: right;
   cursor: pointer;
-  height: 30px;
+  height: 1.875rem;
   z-index: 9999;
 }
 
 .bars .bar {
   display: block;
-  width: 30px;
+  width: 1.875rem;
   background-color: #cf4b04;
-  height: 3.6px;
-  border-radius: 3.6px;
+  height: 0.25rem;
+  border-radius: 0.25rem;
   -webkit-transition: all 0.4s;
   transition: all 0.4s;
 }
 
 .bar:first-child {
-  margin: 4.2px 0 6px;
+  margin: 0.188rem 0 0.375rem;
 }
 
 .bar:nth-child(3) {
-  margin: 6px 0 4.2px;
+  margin: 0.375rem 0 0.188rem;
 }
 
 .bars.active .bar:first-child {
-  -webkit-transform: translateY(9.6px) rotate(-45deg);
-          transform: translateY(9.6px) rotate(-45deg);
+  -webkit-transform: translateY(0.625rem) rotate(-45deg);
+          transform: translateY(0.625rem) rotate(-45deg);
 }
 .bars.active .bar:nth-child(2) {
   opacity: 0;
 }
 .bars.active .bar:nth-child(3) {
-  -webkit-transform: translateY(-9.6px) rotate(45deg);
-          transform: translateY(-9.6px) rotate(45deg);
+  -webkit-transform: translateY(-0.625rem) rotate(45deg);
+          transform: translateY(-0.625rem) rotate(45deg);
 }
 
 .links {
@@ -137,14 +136,14 @@ p {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
-  height: 60px;
+  height: 3.75rem;
   width: auto;
   overflow: hidden;
   float: right;
-  -webkit-column-gap: 35px;
-     -moz-column-gap: 35px;
-          column-gap: 35px;
-  padding-right: 35px;
+  -webkit-column-gap: 2.188rem;
+     -moz-column-gap: 2.188rem;
+          column-gap: 2.188rem;
+  padding-right: 2.188rem;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   -webkit-transform: translateZ(0);
@@ -157,7 +156,7 @@ p {
 .links a {
   text-decoration: none;
   color: #cf4b04;
-  font-size: 17px;
+  font-size: 1.063rem;
   font-family: Roboto, Arial, Helvetica, sans-serif;
   font-weight: 400;
   letter-spacing: 0;
@@ -193,7 +192,7 @@ p {
   transition: -webkit-transform 0.2s ease-in-out;
   transition: transform 0.2s ease-in-out;
   transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
-  border-top: 1px solid #004473;
+  border-top: 0.063rem solid #004473;
 }
 
 .links a:hover:after {
@@ -214,7 +213,7 @@ p {
       -ms-flex-pack: center;
           justify-content: center;
   position: fixed;
-  padding-top: 60px;
+  margin-top: 60px;
   top: 0;
   left: 0;
   width: 100%;
@@ -254,27 +253,14 @@ p {
     margin-right: 35px;
   }
 }
-.portrait {
-  display: block;
-  max-width: 300px;
-  width: 100%;
-  margin: 0 auto 16px;
-}
-
-.gamePicture {
-  display: block;
-  width: 100%;
-  margin: 0 auto 16px;
-  margin-bottom: 10px;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
 @media screen and (max-width: 768px) {
   .navHolder {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: reverse;
         -ms-flex-direction: row-reverse;
@@ -282,8 +268,8 @@ p {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
-    min-height: 60px;
-    border-bottom: 1px solid #e2e2e2;
+    min-height: 3.75rem;
+    border-bottom: 0.063rem solid #e2e2e2;
   }
   .bars {
     display: block;
@@ -295,7 +281,7 @@ p {
         -ms-flex-direction: column;
             flex-direction: column;
     position: fixed;
-    top: 60px;
+    top: 3.75rem;
     -webkit-transition: height 0.4s;
     transition: height 0.4s;
     margin: auto;
@@ -307,9 +293,9 @@ p {
     padding-right: 0;
   }
   .links a {
-    padding: 0 30px;
-    min-height: 50px;
-    border-bottom: 1px solid #e2e2e2;
+    padding: 0 1.875rem;
+    min-height: 3.125rem;
+    border-bottom: 0.063rem solid #e2e2e2;
     font-family: Roboto;
     margin: 0;
   }
@@ -320,14 +306,20 @@ p {
     background-color: #f9f9fb;
   }
   .links :nth-child(1) {
-    border-top: 1px solid #e2e2e2;
-    margin-top: 21px;
+    border-top: 0.063rem solid #e2e2e2;
+    margin-top: 1.313rem;
   }
   .links.active {
-    height: 226px;
+    height: 10.939rem;
+  }
+  .logo {
+    margin-right: 0;
   }
 }
-@media screen and (max-width: 271px) {
+@media screen and (max-width: 16.938rem) {
+  .logo {
+    width: 100%;
+  }
   .logo img {
     width: 100%;
     height: -webkit-fit-content;

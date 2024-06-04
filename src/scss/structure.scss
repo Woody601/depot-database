@@ -15,7 +15,7 @@ h4,
 h5,
 h6,
 p {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
 }
 
 .app {
@@ -23,7 +23,7 @@ p {
     flex-direction: column;
     word-break: break-all; // Allow long words to break
     align-items: center;
-    max-width: 1000px;
+    max-width: 62.5rem;
     margin: auto;
     overflow-x: clip;
     height: -webkit-fill-available;
@@ -34,11 +34,11 @@ p {
 .pagescroll {
     width: 100%;
     margin: auto auto;
-    top: 60px;
+    top: 3.75rem;
     overflow-y: auto;
     position: fixed;
-    /* The height is calulated to be the full height of the device's screen, minus 60px to compensate for the nav bar at the top. */
-    height: calc(100% - 60px);
+    /* The height is calulated to be the full height of the device's screen, minus 60px (3.75rem) to compensate for the nav bar at the top. */
+    height: calc(100% - 3.75rem);
     scroll-behavior: smooth;
     -webkit-overflow-scrolling:touch;
 }

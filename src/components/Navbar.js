@@ -38,14 +38,21 @@ export default function Navbar() {
           <span className="bar"></span>
         </div>
         <div className="logo">
-          <Image priority={true} src={'/logo.png'} width={190.22} height={50} alt="logo" style={{ width: 'auto', height: 'auto'}} draggable='false' />
+        <Image
+  priority={true}
+  src={'/logo.png'}
+  alt="logo"
+  width={100} // Set the desired width in rem
+  height={100} // Set the desired height in rem
+  style={{ position: 'relative' }}
+  draggable="false"
+/>
+
+
         </div>
         <div className={isToggled ? "links active" : "links"}>          
           <Link href="/" onClick={toggleNav}>
             Home
-          </Link>
-          <Link href="/QRCodeScanner" onClick={toggleNav} >
-            QR Code Scanner
           </Link>
           <Link href="/CodeScanner" onClick={toggleNav}>
             Code Scanner

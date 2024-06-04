@@ -1,10 +1,11 @@
 @media screen and (max-width: 768px) {
   .navHolder {
     display: flex;
+    align-items: center;
     flex-direction: row-reverse;
     justify-content: space-between;
-    min-height: 60px;
-    border-bottom: 1px solid #e2e2e2;
+    min-height: 3.75rem;
+    border-bottom: 0.063rem solid #e2e2e2;
   }
   .bars {
     display: block;
@@ -15,7 +16,7 @@
     flex-direction: column;
     //border: 1px solid;
     position: fixed;
-    top: 60px;
+    top: 3.75rem;
     transition: height .4s;
     margin: auto;
     width: 100%;
@@ -23,9 +24,9 @@
     background-color: #fff;
     padding-right: 0;
     a {
-      padding: 0 30px;
-      min-height: 50px;
-      border-bottom: 1px solid #e2e2e2;
+      padding: 0 1.875rem;
+      min-height: 3.125rem;
+      border-bottom: 0.063rem solid #e2e2e2;
       //font-size: 16px;
       font-family: Roboto;
       margin: 0;
@@ -39,17 +40,21 @@
     }
   }
   .links :nth-child(1) {
-    border-top: 1px solid #e2e2e2;
-    margin-top: 21px;
+    border-top: 0.063rem solid #e2e2e2;
+    margin-top: 1.313rem;
   }
   .links.active {
-    height: calc(22px + (51px * 4));
+    height: calc(1.375rem + (3.188rem * 3));
+  }
+  .logo {
+    margin-right: 0;
   }
 }
 
 
-@media screen and (max-width: 271px) {
+@media screen and (max-width: 16.938rem) {
   .logo {
+    width: 100%;
     img {
       width: 100%;
       height: fit-content;

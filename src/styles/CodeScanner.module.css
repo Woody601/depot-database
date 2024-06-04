@@ -14,7 +14,7 @@
   height: 100%;
 }
 .videoContainer i {
-  font-size: 20px;
+  font-size: 1.25rem;
   color: hsl(0, 0%, 100%);
 }
 .videoContainer button {
@@ -22,10 +22,10 @@
   border: none;
   outline: none;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 0.875rem;
   background-color: #cf4b04;
-  height: 36px;
-  width: 36px;
+  height: 2.25rem;
+  width: 2.25rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -87,7 +87,7 @@
       -ms-flex-pack: center;
           justify-content: center;
   position: fixed;
-  padding-top: 60px;
+  margin-top: 60px;
   top: 0;
   left: 0;
   width: 100%;
@@ -124,8 +124,8 @@
   display: grid;
 }
 .overlayContent h3 {
-  font-size: 20px;
-  margin-bottom: 8px;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -136,10 +136,10 @@
 }
 .overlayContent pre {
   display: block;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 .overlayContent pre code {
-  font-size: 16px;
+  font-size: 1rem;
   text-wrap: wrap;
   word-break: break-all;
 }
@@ -152,20 +152,27 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-column-gap: 16px;
-     -moz-column-gap: 16px;
-          column-gap: 16px;
-  row-gap: 16px;
+  -webkit-column-gap: 1rem;
+     -moz-column-gap: 1rem;
+          column-gap: 1rem;
+  row-gap: 1rem;
 }
 .overlayContent .overlayButtons button {
-  padding: 10px 15px;
+  padding: 0.625rem 0.938rem;
   height: unset;
   width: unset;
   display: block;
 }
 
+.overlayContent .overlayButtons button, .settingsOption button {
+  padding: 0.625rem 0.938rem;
+  width: unset;
+  height: unset;
+  display: block;
+}
+
 .settingsOption {
-  margin: 16px 0 8px;
+  margin: 1rem 0 0.5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -174,9 +181,6 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   overflow: clip;
   -webkit-column-gap: 1rem;
      -moz-column-gap: 1rem;
@@ -188,19 +192,15 @@
           user-select: none;
 }
 .settingsOption .settingLabel {
-  width: 11rem;
+  width: 10.5rem;
 }
 .settingsOption select {
-  height: 25.5px;
+  height: 1.594rem;
   outline: none;
   background-color: #fff;
 }
 .settingsOption button {
-  padding: 10px 15px;
-  width: unset;
-  height: unset;
   margin-top: 1rem;
-  display: block;
 }
 
 #overlaySettings {
@@ -218,23 +218,23 @@
 
 @media screen and (max-width: 768px) {
   .videoContainer i {
-    font-size: 26px;
+    font-size: 1.625rem;
   }
   .videoContainer button {
-    height: 40px;
-    width: 40px;
+    height: 2.5rem;
+    width: 2.5rem;
   }
   .overlayContent p {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
   .overlayContent .overlayButtons button {
-    padding: 12px 18px;
+    padding: 0.75rem 1.125rem;
   }
   .settingsOption button {
     width: unset;
     height: unset;
-    padding: 12px 18px;
-    font-size: 18px;
+    padding: 0.75rem 1.125rem;
+    font-size: 1.125rem;
   }
 }
 @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
@@ -244,7 +244,7 @@
             column-gap: 0;
   }
   .overlayContent .overlayButtons button:first-child {
-    margin-right: 16px;
+    margin-right: 1rem;
   }
   .videoContainer .video {
     height: 100%;
