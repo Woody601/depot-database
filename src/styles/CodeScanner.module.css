@@ -258,6 +258,15 @@
   }
 }
 @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
+  .overlayContent {
+    overflow-wrap: break-word;
+  }
+  .overlayContent h3 {
+    margin-bottom: 1rem;
+  }
+  .overlayContent pre {
+    margin-bottom: 1.5rem;
+  }
   .overlayContent .overlayButtons {
     -webkit-column-gap: 0;
        -moz-column-gap: 0;

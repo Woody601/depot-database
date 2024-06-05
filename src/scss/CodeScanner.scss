@@ -182,6 +182,13 @@
 
 @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
   .overlayContent {
+    overflow-wrap: break-word;
+    h3 {
+      margin-bottom: 1rem;
+    }
+    pre {
+      margin-bottom: 1.5rem;
+    }
     .overlayButtons {
       column-gap: 0;
       button:first-child {
