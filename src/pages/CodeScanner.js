@@ -126,7 +126,6 @@ export default function CodeScanner() {
     <>
     <Head>
         <title>Code Scanner</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"></meta>
       </Head>
     <div className={styles.videoContainer}>
 <video id="video" className={styles.video} ref={ref} />
