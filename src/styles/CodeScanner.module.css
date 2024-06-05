@@ -214,6 +214,10 @@
   margin: auto;
 }
 
+.aspectRatioSetting {
+  display: none;
+}
+
 #overlaySettings {
   display: -webkit-box;
   display: -ms-flexbox;

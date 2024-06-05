@@ -119,11 +119,6 @@ export default function CodeScanner() {
     }, 400)
   }
   //Refreshes the current page by reloading the window.
-  function refreshCamera() {
-    setVideoPaused(true);
-    setVideoPaused(false);
-  }
-  //Refreshes the current page by reloading the window.
   function reloadPage() {
     window.location.reload()
   }
@@ -131,6 +126,7 @@ export default function CodeScanner() {
     <>
     <Head>
         <title>Code Scanner</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"></meta>
       </Head>
     <div className={styles.videoContainer}>
 <video id="video" className={styles.video} ref={ref} />

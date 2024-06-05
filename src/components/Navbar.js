@@ -57,6 +57,9 @@ export default function Navbar() {
           <Link href="/CodeScanner" onClick={toggleNav}>
             Code Scanner
           </Link>
+          <Link href="/database" onClick={toggleNav}>
+            Database
+          </Link>
           <Link href="/login" onClick={toggleNav}>
             Login
           </Link>

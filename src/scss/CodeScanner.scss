@@ -134,7 +134,9 @@
     margin: auto;
   }
 }
-
+.aspectRatioSetting {
+  display: none;
+}
 #overlaySettings {
   display: flex;
   flex-direction: column;
