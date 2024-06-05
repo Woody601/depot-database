@@ -12,7 +12,7 @@ export default function QRCodeScanner() {
   const [isSOToggled, setSOToggled] = useState(false);
   // RO = Results Overlay
   const [isROToggled, setROToggled] = useState(false);
-  const webcamRef = useRef(null);
+  const webcamRef = useRef(null);]
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   const [isVideoMirrored, setVideoMirrored] = useState(false);
   const [result, setResult] = useState('');

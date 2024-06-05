@@ -3,11 +3,11 @@
     align-items: center;
     justify-content: center;
     position: fixed;
-    margin-top: 60px;
+    margin-top: 3.75rem;
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 3.75rem);
     background: rgba(0, 0, 0, 0.75);
     transition: opacity .4s, z-index 1.2s;
     opacity: 0;

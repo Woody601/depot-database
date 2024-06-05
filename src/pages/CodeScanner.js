@@ -10,6 +10,9 @@ export default function CodeScanner() {
   const [isSOToggled, setSOToggled] = useState(false);
   // RO = Results Overlay
   const [isROToggled, setROToggled] = useState(false);
+  // EO = Error Overlay
+  const [isEOToggled, setEOToggled] = useState(false);
+  const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -17,9 +20,20 @@ export default function CodeScanner() {
       const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
           document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
       setSOToggled(false);
-      document.getElementById('video').pause();
+      setVideoPaused(true);
       setROToggled(true);
     },
+    paused: isVideoPaused,
+    // constraints: {
+    //   facingMode: "environment",
+    //   audio: false
+    // },
+    
+    onError(error) {
+      console.error(error);
+      document.getElementById('error').innerHTML = `${error}`;
+      setEOToggled(true);
+    }
   });
   
   useEffect(() => {
@@ -54,8 +68,10 @@ export default function CodeScanner() {
       }
     };
   }, []);
+  
   function openSettingsOverlay() {
-    document.getElementById('video').pause();
+    const videoElement = document.getElementById('video');
+    videoElement.pause();
     setSOToggled(true);
   }
   function toggleMirroredVideo() {
@@ -68,26 +84,43 @@ export default function CodeScanner() {
     videoElement.style.width = videoElement.style.width == '100%' ? 'auto' : '100%';
 }
 
+  /**
+   * Closes the settings overlay and resumes video playback.
+   */
   function closeSettingsOverlay() {
+    const videoElement = document.getElementById('video');
+    videoElement.play();
     setSOToggled(false);
-    document.getElementById('video').play();
   }
 
-  function closeResultsOverlay(playOrPause) {
-    setROToggled(false);
-    if (playOrPause === 'pause') {
-        document.getElementById('video').pause();
-    } else {
-        document.getElementById('video').play();
-    }
-}
+  /**
+   * Closes the results overlay and resumes video playback.
+   */
+  function closeResultsOverlay() {
+    setROToggled(false)
+    setVideoPaused(false)
+  }
+  function closeResultsOverlay() {
+    setROToggled(false)
+    setVideoPaused(false)
+  }
 
+  /**
+   * Handles the click event of the "Continue" button in the results overlay.
+   * Saves the QR code result to local storage and navigates to the "/Result" page.
+   *
+   * @param {string} resultText - The text content of the scanned QR code.
+   */
   function continueButtonClicked(resultText) {
-    setROToggled(false);
-    localStorage.setItem('qrCodeResult', resultText);
+    setROToggled(false)
+    localStorage.setItem("qrCodeResult", resultText)
     setTimeout(() => {
-      router.push('/Result');
-    }, 400);
+      router.push("/Result")
+    }, 400)
+  }
+  //Refreshes the current page by reloading the window.
+  function reloadPage() {
+    window.location.reload()
   }
   return (
     <>
@@ -95,7 +128,7 @@ export default function CodeScanner() {
         <title>Code Scanner</title>
       </Head>
     <div className={styles.videoContainer}>
-<video id="video" className={styles.video} ref={ref}/>
+<video id="video" className={styles.video} ref={ref} />
       <div id='controls' className={styles.controls}>
         <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
@@ -114,18 +147,28 @@ export default function CodeScanner() {
             <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
             <ToggleSwitch round onChange={toggleAspectRatio} />
           </div>
-          {/* <div id='resetCamSetting' className={styles.settingsOption}>
-            <button onClick={resetCamera} title='Reset the camera, if there are issues with it.'>Reset Camera</button>
-          </div> */}
+          
+          <div id='resetCamSetting' className={styles.settingsOption}>
+            <button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</button>
+          </div>
         </div>
       </div>
-      <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
+          <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <h3>Result:</h3>
           <pre><code id="result" /></pre>
           <div className={styles.overlayButtons}>
             <button id="rescanButton" onClick={closeResultsOverlay}>Rescan</button>
             <button onClick={() => continueButtonClicked(result)}>Continue</button>
+          </div>
+        </div>
+      </div>
+      <div id="errorOverlay" className={isEOToggled ? "overlay active" : "overlay"}>
+        <div className={styles.overlayContent}>
+          <h3>Error</h3>
+          <pre><code id="error" className={styles.errorMSG}/></pre>
+          <div className={styles.overlayButtons}>
+            <button id="rescanButton" onClick={reloadPage}>Refresh</button>
           </div>
         </div>
       </div>

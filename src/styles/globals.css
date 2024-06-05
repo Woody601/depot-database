@@ -32,7 +32,6 @@ p {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  word-break: break-all;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -213,11 +212,11 @@ p {
       -ms-flex-pack: center;
           justify-content: center;
   position: fixed;
-  margin-top: 60px;
+  margin-top: 3.75rem;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 60px);
+  height: calc(100% - 3.75rem);
   background: rgba(0, 0, 0, 0.75);
   -webkit-transition: opacity 0.4s, z-index 1.2s;
   transition: opacity 0.4s, z-index 1.2s;
