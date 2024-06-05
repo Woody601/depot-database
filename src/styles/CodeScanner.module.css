@@ -271,6 +271,13 @@
   .overlayContent {
     max-width: 75%;
     grid-row-gap: 1.5rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     -webkit-column-gap: 0;
        -moz-column-gap: 0;
             column-gap: 0;
@@ -284,6 +291,8 @@
   }
   .overlayContent pre code {
     font-size: 1.125rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   .overlayContent .overlayButtons {
     -webkit-column-gap: 0;
@@ -294,8 +303,14 @@
     padding: 0.75rem 1.125rem;
     font-size: 1rem;
   }
+  .overlayContent .overlayButtons button:first-child {
+    margin-right: 1rem;
+  }
   .overlayContent h3 {
     margin-bottom: 1rem;
+  }
+  .settingsOption {
+    margin: 1rem auto;
   }
   .settingsOption button {
     width: unset;
