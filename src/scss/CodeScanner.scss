@@ -181,34 +181,50 @@
 }
 
 @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
-  .overlayContent {
-    h3 {
-      margin-bottom: 1rem;
-    }
-    pre {
-      margin-bottom: 1.5rem;
-      code {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
-    }
-    .overlayButtons {
-      column-gap: 0;
-      button:first-child {
-        margin-right: 1rem;
-      }
-    }
-  }
   .videoContainer {
+    i {
+      font-size: 1.625rem;
+    }
+    button {
+      height: 2.625rem;
+      width: 2.625rem;
+    }
     .video {
       height: 100%;
     }
   }
-  .settingsOption {
-    margin: 1rem 0;
-  }
   .overlayContent {
+    max-width: 75%;
+    grid-row-gap: 1.5rem;
+    p {
+      font-size: 1.125rem;
+    }
+    pre {
+      code {
+        font-size: 1.125rem;
+      }
+      margin-bottom: 1.5rem;
+    }
+    .overlayButtons {
+      button {
+        padding: 0.75rem 1.125rem;
+        font-size: 1rem;
+      }
+      column-gap: 0;
+    }
+    h3 {
+      margin-bottom: 1rem;
+    }
     column-gap: 0;
     row-gap: 0;
+  }
+  .settingsOption {
+    button {
+      width: unset;
+      height: unset;
+      padding: 0.75rem 1.125rem;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
   }
 }

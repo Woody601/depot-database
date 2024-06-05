@@ -77,3 +77,23 @@ input:checked + .slider:before {
     border-radius: 34px;
   }
 }
+@media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
+  .switch {
+    width: 3.75rem;
+    height: 2.125rem;
+  }
+  .slider:before {
+    height: 1.625rem;
+    width: 1.625rem;
+    left: 0.25rem;
+    bottom: 0.25rem;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(1.625rem);
+    transform: translateX(1.625rem);
+  }
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+}

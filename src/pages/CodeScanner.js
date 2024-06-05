@@ -119,6 +119,11 @@ export default function CodeScanner() {
     }, 400)
   }
   //Refreshes the current page by reloading the window.
+  function refreshCamera() {
+    setVideoPaused(true);
+    setVideoPaused(false);
+  }
+  //Refreshes the current page by reloading the window.
   function reloadPage() {
     window.location.reload()
   }
