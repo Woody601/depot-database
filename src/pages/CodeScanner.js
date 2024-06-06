@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react";
 import { useZxing } from "react-zxing";
 import { useRouter } from 'next/router';
+import { useMediaDevices } from "react-media-devices";
 import Head from 'next/head';
 import styles from "@/styles/CodeScanner.module.css";
 import ToggleSwitch from "@/components/ToggleSwitch";
@@ -14,6 +15,13 @@ export default function CodeScanner() {
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
+  const constraints = {
+    video: true
+  };
+  
+  const { devices } = useMediaDevices(constraints);
+  const deviceId = devices?.[0]?.deviceId;
+
   const { ref } = useZxing({
     onDecodeResult(result) {
       setResult(result.getText());
@@ -24,6 +32,7 @@ export default function CodeScanner() {
       setROToggled(true);
     },
     paused: isVideoPaused,
+    deviceId: deviceId,
     // constraints: {
     //   facingMode: "environment",
     //   audio: false
