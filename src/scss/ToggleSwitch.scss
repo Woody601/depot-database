@@ -38,17 +38,13 @@
     background-color: #004473;
   }
   
-  input:focus + .slider {
-    box-shadow: 0 0 0.063rem #004473;
-  }
-  
   input:checked + .slider:before {
     transform: translateX(1.219rem);
   }
   
   /* Rounded sliders */
   .slider.round {
-    border-radius: 1.594rem;
+    border-radius: 1.063rem;
   }
   
   .slider.round:before {

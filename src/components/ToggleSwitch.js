@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styles from "@/styles/ToggleSwitch.module.css";
 
 export default function ToggleSwitch({ round, onChange }) {

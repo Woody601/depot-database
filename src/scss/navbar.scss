@@ -113,13 +113,3 @@
 }
 
 @import "overlay.scss";
-
-@media not all and (max-height: 899px) and (min-resolution:.1dpi) {
-    .links {
-        column-gap: 0;
-        padding-right: 0;
-        a {
-            margin-right: 35px;
-        }
-    }
-  }

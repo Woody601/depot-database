@@ -38,7 +38,7 @@ p {
   max-width: 62.5rem;
   margin: auto;
   overflow-x: clip;
-  height: -webkit-fill-available;
+  height: 100%;
   position: relative;
 }
 
@@ -241,17 +241,6 @@ p {
   transition: opacity 0.4s, z-index 0s;
 }
 
-@media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
-  .links {
-    -webkit-column-gap: 0;
-       -moz-column-gap: 0;
-            column-gap: 0;
-    padding-right: 0;
-  }
-  .links a {
-    margin-right: 35px;
-  }
-}
 @media screen and (max-width: 768px) {
   .navHolder {
     display: -webkit-box;
@@ -261,9 +250,9 @@ p {
         -ms-flex-align: center;
             align-items: center;
     -webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-        -ms-flex-direction: row-reverse;
-            flex-direction: row-reverse;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
@@ -324,5 +313,16 @@ p {
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
+  }
+}
+@media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
+  .links {
+    -webkit-column-gap: 0;
+       -moz-column-gap: 0;
+            column-gap: 0;
+    padding-right: 0;
+  }
+  .links a {
+    margin-right: 35px;
   }
 }

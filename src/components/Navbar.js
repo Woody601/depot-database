@@ -32,23 +32,22 @@ export default function Navbar() {
   return (
     <>
       <div className="navHolder">
-        <div className={isToggled ? "bars active" : "bars"} onClick={toggleNav}>
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
-        </div>
-        <div className="logo">
+      <div className="logo">
         <Image
   priority={true}
   src={'/logo.png'}
   alt="logo"
-  width={100} // Set the desired width in rem
-  height={100} // Set the desired height in rem
+  width={700} // Set the desired width in rem
+  height={184} // Set the desired height in rem
   style={{ position: 'relative' }}
   draggable="false"
+  quality={100}
 />
-
-
+        </div>
+        <div className={isToggled ? "bars active" : "bars"} onClick={toggleNav}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
         </div>
         <div className={isToggled ? "links active" : "links"}>          
           <Link href="/" onClick={toggleNav}>

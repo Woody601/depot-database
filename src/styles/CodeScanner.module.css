@@ -231,7 +231,7 @@
           align-items: flex-end;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 48rem) {
   .videoContainer i {
     font-size: 1.625rem;
   }
@@ -242,6 +242,7 @@
   .overlayContent {
     max-width: 75%;
     grid-row-gap: 1.5rem;
+    padding: 1.5rem;
   }
   .overlayContent p {
     font-size: 1.125rem;
@@ -258,7 +259,6 @@
     height: unset;
     padding: 0.75rem 1.125rem;
     font-size: 1rem;
-    margin-top: 0.5rem;
   }
 }
 @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
@@ -282,6 +282,7 @@
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+    padding: 1.5rem;
     -webkit-column-gap: 0;
        -moz-column-gap: 0;
             column-gap: 0;
@@ -314,13 +315,18 @@
     margin-bottom: 1rem;
   }
   .settingsOption {
-    margin: 1rem auto;
+    margin: 1.5rem auto 0;
   }
   .settingsOption button {
     width: unset;
     height: unset;
     padding: 0.75rem 1.125rem;
     font-size: 1rem;
-    margin-top: 0.5rem;
+  }
+  .settingsOption:first-child {
+    margin-bottom: 1rem;
+  }
+  .settingsOption:last-child {
+    margin-bottom: 0;
   }
 }

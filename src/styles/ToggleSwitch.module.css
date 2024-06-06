@@ -38,11 +38,6 @@ input:checked + .slider {
   background-color: #004473;
 }
 
-input:focus + .slider {
-  -webkit-box-shadow: 0 0 0.063rem #004473;
-          box-shadow: 0 0 0.063rem #004473;
-}
-
 input:checked + .slider:before {
   -webkit-transform: translateX(1.219rem);
           transform: translateX(1.219rem);
@@ -50,7 +45,7 @@ input:checked + .slider:before {
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 1.594rem;
+  border-radius: 1.063rem;
 }
 
 .slider.round:before {
