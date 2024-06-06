@@ -322,7 +322,7 @@ p {
   .apps {
     width: 100%;
     height: 100%;
-    z-index: 99;
+    background-color: #fff;
   }
   .links {
     -webkit-column-gap: 0;
