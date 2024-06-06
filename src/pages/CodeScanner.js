@@ -1,10 +1,21 @@
-import { useState, useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import { useZxing } from "react-zxing";
 import { useRouter } from 'next/router';
+import { useMediaDevices } from "react-media-devices";
+
+
+
+const constraints = {
+  video: true,
+  audio: false,
+};
+
 import Head from 'next/head';
 import styles from "@/styles/CodeScanner.module.css";
 import ToggleSwitch from "@/components/ToggleSwitch";
 export default function CodeScanner() {
+  const [deviceId, setDeviceId] = React.useState({});
+  const [devices, setDevices] = React.useState([]);
   const [result, setResult] = useState("");
   // SO = Settings Overlay
   const [isSOToggled, setSOToggled] = useState(false);
@@ -14,6 +25,8 @@ export default function CodeScanner() {
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null); // Add this state variable
+
   const { ref } = useZxing({
     onDecodeResult(result) {
       setResult(result.getText());
@@ -24,6 +37,7 @@ export default function CodeScanner() {
       setROToggled(true);
     },
     paused: isVideoPaused,
+    deviceId: deviceId,
     // constraints: {
     //   facingMode: "environment",
     //   audio: false
@@ -104,6 +118,22 @@ export default function CodeScanner() {
     setROToggled(false)
     setVideoPaused(false)
   }
+// Add this function to handle selection of device
+const handleDeviceChange = (deviceId) => {
+  setSelectedDeviceId(deviceId);
+};
+
+useEffect(() => {
+  if (selectedDeviceId) {
+    navigator.mediaDevices.getUserMedia({ video: { deviceId: selectedDeviceId }, audio: false })
+      .then(stream => {
+        const videoElement = document.getElementById('video');
+        videoElement.srcObject = stream;
+      })
+      .catch(error => console.error('Error accessing media devices: ', error));
+  }
+}, [selectedDeviceId]);
+
 
   /**
    * Handles the click event of the "Continue" button in the results overlay.
@@ -122,13 +152,34 @@ export default function CodeScanner() {
   function reloadPage() {
     window.location.reload()
   }
+
+  const handleDevices = React.useCallback(
+    mediaDevices =>
+      setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
+    [setDevices]
+  );
+
+  useEffect(
+    () => {
+      navigator.mediaDevices.enumerateDevices().then(handleDevices);
+    },
+    [handleDevices]
+  );
+
   return (
     <>
     <Head>
         <title>Code Scanner</title>
       </Head>
-    <div className={styles.videoContainer}>
-<video id="video" className={styles.video} ref={ref} />
+      <div className={styles.videoContainer}>
+    {devices.map((device, key) => (
+      <div key={key}>
+        <button onClick={() => handleDeviceChange(device.deviceId)}>
+          {device.label || `Device ${key + 1}`}
+        </button>
+      </div>
+    ))}
+    <video id="video" className={styles.video} autoPlay playsInline />
       <div id='controls' className={styles.controls}>
         <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
