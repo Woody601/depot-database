@@ -34,7 +34,7 @@ export default function CodeScanner() {
       setROToggled(true);
     },
     paused: isVideoPaused,
-    deviceId: deviceId,
+    deviceId,
     // constraints: {
     //   facingMode: "environment",
     //   audio: false
