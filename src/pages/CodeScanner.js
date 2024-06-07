@@ -14,7 +14,7 @@ export default function CodeScanner() {
   // EO = Error Overlay
   const [isEOToggled, setEOToggled] = useState(false);
   const [isSMOToggled, setSMOToggled] = useState(false);
-  const [isVideoPaused, setVideoPaused] = useState(true);
+  const [isVideoPaused, setVideoPaused] = useState(false);
   const [selectedDeviceId, setSelectedDeviceId] = useState(0);
 
   const router = useRouter();
