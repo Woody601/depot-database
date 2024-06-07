@@ -22,6 +22,9 @@ export default function CodeScanner() {
       setIsIPad(true);
     }
     document.getElementById('error').innerHTML = `${navigator.userAgent}`;
+    if (isIPad==true) {
+      document.getElementById('error').innerHTML = `iPad detected`;
+    }
     setEOToggled(true);
   }, []);
 
