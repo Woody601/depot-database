@@ -18,6 +18,8 @@ export default function CodeScanner() {
   useEffect(() => {
     // Check if the user-agent indicates that the device is an iPad
     setIsIPad(/iPad/.test(navigator.userAgent));
+    document.getElementById('error').innerHTML = `${navigator.userAgent}`;
+    setEOToggled(true);
   }, []);
 
 
