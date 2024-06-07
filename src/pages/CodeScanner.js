@@ -16,7 +16,8 @@ export default function CodeScanner() {
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const constraints = {
-    video: true
+    video: true,
+    facingMode: "environment",
   };
   
   const { devices } = useMediaDevices({constraints});
