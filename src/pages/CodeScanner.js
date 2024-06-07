@@ -1,47 +1,57 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useZxing } from "react-zxing";
 import { useRouter } from 'next/router';
 import { useMediaDevices } from "react-media-devices";
 import Head from 'next/head';
 import styles from "@/styles/CodeScanner.module.css";
 import ToggleSwitch from "@/components/ToggleSwitch";
+
 export default function CodeScanner() {
   const [result, setResult] = useState("");
-  // SO = Settings Overlay
   const [isSOToggled, setSOToggled] = useState(false);
-  // RO = Results Overlay
   const [isROToggled, setROToggled] = useState(false);
-  // EO = Error Overlay
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
+  const [isIPad, setIsIPad] = useState(false); // State to store if the device is an iPad
   const router = useRouter();
-  const constraints = {
-    video: true
+
+  useEffect(() => {
+    // Check if the user-agent indicates that the device is an iPad
+    setIsIPad(/iPad/.test(navigator.userAgent));
+  }, []);
+
+
+  // Define the constraints based on the device type
+  const getConstraints = () => {
+    const constraints = {
+      video: true
+    };
+    if (isIPad) {
+      return constraints;
+    } else {
+      return { constraints };
+    }
   };
-  
-  const { devices } = useMediaDevices(constraints);
+
+  // Use the function to obtain the constraints object
+  const { devices } = useMediaDevices(getConstraints());
   const deviceId = devices?.[4]?.deviceId;
 
   const { ref } = useZxing({
     onDecodeResult(result) {
       setResult(result.getText());
       const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
-          document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
+      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
       setSOToggled(false);
       setVideoPaused(true);
       setROToggled(true);
     },
     paused: isVideoPaused,
     deviceId: deviceId,
-    // constraints: {
-    //   facingMode: "environment",
-    //   audio: false
-    // },
-    
     onError(error) {
       if (error.name != "NotReadableError") {
         console.error(error);
-      document.getElementById('error').innerHTML = `${error}`;
+        document.getElementById('error').innerHTML = `${error}`;
       }
     }
   });
