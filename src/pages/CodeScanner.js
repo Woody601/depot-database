@@ -12,26 +12,24 @@ export default function CodeScanner() {
   const [isROToggled, setROToggled] = useState(false);
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
-  const [isIPad, setIsIPad] = useState(false); // State to store if the device is an iPad
+  const [isIPad, setIsIPad] = useState(false);
+  const [constraints, setConstraints] = useState({ constraints: { video: true } });
   const router = useRouter();
   
-  const [constraints, setConstraints] = useState({ constraints: { video: true } });
-
   useEffect(() => {
-    // This runs only on the client side
     if (typeof window !== 'undefined') {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isIPad = /iPad/.test(userAgent);
-      setIsIPad(isIPad);
+      const detectedIPad = /iPad/.test(userAgent);
+      setIsIPad(detectedIPad);
 
-      if (isIPad) {
+      if (detectedIPad) {
         setConstraints({ video: true });
       } else {
         setConstraints({ constraints: { video: true } });
       }
 
       document.getElementById('error').innerHTML = userAgent;
-      if (isIPad) {
+      if (detectedIPad) {
         document.getElementById('error').innerHTML = 'iPad detected';
       }
       setEOToggled(true);
@@ -98,6 +96,7 @@ export default function CodeScanner() {
     videoElement.pause();
     setSOToggled(true);
   }
+
   function toggleMirroredVideo() {
     const videoElement = document.getElementById('video');
     videoElement.style.transform = videoElement.style.transform === "scaleX(-1)" ? "scaleX(1)" : "scaleX(-1)";
@@ -186,4 +185,4 @@ export default function CodeScanner() {
       </div>
     </>
   );
-};
+}
