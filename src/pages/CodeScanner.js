@@ -15,12 +15,12 @@ export default function CodeScanner() {
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
-  const constraints = {
-    video: true,
-    facingMode: "environment",
-  };
+  const getConstraints = () => ({
+    video: true
+  });
+
   
-  const { devices } = useMediaDevices({constraints});
+  const { devices } = useMediaDevices(getConstraints());
   const deviceId = devices?.[4]?.deviceId;
 
   const { ref } = useZxing({
