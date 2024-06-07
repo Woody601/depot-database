@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react";
 import { useZxing } from "react-zxing";
 import { useRouter } from 'next/router';
+import { useMediaDevices } from "react-media-devices";
 import Head from 'next/head';
 import styles from "@/styles/CodeScanner.module.css";
 import ToggleSwitch from "@/components/ToggleSwitch";
@@ -14,6 +15,12 @@ export default function CodeScanner() {
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
+  const constraints = {
+    video: true
+  };
+  
+  const { devices } = useMediaDevices({constraints});
+  const deviceId = devices?.[4]?.deviceId;
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -25,16 +32,16 @@ export default function CodeScanner() {
       setROToggled(true);
     },
     paused: isVideoPaused,
+    deviceId: deviceId,
     // constraints: {
     //   facingMode: "environment",
     //   audio: false
     // },
     
     onError(error) {
-      if (error.name != "NotReadableError") {
-        console.error(error);
+      console.error(error);
       document.getElementById('error').innerHTML = `${error}`;
-      }
+      setEOToggled(true);
     }
   });
   
@@ -99,10 +106,12 @@ export default function CodeScanner() {
    * Closes the results overlay and resumes video playback.
    */
   function closeResultsOverlay() {
-    setROToggled(false);
-    setTimeout(() => {
-      setVideoPaused(false);
-    }, 400) 
+    setROToggled(false)
+    setVideoPaused(false)
+  }
+  function closeResultsOverlay() {
+    setROToggled(false)
+    setVideoPaused(false)
   }
 
   /**
@@ -129,7 +138,7 @@ export default function CodeScanner() {
       </Head>
     <div className={styles.videoContainer}>
 <video id="video" className={styles.video} ref={ref} />
-      <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
+      <div id='controls' className={styles.controls}>
         <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
