@@ -20,7 +20,7 @@ export default function CodeScanner() {
   };
   
   const { devices } = useMediaDevices(constraints);
-  const deviceId = devices?.[3]?.deviceId;
+  const deviceId = devices?.[4]?.deviceId;
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -39,9 +39,10 @@ export default function CodeScanner() {
     // },
     
     onError(error) {
-      console.error(error);
+      if (error.name != "NotReadableError") {
+        console.error(error);
       document.getElementById('error').innerHTML = `${error}`;
-      setEOToggled(true);
+      }
     }
   });
   
