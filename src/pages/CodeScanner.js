@@ -17,7 +17,7 @@ export default function CodeScanner() {
 
   useEffect(() => {
     // Check if the user-agent indicates that the device is an iPad
-    setIsIPad(/iPad/.test(navigator.userAgent));
+    // setIsIPad(/iPad/.test(navigator.userAgent));
     if (navigator.userAgent.includes('iPad')) {
       setIsIPad(true);
     }
