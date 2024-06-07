@@ -19,9 +19,9 @@ export default function CodeScanner() {
     video: true
   };
   
-  const { devices } = useMediaDevices({constraints});
+  const { devices } = useMediaDevices(constraints);
   console.log(devices);
-  const deviceId = devices?.[0]?.deviceId;
+  const deviceId = devices?.[4]?.deviceId;
 
   const { ref } = useZxing({
     onDecodeResult(result) {
