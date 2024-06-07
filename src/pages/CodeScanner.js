@@ -20,7 +20,7 @@ export default function CodeScanner() {
   };
   
   const { devices } = useMediaDevices(constraints);
-  const deviceId = devices?.[4]?.deviceId;
+  const deviceId = devices?.[3]?.deviceId;
 
   const { ref } = useZxing({
     onDecodeResult(result) {
