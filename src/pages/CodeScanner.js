@@ -42,7 +42,7 @@ useEffect(() => {
     // setTimeout(() => {
     //   setSMOToggled(true);
     // }, 400);
-    setVideoPaused(false);
+    setEOToggled(false);
   }
   else {
     setVideoPaused(false);
