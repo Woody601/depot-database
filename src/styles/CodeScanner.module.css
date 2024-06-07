@@ -137,6 +137,10 @@
 }
 .overlayContent p {
   margin-bottom: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .overlayContent pre {
   display: block;

@@ -13,16 +13,72 @@ export default function CodeScanner() {
   const [isROToggled, setROToggled] = useState(false);
   // EO = Error Overlay
   const [isEOToggled, setEOToggled] = useState(false);
-  const [isVideoPaused, setVideoPaused] = useState(false);
+  const [isSMOToggled, setSMOToggled] = useState(false);
+  const [isVideoPaused, setVideoPaused] = useState(true);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(0);
+
   const router = useRouter();
   const constraints = {
     video: true
   };
   
-  const { devices } = useMediaDevices(constraints);
-  console.log(devices);
-  const deviceId = devices?.[0]?.deviceId;
-  console.log(deviceId);
+  const { devices } = useMediaDevices({constraints});
+  const deviceId = devices?.[4]?.deviceId;
+  let deviceCount = 0;
+
+devices?.forEach((device) => {
+  if (device.deviceId !== "") {
+    deviceCount++;
+  } 
+});
+useEffect(() => {
+  const isAndroid = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    // console.log(userAgent);
+    return userAgent.includes("android")
+  };
+
+  if (isAndroid() && window.innerWidth == 360 || window.innerWidth == 705) {
+    // setTimeout(() => {
+    //   setSMOToggled(true);
+    // }, 400);
+    setVideoPaused(false);
+  }
+  else {
+    setVideoPaused(false);
+  }
+
+  const handleResize = () => {
+    const aspectRatioSetting = document.getElementById('aspectRatioSetting');
+    const videoWidth = document.getElementById('video').getBoundingClientRect().width;
+    const targetElement = document.getElementById('controls');
+    targetElement.style.width = `${videoWidth}px`;
+
+      if (window.innerWidth < videoWidth) {
+        aspectRatioSetting.style.display = 'flex'; 
+      } else {
+        if (window.innerWidth == videoWidth) {
+          aspectRatioSetting.style.display = 'flex';
+        } else {
+          aspectRatioSetting.style.display = 'none';
+        }
+      }
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  const videoElement = document.getElementById('video');
+  if (videoElement) {
+    videoElement.addEventListener('loadedmetadata', handleResize);
+  }
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+    if (videoElement) {
+      videoElement.removeEventListener('loadedmetadata', handleResize);
+    }
+  };
+}, []);
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -34,7 +90,7 @@ export default function CodeScanner() {
       setROToggled(true);
     },
     paused: isVideoPaused,
-    deviceId,
+    deviceId: deviceId,
     // constraints: {
     //   facingMode: "environment",
     //   audio: false
@@ -47,38 +103,7 @@ export default function CodeScanner() {
     }
   });
   
-  useEffect(() => {
-    const handleResize = () => {
-      const aspectRatioSetting = document.getElementById('aspectRatioSetting');
-      const videoWidth = document.getElementById('video').getBoundingClientRect().width;
-      const targetElement = document.getElementById('controls');
-      targetElement.style.width = `${videoWidth}px`;
-
-        if (window.innerWidth < videoWidth) {
-          aspectRatioSetting.style.display = 'flex'; 
-        } else {
-          if (window.innerWidth == videoWidth) {
-            aspectRatioSetting.style.display = 'flex';
-          } else {
-            aspectRatioSetting.style.display = 'none';
-          }
-        }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    const videoElement = document.getElementById('video');
-    if (videoElement) {
-      videoElement.addEventListener('loadedmetadata', handleResize);
-    }
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (videoElement) {
-        videoElement.removeEventListener('loadedmetadata', handleResize);
-      }
-    };
-  }, []);
+  
   
   function openSettingsOverlay() {
     const videoElement = document.getElementById('video');
@@ -114,6 +139,17 @@ export default function CodeScanner() {
   function closeResultsOverlay() {
     setROToggled(false)
     setVideoPaused(false)
+  }
+  function setQRMode() {
+    setSelectedDeviceId(devices[3] ? devices[3].deviceId : (singleDeviceId || devices[0]?.deviceId));
+    setSMOToggled(false);
+    setVideoPaused(false);
+  }
+
+  function setBarMode() {
+    setSelectedDeviceId(devices[4] ? devices[4].deviceId : (singleDeviceId || devices[0]?.deviceId));
+    setSMOToggled(false);
+    setVideoPaused(false);
   }
 
   /**
@@ -164,13 +200,23 @@ export default function CodeScanner() {
           </div>
         </div>
       </div>
-          <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
+      <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <h3>Result:</h3>
           <pre><code id="result" /></pre>
           <div className={styles.overlayButtons}>
             <button id="rescanButton" onClick={closeResultsOverlay}>Rescan</button>
             <button onClick={() => continueButtonClicked(result)}>Continue</button>
+          </div>
+        </div>
+      </div>
+      <div id="resultsOverlay" className={isSMOToggled ? "overlay active" : "overlay"}>
+        <div className={styles.overlayContent}>
+          <h3>Select Scanning Mode</h3>
+          <p>Please select the scanning mode you want to use:</p>
+          <div className={styles.overlayButtons}>
+            <button id="qrcodeButton" onClick={setQRMode}>QR Codes</button>
+            <button onClick={setBarMode}>Barcodes</button>
           </div>
         </div>
       </div>
