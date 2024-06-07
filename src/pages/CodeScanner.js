@@ -21,7 +21,8 @@ export default function CodeScanner() {
     if (navigator.userAgent.includes('iPad')) {
       setIsIPad(true);
     }
-    
+    document.getElementById('error').innerHTML = `${navigator.userAgent}`;
+    setEOToggled(true);
   }, []);
 
 
@@ -30,7 +31,7 @@ export default function CodeScanner() {
     const constraints = {
       video: true
     };
-    if (isIPad) {
+    if (isIPad==true) {
       return constraints;
     } else {
       return { constraints };
