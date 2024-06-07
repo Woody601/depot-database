@@ -12,7 +12,7 @@ export default function Result() {
 
   return (
     <div>
-      <h1>QR Code Result</h1>
+      <h1>Result</h1>
       <p>{qrCodeResult}</p>
     </div>
   );

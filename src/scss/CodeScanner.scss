@@ -24,7 +24,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: background-color 0.2s;
     color: #fff;
     font-family: Roboto;
     font-weight: 700;
@@ -48,6 +48,9 @@
       position: sticky;
       right: 1rem;
     }
+  }
+  .controls.none {
+    opacity: 0;
   }
   .video {
     // height: 100%;

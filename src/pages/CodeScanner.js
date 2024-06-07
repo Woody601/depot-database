@@ -106,12 +106,10 @@ export default function CodeScanner() {
    * Closes the results overlay and resumes video playback.
    */
   function closeResultsOverlay() {
-    setROToggled(false)
-    setVideoPaused(false)
-  }
-  function closeResultsOverlay() {
-    setROToggled(false)
-    setVideoPaused(false)
+    setROToggled(false);
+    setTimeout(() => {
+      setVideoPaused(false);
+    }, 400) 
   }
 
   /**
@@ -138,7 +136,7 @@ export default function CodeScanner() {
       </Head>
     <div className={styles.videoContainer}>
 <video id="video" className={styles.video} ref={ref} />
-      <div id='controls' className={styles.controls}>
+      <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
         <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>

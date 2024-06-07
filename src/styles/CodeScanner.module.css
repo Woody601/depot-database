@@ -35,8 +35,8 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
   color: #fff;
   font-family: Roboto;
   font-weight: 700;
@@ -64,6 +64,9 @@
   margin: 1rem;
   position: sticky;
   right: 1rem;
+}
+.videoContainer .controls.none {
+  opacity: 0;
 }
 .videoContainer .video {
   overflow: hidden;
