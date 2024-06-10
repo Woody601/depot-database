@@ -130,7 +130,8 @@ export default function CodeScanner() {
     async function fetchCameras() {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(device => device.kind == 'videoinput');
+        const videoDevices = devices;
+        // const videoDevices = devices.filter(device => device.kind == 'videoinput');
         setCameras(videoDevices);
         for (const device of videoDevices) {
           if (device.label.includes('back') || device.label.includes('Back')) {
