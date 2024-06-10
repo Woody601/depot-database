@@ -16,7 +16,7 @@ export default function CodeScanner() {
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
+  const [selectedDeviceId, setSelectedDeviceId] = useState("");
   
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -131,11 +131,11 @@ export default function CodeScanner() {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind == 'videoinput');
         setCameras(videoDevices);
-        for (const device of videoDevices) {
-          if (device.label.includes('back') || device.label.includes('Back')) {
-            setSelectedDeviceId(device.deviceId);
-          }
-        }
+        let backCamera = videoDevices.find(device => device.label.includes('back') || device.label.includes('Back'));
+      if (backCamera) {
+        localStorage.setItem("selectedDeviceId", backCamera.deviceId);
+        setSelectedDeviceId(backCamera.deviceId);
+      }
       } catch (error) {
         console.error('Error enumerating devices:', error);
       }
