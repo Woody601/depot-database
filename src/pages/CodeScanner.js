@@ -16,7 +16,7 @@ export default function CodeScanner() {
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -74,9 +74,6 @@ export default function CodeScanner() {
       }
     };
   }, []);
-  function handleDeviceChange(event) {
-    setSelectedDeviceId(event.target.value);
-  }
   
   function openSettingsOverlay() {
     const videoElement = document.getElementById('video');
@@ -136,7 +133,7 @@ export default function CodeScanner() {
         const videoDevices = devices.filter(device => device.kind == 'videoinput');
         setCameras(videoDevices);
         for (const device of videoDevices) {
-          if (device.label.includes('back')) {
+          if (device.label.includes('back') || device.label.includes('Back')) {
             setSelectedDeviceId(device.deviceId);
           }
         }
