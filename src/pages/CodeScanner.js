@@ -16,7 +16,7 @@ export default function CodeScanner() {
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
+  const [selectedDeviceId, setSelectedDeviceId] = useState([]);
   
   const { ref } = useZxing({
     onDecodeResult(result) {
