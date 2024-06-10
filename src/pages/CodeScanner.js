@@ -16,7 +16,7 @@ export default function CodeScanner() {
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -154,11 +154,10 @@ export default function CodeScanner() {
         <title>Code Scanner</title>
       </Head>
     <div className={styles.videoContainer}>
-      <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
+<video id="video" className={styles.video} ref={ref} />
+<div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
         <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
-<video id="video" className={styles.video} ref={ref} />
-      
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
