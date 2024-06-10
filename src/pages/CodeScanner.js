@@ -79,8 +79,6 @@ export default function CodeScanner() {
   }, []);
   
   function openSettingsOverlay() {
-    const videoElement = document.getElementById('video');
-    videoElement.pause();
     setSOToggled(true);
   }
   function toggleMirroredVideo() {
@@ -97,8 +95,6 @@ export default function CodeScanner() {
    * Closes the settings overlay and resumes video playback.
    */
   function closeSettingsOverlay() {
-    const videoElement = document.getElementById('video');
-    videoElement.play();
     setSOToggled(false);
   }
 
