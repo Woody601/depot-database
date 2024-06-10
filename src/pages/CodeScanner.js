@@ -16,11 +16,7 @@ export default function CodeScanner() {
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
-  const constraints = {
-    video: true,
-  };
-  const { devices } = useMediaDevices({constraints}); 
-  const [selectedDeviceId, setSelectedDeviceId] = useState(devices?.[0]?.deviceId);
+  const [selectedDeviceId, setSelectedDeviceId] = useState([]);
   
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -137,8 +133,13 @@ export default function CodeScanner() {
     async function fetchCameras() {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        const videoDevices = devices.filter(device => device.kind == 'videoinput');
         setCameras(videoDevices);
+        for (const device of videoDevices) {
+          if (device.label.includes('back')) {
+            setSelectedDeviceId(device.deviceId);
+          }
+        }
       } catch (error) {
         console.error('Error enumerating devices:', error);
       }
@@ -156,27 +157,26 @@ export default function CodeScanner() {
         <title>Code Scanner</title>
       </Head>
     <div className={styles.videoContainer}>
-<video id="video" className={styles.video} ref={ref} />
       <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
         <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
       </div>
+<video id="video" className={styles.video} ref={ref} />
+      
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
           <div id="sourceSelectOption" className={styles.settingsOption}>
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
-              <select id="sourceSelect" onChange={handleDeviceChange} style={{ maxWidth: '400px' }}>
-                {devices && devices
+              <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
+                {/* {devices && devices
                   .filter(device => device.label) // Filter out devices with blank labels
                   .map((device) => (
                     <option key={device.deviceId} value={device.deviceId}>{device.label}</option>
+                  ))} */}
+                  {cameras.map((camera) => (
+                    <option key={camera.deviceId} value={camera.deviceId} >{camera.label} </option>
                   ))}
               </select>
-              <ul>
-        {cameras.map((camera, index) => (
-          <li key={index}>{camera.label + ' ' + index}</li>
-        ))}
-      </ul>
             </div>
           <div className={styles.settingsOption}>
             <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
