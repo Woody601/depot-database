@@ -130,8 +130,7 @@ export default function CodeScanner() {
     async function fetchCameras() {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices;
-        // const videoDevices = devices.filter(device => device.kind == 'videoinput');
+        const videoDevices = devices.filter(device => device.kind == 'videoinput');
         setCameras(videoDevices);
         for (const device of videoDevices) {
           if (device.label.includes('back') || device.label.includes('Back')) {
@@ -164,7 +163,7 @@ export default function CodeScanner() {
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
           <div id="sourceSelectOption" className={styles.settingsOption}>
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
-              <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
+              <select id="sourceSelect" onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
                 {/* {devices && devices
                   .filter(device => device.label) // Filter out devices with blank labels
                   .map((device) => (
