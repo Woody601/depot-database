@@ -15,8 +15,9 @@ export default function CodeScanner() {
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
+  const [cameras, setCameras] = useState([]);
   const constraints = {
-    video: true
+    video: true,
   };
   const { devices } = useMediaDevices({constraints}); 
   const [selectedDeviceId, setSelectedDeviceId] = useState(devices?.[0]?.deviceId);
@@ -132,7 +133,23 @@ export default function CodeScanner() {
   function reloadPage() {
     window.location.reload();
   }
-  
+  useEffect(() => {
+    async function fetchCameras() {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        setCameras(videoDevices);
+      } catch (error) {
+        console.error('Error enumerating devices:', error);
+      }
+    }
+
+    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+      fetchCameras();
+    } else {
+      console.error('enumerateDevices() not supported.');
+    }
+  }, []);
   return (
     <>
     <Head>
@@ -155,6 +172,11 @@ export default function CodeScanner() {
                     <option key={device.deviceId} value={device.deviceId}>{device.label}</option>
                   ))}
               </select>
+              <ul>
+        {cameras.map((camera, index) => (
+          <li key={index}>{camera.label + ' ' + index}</li>
+        ))}
+      </ul>
             </div>
           <div className={styles.settingsOption}>
             <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
