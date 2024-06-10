@@ -18,10 +18,9 @@ export default function CodeScanner() {
   const constraints = {
     video: true
   };
+  const { devices } = useMediaDevices(constraints); 
+  const [selectedDeviceId, setSelectedDeviceId] = useState(devices?.[0]?.deviceId);
   
-  const { devices } = useMediaDevices({constraints});
-  const deviceId = devices?.[4]?.deviceId;
-
   const { ref } = useZxing({
     onDecodeResult(result) {
       setResult(result.getText());
@@ -32,7 +31,7 @@ export default function CodeScanner() {
       setROToggled(true);
     },
     paused: isVideoPaused,
-    deviceId: deviceId,
+    deviceId: selectedDeviceId,
     // constraints: {
     //   facingMode: "environment",
     //   audio: false
@@ -78,6 +77,9 @@ export default function CodeScanner() {
       }
     };
   }, []);
+  function handleDeviceChange(event) {
+    setSelectedDeviceId(event.target.value);
+  }
   
   function openSettingsOverlay() {
     const videoElement = document.getElementById('video');
@@ -128,8 +130,9 @@ export default function CodeScanner() {
   }
   //Refreshes the current page by reloading the window.
   function reloadPage() {
-    window.location.reload()
+    window.location.reload();
   }
+  
   return (
     <>
     <Head>
@@ -143,10 +146,16 @@ export default function CodeScanner() {
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
-          <div id="sourceSelectOption" className={styles.settingsOption} style={{ display: 'none' }}>
-            <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
-            <select id="sourceSelect" style={{ maxWidth: '400px' }} />
-          </div>
+          <div id="sourceSelectOption" className={styles.settingsOption}>
+              <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
+              <select id="sourceSelect" onChange={handleDeviceChange} style={{ maxWidth: '400px' }}>
+                {devices && devices
+                  .filter(device => device.label) // Filter out devices with blank labels
+                  .map((device) => (
+                    <option key={device.deviceId} value={device.deviceId}>{device.label}</option>
+                  ))}
+              </select>
+            </div>
           <div className={styles.settingsOption}>
             <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
             <ToggleSwitch round onChange={toggleMirroredVideo} />
