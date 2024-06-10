@@ -35,9 +35,12 @@ export default function CodeScanner() {
     // },
     
     onError(error) {
-      if (error.name != "NotReadableError") {
-        console.error(error);
+      if (error.name != "NotReadableError") {      
       document.getElementById('error').innerHTML = `${error}`;
+      setEOToggled(true)
+      if (error.name == "NotAllowedError") {
+        document.getElementById('error').innerHTML = "Camera permission denied. Please allow camera access in your browser settings and reload the page.";
+      }
       }
     }
   });
@@ -163,7 +166,7 @@ export default function CodeScanner() {
           <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
           <div id="sourceSelectOption" className={styles.settingsOption}>
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
-              <select id="sourceSelect" onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
+              <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
                 {/* {devices && devices
                   .filter(device => device.label) // Filter out devices with blank labels
                   .map((device) => (
@@ -203,7 +206,7 @@ export default function CodeScanner() {
           <h3>Error</h3>
           <pre><code id="error" className={styles.errorMSG}/></pre>
           <div className={styles.overlayButtons}>
-            <button id="rescanButton" onClick={reloadPage}>Refresh</button>
+            <button id="rescanButton" onClick={reloadPage}>Reload</button>
           </div>
         </div>
       </div>

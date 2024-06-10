@@ -156,6 +156,12 @@
       height: 2.625rem;
       width: 2.625rem;
     }
+    button:hover {
+      background-color:#cf4b04;
+    }
+    button:active {
+      background-color:#f7941e;
+    }
   }
   .overlayContent {
     max-width: 75%;
@@ -241,6 +247,7 @@
       font-size: 1rem;
     }
     margin: 1.5rem auto 0;
+    width: 100%;
   }
   .settingsOption:first-child {
     margin-bottom: 1rem;

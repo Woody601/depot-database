@@ -246,6 +246,12 @@
     height: 2.625rem;
     width: 2.625rem;
   }
+  .videoContainer button:hover {
+    background-color: #cf4b04;
+  }
+  .videoContainer button:active {
+    background-color: #f7941e;
+  }
   .overlayContent {
     max-width: 75%;
     grid-row-gap: 1.5rem;
@@ -323,6 +329,7 @@
   }
   .settingsOption {
     margin: 1.5rem auto 0;
+    width: 100%;
   }
   .settingsOption button {
     width: unset;
