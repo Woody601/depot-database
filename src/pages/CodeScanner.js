@@ -15,6 +15,7 @@ export default function CodeScanner() {
   const [isEOToggled, setEOToggled] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
+  const [devicesEnumerated, setDevicesEnumerated] = useState(false);
   const [cameras, setCameras] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   
@@ -129,84 +130,84 @@ export default function CodeScanner() {
     async function fetchCameras() {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(device => device.kind == 'videoinput');
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
         setCameras(videoDevices);
         let backCamera = videoDevices.find(device => device.label.includes('back') || device.label.includes('Back'));
-      if (backCamera) {
-        localStorage.setItem("selectedDeviceId", backCamera.deviceId);
-        setSelectedDeviceId(backCamera.deviceId);
-      }
+        if (backCamera) {
+          localStorage.setItem("selectedDeviceId", backCamera.deviceId);
+          setSelectedDeviceId(backCamera.deviceId);
+        }
+        setDevicesEnumerated(true);  // Set this to true after devices are enumerated
       } catch (error) {
         console.error('Error enumerating devices:', error);
       }
     }
-
+  
     if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
       fetchCameras();
     } else {
       console.error('enumerateDevices() not supported.');
     }
   }, []);
+  
   return (
     <>
-    <Head>
+      <Head>
         <title>Code Scanner</title>
       </Head>
-    <div className={styles.videoContainer}>
-<video id="video" className={styles.video} ref={ref} />
-<div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
-        <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
-      </div>
-      <div className={isSOToggled ? "overlay active" : "overlay"}>
-        <div className={styles.overlayContent}>
-          <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
-          <div id="sourceSelectOption" className={styles.settingsOption}>
-              <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
-              <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
-                {/* {devices && devices
-                  .filter(device => device.label) // Filter out devices with blank labels
-                  .map((device) => (
-                    <option key={device.deviceId} value={device.deviceId}>{device.label}</option>
-                  ))} */}
+      {!devicesEnumerated ? (
+        <div>Loading...</div>
+      ) : (
+        <div className={styles.videoContainer}>
+          <video id="video" className={styles.video} ref={ref} />
+          <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
+            <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
+          </div>
+          <div className={isSOToggled ? "overlay active" : "overlay"}>
+            <div className={styles.overlayContent}>
+              <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
+              <div id="sourceSelectOption" className={styles.settingsOption}>
+                <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
+                <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
                   {cameras.map((camera) => (
-                    <option key={camera.deviceId} value={camera.deviceId} >{camera.label} </option>
+                    <option key={camera.deviceId} value={camera.deviceId}>{camera.label}</option>
                   ))}
-              </select>
+                </select>
+              </div>
+              <div className={styles.settingsOption}>
+                <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
+                <ToggleSwitch round onChange={toggleMirroredVideo} />
+              </div>
+              <div id='aspectRatioSetting' className={styles.settingsOption}>
+                <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
+                <ToggleSwitch round onChange={toggleAspectRatio} />
+              </div>
+              <div id='resetCamSetting' className={styles.settingsOption}>
+                <button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</button>
+              </div>
             </div>
-          <div className={styles.settingsOption}>
-            <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
-            <ToggleSwitch round onChange={toggleMirroredVideo} />
           </div>
-          <div id='aspectRatioSetting' className={styles.settingsOption}>
-            <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
-            <ToggleSwitch round onChange={toggleAspectRatio} />
-          </div>
-          
-          <div id='resetCamSetting' className={styles.settingsOption}>
-            <button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</button>
-          </div>
-        </div>
-      </div>
           <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay"}>
-        <div className={styles.overlayContent}>
-          <h3>Result:</h3>
-          <pre><code id="result" /></pre>
-          <div className={styles.overlayButtons}>
-            <button id="rescanButton" onClick={closeResultsOverlay}>Rescan</button>
-            <button onClick={() => continueButtonClicked(result)}>Continue</button>
+            <div className={styles.overlayContent}>
+              <h3>Result:</h3>
+              <pre><code id="result" /></pre>
+              <div className={styles.overlayButtons}>
+                <button id="rescanButton" onClick={closeResultsOverlay}>Rescan</button>
+                <button onClick={() => continueButtonClicked(result)}>Continue</button>
+              </div>
+            </div>
+          </div>
+          <div id="errorOverlay" className={isEOToggled ? "overlay active" : "overlay"}>
+            <div className={styles.overlayContent}>
+              <h3>Error</h3>
+              <pre><code id="error" className={styles.errorMSG}/></pre>
+              <div className={styles.overlayButtons}>
+                <button id="rescanButton" onClick={reloadPage}>Reload</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="errorOverlay" className={isEOToggled ? "overlay active" : "overlay"}>
-        <div className={styles.overlayContent}>
-          <h3>Error</h3>
-          <pre><code id="error" className={styles.errorMSG}/></pre>
-          <div className={styles.overlayButtons}>
-            <button id="rescanButton" onClick={reloadPage}>Reload</button>
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
     </>
-  );
+  );  
 };
