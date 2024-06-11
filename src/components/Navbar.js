@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isToggled, setToggled] = useState(false);
 
   const toggleNav = () => {
-    if (screenWidth <= 769) {
+    if (screenWidth < 628) {
       setToggled(!isToggled);
     }
   };
@@ -23,7 +23,7 @@ export default function Navbar() {
     };
     updateScreenWidth();
     window.addEventListener("resize", updateScreenWidth);
-    if (screenWidth >= 769 && isToggled) {
+    if (screenWidth > 628 && isToggled) {
       closeNav();
     }
     return () => window.removeEventListener("resize", updateScreenWidth);
@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="navHolder">
+      <div className={isToggled ? "navHolder active" : "navHolder"}>
       <div className="logo">
         <Image
   priority={true}
@@ -49,12 +49,12 @@ export default function Navbar() {
           <span className="bar"></span>
           <span className="bar"></span>
         </div>
-        <div className={isToggled ? "links active" : "links"}>          
+        <div className="links">          
           <Link href="/" onClick={toggleNav}>
             Home
           </Link>
           <Link href="/CodeScanner" onClick={toggleNav}>
-            Code Scanner
+            Scanner
           </Link>
           <Link href="/database" onClick={toggleNav}>
             Database

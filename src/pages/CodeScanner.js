@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import { useZxing } from "react-zxing";
 import { useRouter } from 'next/router';
-import { useMediaDevices } from "react-media-devices";
+import { toggleFullScreen, hideNavBar } from "@/components/Functions";
 import Head from 'next/head';
 import styles from "@/styles/CodeScanner.module.css";
 import ToggleSwitch from "@/components/ToggleSwitch";
@@ -17,7 +17,7 @@ export default function CodeScanner() {
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
-  
+
   const { ref } = useZxing({
     onDecodeResult(result) {
       setResult(result.getText());
@@ -49,8 +49,12 @@ export default function CodeScanner() {
     const handleResize = () => {
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');
       const videoWidth = document.getElementById('video').getBoundingClientRect().width;
-      const targetElement = document.getElementById('controls');
-      targetElement.style.width = `${videoWidth}px`;
+      const controlsElement = document.getElementById('controls');
+      controlsElement.style.width = `${videoWidth}px`;
+      controlsElement.style.display = 'none';
+      if (controlsElement.style.display == 'none' && isVideoPaused == false) {
+        controlsElement.style.display = 'flex';
+      }
 
         if (window.innerWidth < videoWidth) {
           aspectRatioSetting.style.display = 'flex'; 
@@ -159,7 +163,11 @@ export default function CodeScanner() {
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
-          <button className={styles.overlayButton} onClick={closeSettingsOverlay}><i className="fa fa-close"/></button>
+        <div className={styles.settingsControls}>
+        <button className={styles.overlayButton} onClick={closeSettingsOverlay} title="Close"><i className="fa fa-close"/></button>
+        <button className={styles.overlayButton} onClick={toggleFullScreen} title="Full screen"><i className="fa fa-expand"/></button>
+        </div>
+          
           <div id="sourceSelectOption" className={styles.settingsOption}>
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
               <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
@@ -169,8 +177,9 @@ export default function CodeScanner() {
                     <option key={device.deviceId} value={device.deviceId}>{device.label}</option>
                   ))} */}
                   {cameras.map((camera) => (
-                    <option key={camera.deviceId} value={camera.deviceId} >{camera.label} </option>
-                  ))}
+  <option key={camera.deviceId} value={camera.deviceId} >{camera.label.replace(/\([^()]*\)/g, '').trim()}</option>
+))}
+
               </select>
             </div>
           <div className={styles.settingsOption}>
@@ -180,6 +189,10 @@ export default function CodeScanner() {
           <div id='aspectRatioSetting' className={styles.settingsOption}>
             <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
             <ToggleSwitch round onChange={toggleAspectRatio} />
+          </div>
+          <div className={styles.settingsOption}>
+            <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Hide Navbar</p>
+            <ToggleSwitch round /*onChange={hideNavBar}*//>
           </div>
           
           <div id='resetCamSetting' className={styles.settingsOption}>
