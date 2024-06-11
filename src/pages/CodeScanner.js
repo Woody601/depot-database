@@ -151,6 +151,10 @@ export default function CodeScanner() {
       console.error('enumerateDevices() not supported.');
     }
   }, []);
+  function changeCamera(deviceId) {
+    localStorage.setItem("selectedDeviceId", deviceId);
+    setSelectedDeviceId(deviceId);
+  }
   return (
     <>
     <Head>
@@ -170,7 +174,7 @@ export default function CodeScanner() {
           
           <div id="sourceSelectOption" className={styles.settingsOption}>
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
-              <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => setSelectedDeviceId(e.target.value)} style={{ maxWidth: '400px' }}>
+              <select id="sourceSelect" value={selectedDeviceId} onChange={(e) => changeCamera(e.target.value)} style={{ maxWidth: '400px' }}>
                 {/* {devices && devices
                   .filter(device => device.label) // Filter out devices with blank labels
                   .map((device) => (
