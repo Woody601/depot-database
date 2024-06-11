@@ -13,11 +13,12 @@ export default function CodeScanner() {
   const [isROToggled, setROToggled] = useState(false);
   // EO = Error Overlay
   const [isEOToggled, setEOToggled] = useState(false);
+  const [isMirrored, setIsMirrored] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
-
+  const [isBackCamera, setIsBackCamera] = useState(true);
   const { ref } = useZxing({
     onDecodeResult(result) {
       setResult(result.getText());
@@ -87,8 +88,13 @@ export default function CodeScanner() {
   }
   function toggleMirroredVideo() {
     const videoElement = document.getElementById('video');
-    videoElement.style.transform = videoElement.style.transform === "scaleX(-1)" ? "scaleX(1)" : "scaleX(-1)";
-}
+    setIsMirrored((prevState) => {
+      const newState = !prevState;
+      videoElement.style.transform = newState ? "scaleX(-1)" : "scaleX(1)";
+      return newState;
+    });
+  }
+  
 
   function toggleAspectRatio() {
     const videoElement = document.getElementById('video');
@@ -152,8 +158,18 @@ export default function CodeScanner() {
     }
   }, []);
   function changeCamera(deviceId) {
-    localStorage.setItem("selectedDeviceId", deviceId);
+    const selectedCamera = cameras.find(camera => camera.deviceId === deviceId);
+    const isBack = selectedCamera?.label.toLowerCase().includes('back');
+    setIsBackCamera(isBack);
     setSelectedDeviceId(deviceId);
+    localStorage.setItem("selectedDeviceId", deviceId);
+    const videoElement = document.getElementById('video');
+  if (isBack && isMirrored) {
+    videoElement.style.transform = "scaleX(1)";
+    setIsMirrored(false);
+  }
+
+
   }
   return (
     <>
@@ -186,10 +202,13 @@ export default function CodeScanner() {
 
               </select>
             </div>
-          <div className={styles.settingsOption}>
-            <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
-            <ToggleSwitch round onChange={toggleMirroredVideo} />
-          </div>
+            {!isBackCamera && (
+              <div className={styles.settingsOption}>
+              <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
+              <ToggleSwitch round onChange={toggleMirroredVideo} />
+            </div>
+            )}
+          
           <div id='aspectRatioSetting' className={styles.settingsOption}>
             <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
             <ToggleSwitch round onChange={toggleAspectRatio} />
