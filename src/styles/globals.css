@@ -50,7 +50,7 @@ p {
   overflow-y: auto;
   position: fixed;
   /* The height is calulated to be the full height of the device's screen, minus 60px (3.75rem) to compensate for the nav bar at the top. */
-  height: calc(100% - 3.75rem);
+  height: calc(100vh - 3.75rem);
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
