@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isToggled, setToggled] = useState(false);
 
   const toggleNav = () => {
-    if (screenWidth < 628) {
+    if (screenWidth < 769) {
       setToggled(!isToggled);
     }
   };
@@ -23,7 +23,7 @@ export default function Navbar() {
     };
     updateScreenWidth();
     window.addEventListener("resize", updateScreenWidth);
-    if (screenWidth > 628 && isToggled) {
+    if (screenWidth > 769 && isToggled) {
       closeNav();
     }
     return () => window.removeEventListener("resize", updateScreenWidth);

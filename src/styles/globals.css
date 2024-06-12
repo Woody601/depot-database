@@ -250,9 +250,9 @@ p {
     opacity: 1;
   }
 }
-@media screen and (max-width: 628px) {
+@media screen and (max-width: 768px) {
   .navHolder {
-    height: 3.75rem;
+    height: 3.688rem;
     border-bottom: 0.063rem solid #e2e2e2;
     overflow-y: hidden;
     -webkit-transition: height 0.4s;
@@ -299,7 +299,7 @@ p {
     margin-right: 0;
   }
 }
-@media screen and (max-width: 628px) and (pointer: coarse), screen and (max-width: 628px) and (hover: none) {
+@media screen and (max-width: 768px) and (pointer: coarse), screen and (max-width: 768px) and (hover: none) {
   .links a:hover {
     background-color: white;
   }

@@ -1,0 +1,66 @@
+.button {
+  display: block;
+  width: unset;
+  height: unset;
+  padding: 0.625rem 0.938rem;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.875rem;
+  background-color: #cf4b04;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  color: #fff;
+  font-family: Roboto;
+  font-weight: 700;
+  text-transform: uppercase;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  pointer-events: fill;
+}
+
+.iconButton {
+  height: 2.25rem;
+  width: 2.25rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+}
+.iconButton i {
+  font-size: 1.25rem;
+  color: hsl(0, 0%, 100%);
+}
+
+.button:hover {
+  background-color: #f7941e;
+  cursor: pointer;
+}
+
+@media (pointer: coarse), (hover: none) {
+  .button {
+    padding: 0.75rem 1.125rem;
+    font-size: 1rem;
+  }
+  .button:hover {
+    background-color: #cf4b04;
+  }
+  .button:active {
+    background-color: #f7941e;
+  }
+  .iconButton {
+    height: 2.625rem;
+    width: 2.625rem;
+  }
+  .iconButton i {
+    font-size: 1.625rem;
+  }
+}

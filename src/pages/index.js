@@ -1,12 +1,14 @@
 import Head from "next/head";
 import "@/styles/Home.module.css";
-
+import Button from "@/components/Button";
 export default function Home() {
   return (
     <>
     <Head>
         <title>Home</title>
     </Head>
+    
+    
     <p>Hello</p>
     <p>Hello</p>
     <p>Hello</p>

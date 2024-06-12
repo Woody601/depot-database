@@ -2,6 +2,7 @@ import { useState, useEffect} from "react";
 import { useZxing } from "react-zxing";
 import { useRouter } from 'next/router';
 import { toggleFullScreen, hideNavBar } from "@/components/Functions";
+import Button from "@/components/Button";
 import Head from 'next/head';
 import styles from "@/styles/CodeScanner.module.css";
 import ToggleSwitch from "@/components/ToggleSwitch";
@@ -179,13 +180,14 @@ export default function CodeScanner() {
     <div className={styles.videoContainer}>
 <video id="video" className={styles.video} ref={ref} />
 <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
-        <button id="settingsBtn" className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
+        <button className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
+        <Button id="settingsBtn" icon='gear' onClick={openSettingsOverlay} title='Settings'/>
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
         <div className={styles.overlayContent}>
         <div className={styles.settingsControls}>
-        <button className={styles.overlayButton} onClick={closeSettingsOverlay} title="Close"><i className="fa fa-close"/></button>
-        <button className={styles.overlayButton} onClick={toggleFullScreen} title="Full screen"><i className="fa fa-expand"/></button>
+        <Button icon='close' onClick={closeSettingsOverlay} title='Close button component'/>
+        <Button icon='expand' onClick={toggleFullScreen} title='Full screen button component'/>
         </div>
           
           <div id="sourceSelectOption" className={styles.settingsOption}>
@@ -219,7 +221,7 @@ export default function CodeScanner() {
           </div>
           
           <div id='resetCamSetting' className={styles.settingsOption}>
-            <button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</button>
+            <Button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</Button>
           </div>
         </div>
       </div>
@@ -228,8 +230,8 @@ export default function CodeScanner() {
           <h3>Result:</h3>
           <pre><code id="result" /></pre>
           <div className={styles.overlayButtons}>
-            <button id="rescanButton" onClick={closeResultsOverlay}>Rescan</button>
-            <button onClick={() => continueButtonClicked(result)}>Continue</button>
+            <Button id="rescanButton" onClick={closeResultsOverlay}>Rescan</Button>
+            <Button onClick={() => continueButtonClicked(result)}>Continue</Button>
           </div>
         </div>
       </div>
