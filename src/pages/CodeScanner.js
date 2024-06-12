@@ -180,7 +180,6 @@ export default function CodeScanner() {
     <div className={styles.videoContainer}>
 <video id="video" className={styles.video} ref={ref} />
 <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
-        <button className={styles.toggleSettings} onClick={openSettingsOverlay} title='Settings'><i className="fa fa-gear"/></button>
         <Button id="settingsBtn" icon='gear' onClick={openSettingsOverlay} title='Settings'/>
       </div>
       <div className={isSOToggled ? "overlay active" : "overlay"}>
