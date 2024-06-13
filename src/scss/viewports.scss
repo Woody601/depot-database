@@ -81,25 +81,28 @@
     }
   }
 }
-@media not all and (max-height: 899px) and (min-resolution:.1dpi) {
-  
-  
+@media screen and (height: 1180px) {
+  body {
+    background-color: red;
+  }
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */ 
-  .pagescroll {
-    width: 100vw;
-  }
-  .app {
-    width: 100%;
-    height: 90%;
-    background-color: #fff;
-  }
-  .links {
-      column-gap: 0;
-      padding-right: 0;
-      a {
-          margin-right: 35px;
-      }
+  @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
+    .pagescroll {
+      width: 100vw;
+    }
+    .apps {
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .links {
+        column-gap: 0;
+        padding-right: 0;
+        a {
+            margin-right: 35px;
+        }
+    }
   }
 }
