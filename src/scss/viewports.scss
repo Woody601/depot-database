@@ -87,10 +87,8 @@
 }
 @media screen and (height: 1010px) {
   body {
-    background-color: red;
-  }
-  .navHolder {
     top: -17px;
+    background-color: red;
   }
 }
 @supports (-webkit-touch-callout: none) {
