@@ -12,6 +12,7 @@
           align-items: stretch;
   position: absolute;
   height: 100%;
+  height: -webkit-fill-available;
 }
 .videoContainer .controls {
   height: -webkit-max-content;

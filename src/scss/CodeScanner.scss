@@ -6,6 +6,7 @@
   align-items: stretch;
   position: absolute;
   height: 100%;
+  height: -webkit-fill-available;
   .controls {
     height: max-content;
     // background-color: teal;

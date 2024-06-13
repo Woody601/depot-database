@@ -32,23 +32,25 @@
     background-color: #f7941e;
     cursor: pointer;
 }
-@media (pointer: coarse), (hover: none) {
-    .button {
-        padding: 0.75rem 1.125rem;
-        font-size: 1rem;
-    }
-    .button:hover {
-        background-color:#cf4b04;
-    }
-    .button:active {
-        background-color:#f7941e;
-    }
-    .iconButton {
-        height: 2.625rem;
-        width: 2.625rem;
-        padding: 0;
-        i {
-            font-size: 1.625rem;
+@media screen and (max-width: 768px) {
+    @media (pointer: coarse), (hover: none) {
+        .button {
+            padding: 0.75rem 1.125rem;
+            font-size: 1rem;
+        }
+        .button:hover {
+            background-color:#cf4b04;
+        }
+        .button:active {
+            background-color:#f7941e;
+        }
+        .iconButton {
+            height: 2.625rem;
+            width: 2.625rem;
+            padding: 0;
+            i {
+                font-size: 1.625rem;
+            }
         }
     }
 }
