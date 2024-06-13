@@ -6,7 +6,7 @@
 }
 html,
 body {
-    min-height: calc(100% + env(safe-area-inset-top));
+    height: 100%;
     font-family: Roboto;
 }
 h1,
@@ -21,6 +21,7 @@ p {
 
 .app {
     width: 100%;
+    height: calc(100vh - 3.75rem);
     margin: auto auto;
     margin-top: 3.75rem;
     overflow-y: auto;
