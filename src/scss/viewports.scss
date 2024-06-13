@@ -1,6 +1,5 @@
 @media (pointer: coarse), (hover: none) {
   .links {
-    padding-right: 2.188rem;
     a:after {
       transform: scaleX(1);
       opacity: 0;
@@ -14,9 +13,6 @@
     a:active:after {
       opacity: 1;
     }
-  }
-  .bars {
-    margin-right: 0.938rem;
   }
 }
 @media screen and (max-width: 768px) {
@@ -83,14 +79,6 @@
       width: 100%;
       height: fit-content;
     }
-  }
-}
-@media screen and (height: 1010px) {
-  body {
-    background-color: red;
-  }
-  .navHolder {
-    position: sticky;
   }
 }
 @supports (-webkit-touch-callout: none) {

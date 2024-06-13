@@ -20,12 +20,25 @@ p {
 }
 
 .app {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    max-width: 71rem;
+    margin: auto;
+    overflow-x: clip;
+    height: 100%;
+    position: relative;
+}
+  
+/* The pagescroll is made to keep the scrolling bar of the page's content out of the nav bar that is at the top. */
+.pagescroll {
     width: 100%;
-    height: calc(100vh - 3.75rem);
     margin: auto auto;
-    margin-top: 3.75rem;
+    top: 3.75rem;
     overflow-y: auto;
+    position: fixed;
     /* The height is calulated to be the full height of the device's screen, minus 60px (3.75rem) to compensate for the nav bar at the top. */
+    height: calc(100vh - 3.75rem);
     scroll-behavior: smooth;
     -webkit-overflow-scrolling:touch;
 }
