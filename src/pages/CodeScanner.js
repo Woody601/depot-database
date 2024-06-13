@@ -22,7 +22,8 @@ export default function CodeScanner() {
   const [isBackCamera, setIsBackCamera] = useState(true);
   const { ref } = useZxing({
     onDecodeResult(result) {
-      setResult(result.getText());
+      // setResult(result.getText());
+      setResult(window.innerHeight);
       const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
           document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
       setSOToggled(false);
