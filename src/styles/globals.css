@@ -12,6 +12,7 @@ html,
 body {
   height: 100%;
   font-family: Roboto;
+  min-height: calc(100% + env(safe-area-inset-top));
 }
 
 h1,
@@ -320,6 +321,9 @@ p {
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
+  html {
+    min-height: calc(100% + env(safe-area-inset-top));
+  }
   @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
     .pagescroll {
       width: 100vw;
