@@ -307,8 +307,10 @@ p {
 }
 @media screen and (height: 1010px) {
   body {
-    top: -17px;
     background-color: red;
+  }
+  .navHolder {
+    position: sticky;
   }
 }
 @supports (-webkit-touch-callout: none) {
