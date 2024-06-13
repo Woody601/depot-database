@@ -1,13 +1,13 @@
 @import "overlay.scss";
 .navHolder {
-    position: fixed;
     background-color: #fff;
     width: 100vw;
     top: 0;
     left: 0;
     z-index: 9999;
     box-shadow: 0 0.063rem 0.188rem rgba(0,0,0,.118);
-    height: 3.75rem;    
+    height: 3.75rem;
+    position: fixed;
 }
 
 .logo {
@@ -28,6 +28,7 @@
 .bars {
     display: none;
     margin: 0.938rem;
+    margin-right: calc(0.938rem + 17px);
     float: right;
     cursor: pointer;
     height: 1.875rem;
@@ -69,7 +70,7 @@
     overflow: hidden;
     float: right;
     column-gap: 2.188rem;
-    padding-right: 2.188rem;
+    padding-right: calc(2.188rem + 17px);
     transform: translate3d(0, 0, 0);
     transform: translateZ(0);
     backface-visibility: hidden;

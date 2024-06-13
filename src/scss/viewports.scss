@@ -1,5 +1,6 @@
 @media (pointer: coarse), (hover: none) {
   .links {
+    padding-right: 2.188rem;
     a:after {
       transform: scaleX(1);
       opacity: 0;
@@ -13,6 +14,9 @@
     a:active:after {
       opacity: 1;
     }
+  }
+  .bars {
+    margin-right: 0.938rem;
   }
 }
 @media screen and (max-width: 768px) {

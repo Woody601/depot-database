@@ -25,32 +25,11 @@ p {
 }
 
 .app {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  max-width: 71rem;
-  margin: auto;
-  overflow-x: clip;
-  height: 100%;
-  position: relative;
-}
-
-/* The pagescroll is made to keep the scrolling bar of the page's content out of the nav bar that is at the top. */
-.pagescroll {
   width: 100%;
   margin: auto auto;
-  top: 3.75rem;
+  margin-top: 3.75rem;
   overflow-y: auto;
-  position: fixed;
   /* The height is calulated to be the full height of the device's screen, minus 60px (3.75rem) to compensate for the nav bar at the top. */
-  height: calc(100vh - 3.75rem);
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
@@ -96,7 +75,6 @@ p {
 }
 
 .navHolder {
-  position: fixed;
   background-color: #fff;
   width: 100vw;
   top: 0;
@@ -105,6 +83,7 @@ p {
   -webkit-box-shadow: 0 0.063rem 0.188rem rgba(0, 0, 0, 0.118);
           box-shadow: 0 0.063rem 0.188rem rgba(0, 0, 0, 0.118);
   height: 3.75rem;
+  position: fixed;
 }
 
 .logo {
@@ -130,6 +109,7 @@ p {
 .bars {
   display: none;
   margin: 0.938rem;
+  margin-right: calc(0.938rem + 17px);
   float: right;
   cursor: pointer;
   height: 1.875rem;
@@ -180,7 +160,7 @@ p {
   -webkit-column-gap: 2.188rem;
      -moz-column-gap: 2.188rem;
           column-gap: 2.188rem;
-  padding-right: 2.188rem;
+  padding-right: calc(2.188rem + 17px);
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   -webkit-transform: translateZ(0);
@@ -236,6 +216,9 @@ p {
 }
 
 @media (pointer: coarse), (hover: none) {
+  .links {
+    padding-right: 2.188rem;
+  }
   .links a:after {
     -webkit-transform: scaleX(1);
             transform: scaleX(1);
@@ -249,6 +232,9 @@ p {
   }
   .links a:active:after {
     opacity: 1;
+  }
+  .bars {
+    margin-right: 0.938rem;
   }
 }
 @media screen and (max-width: 768px) {
