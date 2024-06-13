@@ -318,7 +318,8 @@ p {
     height: fit-content;
   }
 }
-@media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
   .pagescroll {
     width: 100vw;
   }
@@ -336,7 +337,4 @@ p {
   .links a {
     margin-right: 35px;
   }
-}
-@supports (-webkit-touch-callout: none) {
-  /* CSS specific to iOS devices */
 }
