@@ -10,9 +10,7 @@
 
 html,
 body {
-  height: 90%;
-  height: 90vh;
-  height: 90dvh;
+  height: 100%;
   font-family: Roboto;
 }
 
