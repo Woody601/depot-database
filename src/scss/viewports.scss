@@ -83,10 +83,6 @@
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */ 
-  html {
-    min-height: calc(100% + env(safe-area-inset-top));
-  }
-  
   @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
     .pagescroll {
       width: 100vw;
