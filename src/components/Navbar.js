@@ -32,36 +32,19 @@ export default function Navbar() {
   return (
     <>
       <div className={isToggled ? "navHolder active" : "navHolder"}>
-      <div className="logo">
-        <Image
-  priority={true}
-  src={'/logo.png'}
-  alt="logo"
-  width={700} // Set the desired width in rem
-  height={184} // Set the desired height in rem
-  style={{ position: 'relative' }}
-  draggable="false"
-  quality={100}
-/>
+        <div className="logo">
+          <Image priority={true} src={'/logo.png'} alt="logo" width={700} height={184} style={{ position: 'relative' }} draggable="false" quality={100} />
         </div>
         <div className={isToggled ? "bars active" : "bars"} onClick={toggleNav}>
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
         </div>
-        <div className="links">          
-          <Link href="/" onClick={toggleNav}>
-            Home
-          </Link>
-          <Link href="/CodeScanner" onClick={toggleNav}>
-            Scanner
-          </Link>
-          <Link href="/database" onClick={toggleNav}>
-            Database
-          </Link>
-          <Link href="/login" onClick={toggleNav}>
-            Login
-          </Link>
+        <div className="links">
+          <Link href="/" onClick={toggleNav}>Home</Link>
+          <Link href="/CodeScanner" onClick={toggleNav}>Scanner</Link>
+          <Link href="/database" onClick={toggleNav}>Database</Link>
+          <Link href="/login" onClick={toggleNav}>Login</Link>
         </div>
       </div>
       <div className={isToggled ? "nav overlay active" : "nav overlay"} onClick={closeNav}/>

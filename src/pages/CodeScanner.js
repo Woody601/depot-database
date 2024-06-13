@@ -186,10 +186,6 @@ export default function CodeScanner() {
               <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
               <ToggleSwitch round onChange={toggleAspectRatio} />
             </div>
-            <div className={styles.settingsOption}>
-              <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Hide Navbar</p>
-              <ToggleSwitch round /*onChange={hideNavBar}*/ />
-            </div>
             <div id='resetCamSetting' className={styles.settingsOption}>
               <Button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</Button>
             </div>
