@@ -5,9 +5,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Navbar />
       <div className="pagescroll">
-        <div className="app">
-          <Component {...pageProps} />
-        </div>
+        <Component {...pageProps} />
       </div>
     </>
   );

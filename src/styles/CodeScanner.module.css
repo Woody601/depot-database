@@ -1,28 +1,29 @@
 .videoContainer {
-  overflow-y: clip;
+  overflow-y: hidden;
   overflow-x: clip;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  display: -ms-grid;
+  display: grid;
   -webkit-box-align: stretch;
       -ms-flex-align: stretch;
           align-items: stretch;
-  position: absolute;
+  justify-items: center;
   height: 100%;
-  height: -webkit-fill-available;
+  margin: 0 auto;
+  max-width: 71rem;
+  position: relative;
 }
 .videoContainer .controls {
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
   position: absolute;
-  display: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  width: 100%;
 }
 .videoContainer .controls button {
   margin: 1rem;
@@ -36,6 +37,8 @@
   overflow: hidden;
   display: block;
   pointer-events: none;
+  position: relative;
+  height: 100%;
 }
 
 .overlay {
@@ -175,7 +178,6 @@
   border: 1px solid #000;
   background-color: #fff;
   color: #000;
-  font-size: 1rem;
   font-family: Roboto;
 }
 
@@ -197,7 +199,7 @@
 }
 
 @media (pointer: coarse), (hover: none) {
-  .overlayContent p, .overlayContent pre code, .settingsOption select {
+  .overlayContent p, .overlayContent pre code {
     font-size: 1.125rem;
   }
   .overlayContent {
@@ -207,6 +209,9 @@
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
+  .settingsOption select {
+    font-size: 1rem;
+  }
   @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
     .videoContainer .video {
       height: 100%;

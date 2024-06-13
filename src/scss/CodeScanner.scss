@@ -1,18 +1,20 @@
 .videoContainer {
-  overflow-y: clip;
+  overflow-y: hidden;
   overflow-x: clip;
-  display: flex;
-  justify-content: center;
+  display: grid;
   align-items: stretch;
-  position: absolute;
+  justify-items: center;
   height: 100%;
-  height: -webkit-fill-available;
+  margin: 0 auto;
+  max-width: 71rem;
+  position: relative;
   .controls {
     height: max-content;
     // background-color: teal;
     position: absolute;
-    display: none;
+    display: flex;
     justify-content: flex-end;
+    width: 100%;
     button {
       margin: 1rem;
       position: sticky;
@@ -27,6 +29,8 @@
     overflow: hidden;
     display: block;
     pointer-events: none;
+    position: relative;
+    height: 100%;
   }
 }
 
@@ -95,7 +99,6 @@
     border: 1px solid #000;
     background-color: #fff;
     color: #000;
-    font-size: 1rem;
     font-family: Roboto;
   }
   // button {
@@ -112,7 +115,7 @@
 }
 
 @media (pointer: coarse), (hover: none) {
-  .overlayContent p, .overlayContent pre code, .settingsOption select {
+  .overlayContent p, .overlayContent pre code {
     font-size: 1.125rem;
   }
   .overlayContent {
@@ -122,6 +125,11 @@
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */ 
+  .settingsOption {
+    select {
+      font-size: 1rem;
+    }
+  }
    @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
     .videoContainer {
       .video {

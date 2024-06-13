@@ -25,6 +25,7 @@ export default function CodeScanner() {
   const [isEOToggled, setEOToggled] = useState(false);
   const [isMirrored, setIsMirrored] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
+  const [isAspectRatio, setAspectRatio] = useState(false);
   const router = useRouter();
   const [cameras, setCameras] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
@@ -59,19 +60,20 @@ export default function CodeScanner() {
     const handleResize = () => {
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');
       const videoWidth = document.getElementById('video').getBoundingClientRect().width;
-      const controlsElement = document.getElementById('controls');
-      controlsElement.style.width = `${videoWidth}px`;
-      controlsElement.style.display = 'none';
-      if (controlsElement.style.display == 'none' && isVideoPaused == false) {
-        controlsElement.style.display = 'flex';
-      }
+      const videoContainerElement = document.getElementById('videoContainer');
       if (window.innerWidth < videoWidth) {
         aspectRatioSetting.style.display = 'flex';
       } else {
         if (window.innerWidth == videoWidth) {
           aspectRatioSetting.style.display = 'flex';
+          if (isAspectRatio) {
+            videoContainerElement.style.height = 'auto';
+          }
         } else {
           aspectRatioSetting.style.display = 'none';
+          if (isAspectRatio) {
+            videoContainerElement.style.height = '100%';
+          }
         }
       }
     };
@@ -103,7 +105,12 @@ export default function CodeScanner() {
 
   function toggleAspectRatio() {
     const videoElement = document.getElementById('video');
+    const videoContainerElement = document.getElementById('videoContainer');
+    setAspectRatio(!isAspectRatio);
     videoElement.style.width = videoElement.style.width == '100%' ? 'auto' : '100%';
+    videoElement.style.height = videoElement.style.height == 'auto' ? '100%' : 'auto';
+    videoContainerElement.style.height = videoElement.style.height == 'auto' ? 'auto' : '100%';
+    videoContainerElement.style.width = videoElement.style.height == 'auto' ? '100%' : 'auto';
   }
   /**
    * Closes the settings overlay and resumes video playback.
@@ -168,9 +175,9 @@ export default function CodeScanner() {
       <Head>
         <title>Code Scanner</title>
       </Head>
-      <div className={styles.videoContainer}>
+      <div id="videoContainer" className={styles.videoContainer}>
         <video id="video" className={styles.video} ref={ref} />
-        <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
+        <div className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
           <Button icon='gear' onClick={openSettingsOverlay} title='Settings' />
         </div>
         <div className={isSOToggled ? "overlay active" : "overlay" }>
@@ -211,7 +218,7 @@ export default function CodeScanner() {
             <h3>Error</h3>
             <pre><code id="error" className={styles.errorMSG}/></pre>
             <div className={styles.overlayButtons}>
-              <Button onClick={reloadPage}>Rescan</Button>
+              <Button onClick={reloadPage}>Reload</Button>
             </div>
           </div>
         </div>
