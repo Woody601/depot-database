@@ -158,6 +158,11 @@ export default function CodeScanner() {
       console.error('enumerateDevices() not supported.');
     }
   }, []);
+
+  function changeCamera(deviceId) {
+    setSelectedDeviceId(deviceId);
+    localStorage.setItem("selectedDeviceId", deviceId);
+  }
   return (
     <>
       <Head>
@@ -166,7 +171,7 @@ export default function CodeScanner() {
       <div className={styles.videoContainer}>
         <video id="video" className={styles.video} ref={ref} />
         <div id='controls' className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
-          <Button id="settingsBtn" icon='gear' onClick={openSettingsOverlay} title='Settings' />
+          <Button icon='gear' onClick={openSettingsOverlay} title='Settings' />
         </div>
         <div className={isSOToggled ? "overlay active" : "overlay" }>
           <div className={styles.overlayContent}>
@@ -196,7 +201,7 @@ export default function CodeScanner() {
             <h3>Result:</h3>
             <pre><code id="result" /></pre>
             <div className={styles.overlayButtons}>
-              <Button id="rescanButton" onClick={closeResultsOverlay}>Rescan</Button>
+              <Button onClick={closeResultsOverlay}>Rescan</Button>
               <Button onClick={()=> continueButtonClicked(result)}>Continue</Button>
             </div>
           </div>
@@ -206,7 +211,7 @@ export default function CodeScanner() {
             <h3>Error</h3>
             <pre><code id="error" className={styles.errorMSG}/></pre>
             <div className={styles.overlayButtons}>
-              <button id="rescanButton" onClick={reloadPage}>Reload</button>
+              <Button onClick={reloadPage}>Rescan</Button>
             </div>
           </div>
         </div>
