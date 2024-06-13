@@ -123,9 +123,6 @@
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */ 
-  .video {
-    height: 96%;
-  }
   @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
     .videoContainer {
       .video {
