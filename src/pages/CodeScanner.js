@@ -23,7 +23,7 @@ export default function CodeScanner() {
   const [isROToggled, setROToggled] = useState(false);
   // EO = Error Overlay
   const [isEOToggled, setEOToggled] = useState(false);
-  const [setIsMirrored] = useState(false);
+  const [isMirrored, setMirrored] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const [isAspectRatio, setAspectRatio] = useState(false);
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function CodeScanner() {
     onDecodeResult(result) {
       setResult(result.getText());
       const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
-      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${navigator.userAgent}</a>` : navigator.userAgent;
+      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
       document.getElementById('innerWidth').innerHTML = `Window width: ${window.innerWidth}px`;
       document.getElementById('innerHeight').innerHTML = `Window height: ${window.innerHeight}px`;
       setSOToggled(false);
@@ -64,18 +64,20 @@ export default function CodeScanner() {
       const videoWidth = document.getElementById('video').getBoundingClientRect().width;
       const videoContainerWidth = document.getElementById('videoContainer').getBoundingClientRect().width;
       const videoContainerElement = document.getElementById('videoContainer');
-      console.log(navigator.userAgent);
-      const isiPad = navigator.userAgent.match(/iPad/i)!= null;
+      const isiPad = navigator.userAgent.includes('Macintosh') && navigator.userAgent.includes('AppleWebKit');
+      console.log(isiPad);
+      if (isiPad == false) {
+        console.log("Not an iPad");
+      }
       if (window.innerWidth < videoContainerWidth && !isiPad) {
         aspectRatioSetting.style.display = 'flex';
       } else {
         if (window.innerWidth == videoContainerWidth && !isiPad) {
           aspectRatioSetting.style.display = 'flex';
-        } 
-        if (isAspectRatio) {
-          videoContainerElement.style.height = 'auto';
-        }
-        else {
+          if (isAspectRatio) {
+            videoContainerElement.style.height = 'auto';
+          }
+        } else {
           aspectRatioSetting.style.display = 'none';
           if (isAspectRatio) {
             videoContainerElement.style.height = '100%';
@@ -102,7 +104,7 @@ export default function CodeScanner() {
 
   function toggleMirroredVideo() {
     const videoElement = document.getElementById('video');
-    setIsMirrored((prevState) => {
+    setMirrored((prevState) => {
       const newState = !prevState;
       videoElement.style.transform = newState ? "scaleX(-1)" : "scaleX(1)";
       return newState;
