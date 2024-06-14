@@ -59,12 +59,12 @@ export default function CodeScanner() {
   useEffect(() => {
     const handleResize = () => {
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');
-      const videoWidth = document.getElementById('video').getBoundingClientRect().width;
+      const videoContainerWidth = document.getElementById('videoContainer').getBoundingClientRect().width;
       const videoContainerElement = document.getElementById('videoContainer');
-      if (window.innerWidth < videoWidth) {
+      if (window.innerWidth < videoContainerWidth) {
         aspectRatioSetting.style.display = 'flex';
       } else {
-        if (window.innerWidth == videoWidth) {
+        if (window.innerWidth == videoContainerWidth) {
           aspectRatioSetting.style.display = 'flex';
           if (isAspectRatio) {
             videoContainerElement.style.height = 'auto';
@@ -183,8 +183,8 @@ export default function CodeScanner() {
         <div className={isSOToggled ? "overlay active" : "overlay" }>
           <div className={styles.overlayContent}>
             <div className={styles.settingsControls}>
-              <Button icon='close' onClick={closeSettingsOverlay} title='Close button component' />
-              <Button icon='expand' onClick={toggleFullScreen} title='Full screen button component' />
+              <Button icon='close' onClick={closeSettingsOverlay} title='Close' />
+              <Button icon='expand' onClick={toggleFullScreen} title='Full screen' />
             </div>
             <div id="sourceSelectOption" className={styles.settingsOption}>
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
