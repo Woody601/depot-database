@@ -23,7 +23,7 @@ export default function CodeScanner() {
   const [isROToggled, setROToggled] = useState(false);
   // EO = Error Overlay
   const [isEOToggled, setEOToggled] = useState(false);
-  const [isMirrored, setIsMirrored] = useState(false);
+  const [setIsMirrored] = useState(false);
   const [isVideoPaused, setVideoPaused] = useState(false);
   const [isAspectRatio, setAspectRatio] = useState(false);
   const router = useRouter();
@@ -207,6 +207,8 @@ export default function CodeScanner() {
           <div className={styles.overlayContent}>
             <h3>Result:</h3>
             <pre><code id="result" /></pre>
+            <p>{window.innerWidth}</p>
+            <p>{window.innerHeight}</p>
             <div className={styles.overlayButtons}>
               <Button onClick={closeResultsOverlay}>Rescan</Button>
               <Button onClick={()=> continueButtonClicked(result)}>Continue</Button>

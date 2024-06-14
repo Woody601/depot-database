@@ -8,9 +8,7 @@
           align-items: stretch;
   justify-items: center;
   height: 100%;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+  width: auto;
   margin: 0 auto;
   max-width: 71rem;
   max-height: 100%;
@@ -44,7 +42,7 @@
   pointer-events: none;
   position: relative;
   height: 100%;
-  width: 100%;
+  width: auto;
 }
 
 .overlay {
