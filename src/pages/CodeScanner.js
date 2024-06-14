@@ -61,12 +61,16 @@ export default function CodeScanner() {
   useEffect(() => {
     const handleResize = () => {
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');
+      const videoWidth = document.getElementById('video').getBoundingClientRect().width;
       const videoContainerWidth = document.getElementById('videoContainer').getBoundingClientRect().width;
       const videoContainerElement = document.getElementById('videoContainer');
       if (window.innerWidth < videoContainerWidth) {
         aspectRatioSetting.style.display = 'flex';
       } else {
         if (window.innerWidth == videoContainerWidth) {
+          if (videoWidth == videoContainerWidth && isAspectRatio) {
+            aspectRatioSetting.style.display = 'flex';
+          }
           aspectRatioSetting.style.display = 'flex';
           if (isAspectRatio) {
             videoContainerElement.style.height = 'auto';

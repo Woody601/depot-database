@@ -211,7 +211,7 @@
     padding: 1.5rem;
   }
 }
-@media screen and ((min-width: 810px) and (min-height: 1010px)), ((min-width: 1080px) and (min-height: 740px)) {
+@supports (-webkit-touch-callout: none) {
   .videoContainer {
     background-color: blue;
     display: -webkit-box;
@@ -222,8 +222,6 @@
     height: -webkit-fill-available;
     width: auto;
   }
-}
-@supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
   .settingsOption select {
     font-size: 1rem;
