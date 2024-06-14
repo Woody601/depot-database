@@ -61,14 +61,9 @@ export default function CodeScanner() {
   useEffect(() => {
     const handleResize = () => {
       const aspectRatioSetting = document.getElementById('aspectRatioSetting');
-      const videoWidth = document.getElementById('video').getBoundingClientRect().width;
       const videoContainerWidth = document.getElementById('videoContainer').getBoundingClientRect().width;
       const videoContainerElement = document.getElementById('videoContainer');
       const isiPad = navigator.userAgent.includes('Macintosh') && navigator.userAgent.includes('AppleWebKit');
-      console.log(isiPad);
-      if (isiPad == false) {
-        console.log("Not an iPad");
-      }
       if (window.innerWidth < videoContainerWidth && !isiPad) {
         aspectRatioSetting.style.display = 'flex';
       } else {
