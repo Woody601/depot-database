@@ -145,6 +145,10 @@ export default function CodeScanner() {
   function reloadPage() {
     window.location.reload();
   }
+  function clearFileInput(fileInput) {
+    fileInput.value = '';
+  }
+  
   useEffect(() => {
     async function fetchCameras() {
       try {
@@ -171,12 +175,38 @@ export default function CodeScanner() {
     setSelectedDeviceId(deviceId);
     localStorage.setItem("selectedDeviceId", deviceId);
   }
+  function scanImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = function () {
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        context.drawImage(img, 0, 0);
+        const videoElement = document.getElementById('video');
+        const stream = canvas.captureStream();
+        videoElement.srcObject = stream;
+        // Clear the file input value
+        event.target.value = '';
+      };
+    };
+  
+    reader.readAsDataURL(file);
+  }
+  
   return (
     <>
       <Head>
         <title>Code Scanner</title>
       </Head>
       <div id="videoContainer" className={styles.videoContainer}>
+        <canvas id="canvas" style={{ display: 'none' }}></canvas>
         <video id="video" className={styles.video} ref={ref} />
         <div className={isVideoPaused ? styles.controls + ' ' + styles.none : styles.controls}>
           <Button icon='gear' onClick={openSettingsOverlay} title='Settings' />
@@ -191,13 +221,20 @@ export default function CodeScanner() {
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
               <select id="sourceSelect" value={selectedDeviceId} onChange={(e)=> changeCamera(e.target.value)} style={{ maxWidth: '400px' }}> {/* {devices && devices .filter(device => device.label) // Filter out devices with blank labels .map((device) => ( <option key={device.deviceId} value={device.deviceId}>{device.label}</option> ))} */} {cameras.map((camera) => ( <option key={camera.deviceId} value={camera.deviceId}>{camera.label.replace(/\([^()]*\)/g, '').trim()}</option> ))} </select>
             </div>
+            
+            
             <div className={styles.settingsOption}>
               <p title='Flip the video horizontally.' className={styles.settingLabel}>Mirror Video</p>
               <ToggleSwitch round onChange={toggleMirroredVideo} />
             </div>
+            
             <div id='aspectRatioSetting' className={styles.settingsOption}>
               <p title='Fit the entire camera source to the screen.' className={styles.settingLabel}>Fit to Screen</p>
               <ToggleSwitch round onChange={toggleAspectRatio} />
+            </div>
+            <div className={styles.settingsOption}>
+              <Button icon='upload' onClick={() => document.getElementById('fileInput').click()} title='Upload Image'/>
+              <input id="fileInput" type="file" onChange={scanImage}/>
             </div>
             <div id='resetCamSetting' className={styles.settingsOption}>
               <Button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</Button>

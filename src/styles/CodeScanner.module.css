@@ -184,6 +184,9 @@
   color: #000;
   font-family: Roboto;
 }
+.settingsOption input[type=file] {
+  display: none;
+}
 
 .aspectRatioSetting {
   display: none;

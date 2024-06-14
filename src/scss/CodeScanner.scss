@@ -69,6 +69,7 @@
   .settingsControls {
     display: flex;
     justify-content: space-between;
+
   }
   .overlayButtons {
     display: flex;
@@ -103,6 +104,10 @@
     background-color: #fff;
     color: #000;
     font-family: Roboto;
+  }
+  input {}
+  input[type="file"] {
+    display: none;
   }
   // button {
   //   margin: auto;
