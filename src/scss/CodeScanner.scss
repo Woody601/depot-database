@@ -130,11 +130,9 @@
 @media screen and ((min-width: 810px) and (min-height: 1010px)), ((min-width: 1080px) and (min-height: 740px)) {
   .videoContainer {
     background-color: blue;
-    height: 100%;
-    width: auto;
     display: flex;
     .video {
-      height: 100%;
+      height: -webkit-fill-available;
       width: auto;
     }
   }

@@ -34,6 +34,7 @@
       -ms-flex-pack: center;
           justify-content: center;
   margin: 0;
+  padding: 0;
 }
 .iconButton i {
   font-size: 1.25rem;
@@ -59,7 +60,6 @@
   .iconButton {
     height: 2.625rem;
     width: 2.625rem;
-    padding: 0;
   }
   .iconButton i {
     font-size: 1.625rem;

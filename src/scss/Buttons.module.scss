@@ -23,6 +23,7 @@
     align-items: center;
     justify-content: center;
     margin: 0;
+    padding: 0;
     i {
         font-size: 1.25rem;
         color: hsl(0, 0%, 100%);
@@ -47,7 +48,6 @@
         .iconButton {
             height: 2.625rem;
             width: 2.625rem;
-            padding: 0;
             i {
                 font-size: 1.625rem;
             }

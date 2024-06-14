@@ -331,6 +331,11 @@ p {
     .links a {
       margin-right: 2.188rem;
     }
+    @media screen and (max-width: 768px) {
+      .links a {
+        margin: 0;
+      }
+    }
   }
 }
 @supports (-webkit-touch-callout: none) {
