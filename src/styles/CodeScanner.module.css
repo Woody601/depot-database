@@ -12,6 +12,7 @@
   max-width: 71rem;
   max-height: 100%;
   position: relative;
+  background-color: red;
 }
 .videoContainer .controls {
   height: -webkit-max-content;
