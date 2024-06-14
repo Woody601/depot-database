@@ -64,18 +64,18 @@ export default function CodeScanner() {
       const videoWidth = document.getElementById('video').getBoundingClientRect().width;
       const videoContainerWidth = document.getElementById('videoContainer').getBoundingClientRect().width;
       const videoContainerElement = document.getElementById('videoContainer');
-      if (window.innerWidth < videoContainerWidth) {
+      console.log(navigator.userAgent);
+      const isiPad = navigator.userAgent.match(/iPad/i)!= null;
+      if (window.innerWidth < videoContainerWidth && !isiPad) {
         aspectRatioSetting.style.display = 'flex';
       } else {
-        if (window.innerWidth == videoContainerWidth) {
-          if (videoWidth == videoContainerWidth && isAspectRatio) {
-            aspectRatioSetting.style.display = 'flex';
-          }
+        if (window.innerWidth == videoContainerWidth && !isiPad) {
           aspectRatioSetting.style.display = 'flex';
-          if (isAspectRatio) {
-            videoContainerElement.style.height = 'auto';
-          }
-        } else {
+        } 
+        if (isAspectRatio) {
+          videoContainerElement.style.height = 'auto';
+        }
+        else {
           aspectRatioSetting.style.display = 'none';
           if (isAspectRatio) {
             videoContainerElement.style.height = '100%';
