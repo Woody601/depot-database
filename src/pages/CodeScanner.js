@@ -36,8 +36,6 @@ export default function CodeScanner() {
       setResult(result.getText());
       const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
       document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
-      document.getElementById('innerWidth').innerHTML = `Window width: ${window.innerWidth}px`;
-      document.getElementById('innerHeight').innerHTML = `Window height: ${window.innerHeight}px`;
       setSOToggled(false);
       setVideoPaused(true);
       setROToggled(true);
@@ -210,8 +208,6 @@ export default function CodeScanner() {
           <div className={styles.overlayContent}>
             <h3>Result:</h3>
             <pre><code id="result" /></pre>
-            <p id="innerWidth"/>
-            <p id="innerHeight"/>
             <div className={styles.overlayButtons}>
               <Button onClick={closeResultsOverlay}>Rescan</Button>
               <Button onClick={()=> continueButtonClicked(result)}>Continue</Button>

@@ -13,7 +13,6 @@
   max-width: 71rem;
   max-height: 100%;
   position: relative;
-  background-color: teal;
 }
 .videoContainer .controls {
   height: -webkit-max-content;
@@ -180,6 +179,7 @@
   height: 1.594rem;
   outline: none;
   border: 1px solid #000;
+  border-radius: 0;
   background-color: #fff;
   color: #000;
   font-family: Roboto;
@@ -213,7 +213,6 @@
 }
 @supports (-webkit-touch-callout: none) {
   .videoContainer {
-    background-color: blue;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

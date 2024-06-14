@@ -72,15 +72,6 @@
     }
   }
 }
-@media screen and ((min-width: 810px) and (min-height: 1010px)), ((min-width: 1080px) and (min-height: 740px)) {
-  .pagescroll {
-    background-color: red;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around;
-  }
-}
 
 @media screen and (max-width: 16.938rem) {
   .logo {
@@ -108,6 +99,12 @@
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */ 
+  .pagescroll {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
   @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
     .pagescroll {
       width: 100vw;
