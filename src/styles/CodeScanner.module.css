@@ -13,7 +13,7 @@
   max-width: 71rem;
   max-height: 100%;
   position: relative;
-  background-color: red;
+  background-color: teal;
 }
 .videoContainer .controls {
   height: -webkit-max-content;
@@ -42,7 +42,7 @@
   pointer-events: none;
   position: relative;
   height: 100%;
-  width: auto;
+  width: 100%;
 }
 
 .overlay {
