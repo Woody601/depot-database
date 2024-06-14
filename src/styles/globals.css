@@ -295,6 +295,23 @@ p {
     background-color: #f9f9fb;
   }
 }
+@media screen and ((min-width: 810px) and (min-height: 1010px)), ((min-width: 1080px) and (min-height: 740px)) {
+  .pagescroll {
+    background-color: red;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+  }
+}
 @media screen and (max-width: 16.938rem) {
   .logo {
     width: 100%;

@@ -211,10 +211,19 @@
     padding: 1.5rem;
   }
 }
+@media screen and ((min-width: 810px) and (min-height: 1010px)), ((min-width: 1080px) and (min-height: 740px)) {
+  .videoContainer {
+    background-color: blue;
+  }
+}
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
   .settingsOption select {
     font-size: 1rem;
+  }
+  .videoContainer .video {
+    width: 100%;
+    height: 100%;
   }
   @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
     .videoContainer .video {
