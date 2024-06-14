@@ -325,6 +325,12 @@ p {
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
+  .links {
+    padding: 0;
+  }
+  .links a {
+    margin-right: 2.188rem;
+  }
   @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
     .pagescroll {
       width: 100vw;
