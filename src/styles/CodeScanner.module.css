@@ -8,7 +8,9 @@
           align-items: stretch;
   justify-items: center;
   height: 100%;
-  width: auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
   margin: 0 auto;
   max-width: 71rem;
   max-height: 100%;
