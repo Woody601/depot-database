@@ -35,7 +35,7 @@ export default function CodeScanner() {
     onDecodeResult(result) {
       setResult(result.getText());
       const isLink = result.text.startsWith('http://') || result.text.startsWith('https://');
-      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
+      document.getElementById('result').innerHTML = isLink ? `<a href="${result.text}" target="_blank">${navigator.userAgent}</a>` : navigator.userAgent;
       document.getElementById('innerWidth').innerHTML = `Window width: ${window.innerWidth}px`;
       document.getElementById('innerHeight').innerHTML = `Window height: ${window.innerHeight}px`;
       setSOToggled(false);
