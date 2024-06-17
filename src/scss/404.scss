@@ -1,33 +1,26 @@
 .container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    width: 100vw;
-}
-  
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  width: 100vw;
   .content {
     line-height: 3rem;
+    .nextError {
+      display: inline-block;
+      margin: 0 1.25rem 0 0;
+      padding-right: 1.438rem;
+      font-size: 1.5rem;
+      font-weight: 500;
+      vertical-align: top;
+      border-right: 0.063rem solid rgba(0, 0, 0, 0.3);
+    }
+    .message {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.75rem;
+    }
   }
-  
-  .nextErrorH1 {
-    display: inline-block;
-    margin: 0 1.25rem 0 0;
-    padding-right: 1.438rem;
-    font-size: 1.5rem;
-    font-weight: 500;
-    vertical-align: top;
-    border-right: 0.063rem solid rgba(0, 0, 0, 0.3);
-  }
-  
-  .messageContainer {
-    display: inline-block;
-  }
-  
-  .message {
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.75rem;
-  }
+}

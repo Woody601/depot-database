@@ -3,10 +3,6 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -16,12 +12,10 @@
   font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   width: 100vw;
 }
-
-.content {
+.container .content {
   line-height: 3rem;
 }
-
-.nextErrorH1 {
+.container .content .nextError {
   display: inline-block;
   margin: 0 1.25rem 0 0;
   padding-right: 1.438rem;
@@ -30,12 +24,8 @@
   vertical-align: top;
   border-right: 0.063rem solid rgba(0, 0, 0, 0.3);
 }
-
-.messageContainer {
+.container .content .message {
   display: inline-block;
-}
-
-.message {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.75rem;
