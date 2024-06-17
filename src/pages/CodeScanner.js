@@ -90,10 +90,22 @@ export default function CodeScanner() {
       }
     };
   }, []);
-
   function openSettingsOverlay() {
     setSOToggled(true);
   }
+  useEffect(() => {
+  const handleEscKeyDown = (event) => {
+    if (event.key == "Escape" && isSOToggled) {
+      closeSettingsOverlay();
+    }
+  };
+  window.addEventListener("keydown", handleEscKeyDown);
+  
+  return () => {
+    window.removeEventListener("keydown", handleEscKeyDown);
+  };
+}, [isSOToggled]);
+
 
   function toggleMirroredVideo() {
     const videoElement = document.getElementById('video');
