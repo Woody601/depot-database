@@ -47,9 +47,13 @@ export default function CodeScanner() {
     //   audio: false
     // },
     onError(error) {
+      // Sets VideoPaused to true, so that way no video goes through or anything pops up relating to the video whatsoever. Includes hiding the settings button.
+      setVideoPaused(true);
       if (error.name != "NotReadableError") {
         document.getElementById('error').innerHTML = `${error}`;
-        setEOToggled(true)
+        // Enables the Error Overlay.
+        setEOToggled(true);
+        // The error message if the camera settings in the browser are denied.
         if (error.name == "NotAllowedError") {
           document.getElementById('error').innerHTML = "Camera permission denied. Please allow camera access in your browser settings and reload the page.";
         }
@@ -74,6 +78,7 @@ export default function CodeScanner() {
           aspectRatioSetting.style.display = 'none';
           if (isAspectRatio) {
             videoContainerElement.style.height = '100%';
+            videoContainerElement.style.width = 'auto';
           }
         }
       }
@@ -219,7 +224,7 @@ export default function CodeScanner() {
         <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay" }>
           <div className={styles.overlayContent}>
             <h3>Result:</h3>
-            <pre><code id="result" /></pre>
+            <pre><code id="result"/></pre>
             <div className={styles.overlayButtons}>
               <Button onClick={closeResultsOverlay}>Rescan</Button>
               <Button onClick={()=> continueButtonClicked(result)}>Continue</Button>

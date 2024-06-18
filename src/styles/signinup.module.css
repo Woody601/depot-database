@@ -1,26 +1,42 @@
 .form {
   padding: 2rem;
-  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
-  max-width: 66%;
+  font-family: Roboto;
+  max-width: 500px;
 }
-.form label {
+.form .container {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.form .container .checkbox {
+  font-weight: 400;
+}
+.form .container .checkbox input {
+  margin-right: 19px;
+}
+.form .container label {
   font-weight: 600;
-  margin-bottom: 0.5rem;
 }
 .form h3 {
   font-size: 20px;
   margin-bottom: 2rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .form input[type=text], .form input[type=email], .form input[type=password] {
   width: 100%;
   padding: 7px 12px;
-  margin: 8px 0 0;
+  margin: 8px 0;
   margin-bottom: 2rem;
   display: inline-block;
   border: 1px solid #ccc;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-weight: 400;
+  font-size: 1rem;
   line-height: 1.5;
   height: 40px;
   color: #313A3E;
@@ -35,7 +51,7 @@
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
-.form input:focus {
+.form input[type=text]:focus, .form input[type=email]:focus, .form input[type=password]:focus {
   border-color: #cf4b04;
   -webkit-box-shadow: 0 0 0 4px rgba(207, 75, 4, 0.2);
           box-shadow: 0 0 0 4px rgba(207, 75, 4, 0.2);
@@ -43,26 +59,6 @@
 }
 .form button {
   margin: 2rem 0 8px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  padding: 16px 24px;
-  border-radius: 50px;
-  font-size: 20px;
-}
-.form button:hover {
-  opacity: 0.8;
-}
-.form .cancelbtn {
-  width: auto;
-}
-
-.container {
-  padding: 16px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
 }
 
 span.psw {
@@ -72,6 +68,7 @@ span.psw {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: 400;
 }
 
 /* Change styles for span and cancel button on extra small screens */
@@ -79,8 +76,5 @@ span.psw {
   span.psw {
     display: block;
     float: none;
-  }
-  .cancelbtn {
-    width: 100%;
   }
 }

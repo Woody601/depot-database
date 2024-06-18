@@ -21,6 +21,27 @@
   pointer-events: fill;
 }
 
+.button:hover {
+  background-color: #f7941e;
+  cursor: pointer;
+}
+
+.formbutton {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  font-size: 20px;
+  -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  text-transform: none;
+}
+
+.formbutton:hover {
+  background-color: #9d3903;
+}
+
 .iconButton {
   height: 2.25rem;
   width: 2.25rem;
@@ -41,27 +62,31 @@
   color: hsl(0, 0%, 100%);
 }
 
-.button:hover {
-  background-color: #f7941e;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 768px) and (pointer: coarse), screen and (max-width: 768px) and (hover: none) {
-  .button {
-    padding: 0.75rem 1.125rem;
-    font-size: 1rem;
-  }
+@media (pointer: coarse), (hover: none) {
   .button:hover {
     background-color: #cf4b04;
   }
   .button:active {
     background-color: #f7941e;
   }
+  .formbutton:active {
+    background-color: #9d3903;
+  }
+}
+@media screen and (pointer: coarse) and (max-width: 768px), screen and (hover: none) and (max-width: 768px) {
   .iconButton {
     height: 2.625rem;
     width: 2.625rem;
   }
   .iconButton i {
     font-size: 1.625rem;
+  }
+  .button {
+    padding: 0.75rem 1.125rem;
+    font-size: 1rem;
+  }
+  .formbutton {
+    padding: 1rem 1.5rem;
+    font-size: 20px;
   }
 }

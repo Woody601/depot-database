@@ -121,6 +121,10 @@
 }
 .overlayContent pre .errorMSG {
   word-break: normal;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .overlayContent .settingsControls {
   display: -webkit-box;

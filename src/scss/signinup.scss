@@ -1,66 +1,60 @@
 .form {
-    padding: 2rem;
-    font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
-    max-width: 66%;
+  padding: 2rem;
+  font-family: Roboto;
+  max-width: 500px;
+  .container {
+    user-select: none;
+    .checkbox {
+      font-weight: 400;
+      input {
+        margin-right: 19px;
+      }
+    }
     label {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
+      font-weight: 600;
     }
-    h3 {
-        font-size: 20px;
-        margin-bottom: 2rem;
-    }
-    input[type=text], input[type=email],input[type=password] {
-        width: 100%;
-        padding: 7px 12px;
-        margin: 8px 0 0;
-        margin-bottom: 2rem;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-weight: 400;
-        line-height: 1.5;
-        height: 40px;
-        color: #313A3E;
-        background-color: #ffffff;
-        background-clip: padding-box;
-        border: 1px solid #C9CED1;
-        border-radius: 0px;
-        box-shadow: none;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      }
-      input:focus {
-        border-color: #cf4b04;
-        box-shadow: 0 0 0 4px rgba(207, 75, 4, 0.2);
-        outline: none;
-      }
-      button {
-        margin: 2rem 0 8px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        padding: 16px 24px;
-        border-radius: 50px;
-        font-size: 20px;
-      }
-      
-      button:hover {
-        opacity: 0.8;
-      }
-      .cancelbtn {
-        width: auto;
-      }
+  }
+  h3 {
+    font-size: 20px;
+    margin-bottom: 2rem;
+    user-select: none;
+  }
+  input[type=text], input[type=email],input[type=password] {
+      width: 100%;
+      padding: 7px 12px;
+      margin: 8px 0;
+      margin-bottom: 2rem;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.5;
+      height: 40px;
+      color: #313A3E;
+      background-color: #ffffff;
+      background-clip: padding-box;
+      border: 1px solid #C9CED1;
+      border-radius: 0px;
+      box-shadow: none;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+  }
+  input[type=text]:focus, input[type=email]:focus,input[type=password]:focus {
+    border-color: #cf4b04;
+    box-shadow: 0 0 0 4px rgba(207, 75, 4, 0.2);
+    outline: none;
+  }
+  button {
+    margin: 2rem 0 8px;      
+  }
 }
 
-.container {
-  padding: 16px;
-  user-select: none;
-}
 
 span.psw {
   float: right;
   padding-top: 16px;
   user-select: none;
+  font-weight: 400;
 }
 
 /* Change styles for span and cancel button on extra small screens */
@@ -68,8 +62,5 @@ span.psw {
   span.psw {
      display: block;
      float: none;
-  }
-  .cancelbtn {
-     width: 100%;
   }
 }
