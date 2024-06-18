@@ -324,6 +324,9 @@ p {
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
+  body {
+    overflow: hidden;
+  }
   .pagescroll {
     display: -webkit-box;
     display: -ms-flexbox;
