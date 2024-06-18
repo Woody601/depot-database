@@ -1,4 +1,4 @@
-import { auth } from '../../lib/firebaseConfig';
+import { auth } from '@./lib/firebaseConfig';
 import { getAuth } from 'firebase-admin/auth';
 
 export default async function handler(req, res) {
