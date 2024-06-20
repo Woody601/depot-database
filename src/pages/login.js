@@ -1,23 +1,24 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './_app'; // Adjust the import path based on your project structure
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
 import styles from '@/styles/signinup.module.css';
 import Button from '@/components/Button';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/profile');
+      router.push("/profile"); // Redirect to homepage (or wherever you like) after login
     } catch (error) {
-      alert(error.message);
+      console.error("Login Error: ", error);
+      // Handle errors appropriately (e.g., display an error message to the user)
     }
   };
 

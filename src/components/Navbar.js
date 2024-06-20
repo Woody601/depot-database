@@ -2,30 +2,39 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'; // Import Firebase auth functions
-
+import { auth, db } from "../firebase/firebaseConfig";
 import styles from '@/styles/Navbar.module.css';
 
 export default function Navbar() {
   const [screenWidth, setScreenWidth] = useState(0);
   const [isToggled, setToggled] = useState(false);
-  const [user, setUser] = useState(null); // State to hold user info
+  const [user, loading, error] = useAuthState(auth);
+  const [username, setUsername] = useState(null);
   const router = useRouter();
-
   useEffect(() => {
-    const auth = getAuth();
-    // Listen for auth state changes
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const fetchUsername = async () => {
       if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
+        // Check if the user is actually logged in
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setUsername(userDoc.data().username);
+        } // handle if doc doesn't exist
       }
-    });
+    };
+    fetchUsername();
+  }, [user]);
 
-    // Cleanup function for unsubscribe
-    return () => unsubscribe();
-  }, []);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Logout Error: ", error);
+    }
+  };
 
   const toggleNav = () => {
     if (screenWidth < 769) {
@@ -49,17 +58,6 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', updateScreenWidth);
   }, [screenWidth, isToggled]);
 
-  const handleLogout = async () => {
-    try {
-      const auth = getAuth();
-      await signOut(auth);
-      setUser(null);
-      router.push('/login'); // Redirect to login page after logout
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
-
   return (
     <>
       <div className={isToggled ? 'navHolder active' : 'navHolder'}>
@@ -77,8 +75,8 @@ export default function Navbar() {
           <Link href="/database" onClick={toggleNav}>Database</Link>
           {user ? (
             <>
-              <Link href="/profile" onClick={toggleNav}>Profile</Link>
-              <a href="#" onClick={handleLogout}>Logout</a>
+              <Link href="/profile" onClick={toggleNav}>{username}'s Profile</Link>
+              <Link href="" onClick={handleLogout}>Logout</Link>
             </>
           ) : (
             <Link href="/login" onClick={toggleNav}>Login</Link>
