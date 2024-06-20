@@ -58,6 +58,14 @@ span.psw {
   user-select: none;
   font-weight: 400;
 }
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  .form {
+    height: -webkit-fill-available;
+    display: grid;
+    align-content: center;
+  }
+}
 
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
