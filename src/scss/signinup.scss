@@ -3,7 +3,7 @@
   font-family: Roboto;
   max-width: 500px;
   margin: auto;
-  position: relative;
+  position:-webkit-sticky;
   .container {
     user-select: none;
     .checkbox {
