@@ -56,13 +56,6 @@
     }
     
     @media screen and (max-width: 768px) {
-        .iconButton {
-            height: 2.625rem;
-            width: 2.625rem;
-            i {
-                font-size: 1.625rem;
-            }
-        }
         .button {
             padding: 0.75rem 1.125rem;
             font-size: 1rem;
@@ -70,6 +63,13 @@
         .formbutton {
             padding: 1rem 1.5rem;
             font-size: 20px;
+        }
+        .iconButton {
+            height: 2.625rem;
+            width: 2.625rem;
+            i {
+                font-size: 1.625rem;
+            }
         }
     }
 }
