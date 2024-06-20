@@ -85,6 +85,7 @@
   .iconButton {
     height: 2.625rem;
     width: 2.625rem;
+    padding: 0;
   }
   .iconButton i {
     font-size: 1.625rem;
