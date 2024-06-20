@@ -1,16 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '@./lib/AuthContext';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-const Profile = () => {
-  const { user } = useAuth();
+export default function Profile () {
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
-      router.push('/login');
-    }
-  }, [user, router]);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        router.push('/login');
+      }
+    });
+
+    // Clean up the subscription on unmount
+    return () => unsubscribe();
+  }, [router]);
 
   if (!user) return null;
 
@@ -21,5 +29,3 @@ const Profile = () => {
     </div>
   );
 };
-
-export default Profile;
