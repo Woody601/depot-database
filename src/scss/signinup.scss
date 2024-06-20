@@ -1,20 +1,20 @@
+.container {
+  user-select: none;
+  height: 100%;
+  display: contents;
+}
 .form {
   padding: 2rem;
   font-family: Roboto;
   max-width: 500px;
-  margin: auto;
-  position: fixed;
-  .container {
-    user-select: none;
-    .checkbox {
-      font-weight: 400;
-      input {
-        margin-right: 19px;
-      }
+  .checkbox {
+    font-weight: 400;
+    input {
+      margin-right: 19px;
     }
-    label {
-      font-weight: 600;
-    }
+  }
+  label {
+    font-weight: 600;
   }
   h3 {
     font-size: 20px;

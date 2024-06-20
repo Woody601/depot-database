@@ -1,23 +1,24 @@
-.form {
-  padding: 2rem;
-  font-family: Roboto;
-  max-width: 500px;
-  margin: auto;
-  position: fixed;
-}
-.form .container {
+.container {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  height: 100%;
+  display: contents;
 }
-.form .container .checkbox {
+
+.form {
+  padding: 2rem;
+  font-family: Roboto;
+  max-width: 500px;
+}
+.form .checkbox {
   font-weight: 400;
 }
-.form .container .checkbox input {
+.form .checkbox input {
   margin-right: 19px;
 }
-.form .container label {
+.form label {
   font-weight: 600;
 }
 .form h3 {
