@@ -1,24 +1,23 @@
-.container {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  height: 100%;
-  display: contents;
-}
-
 .form {
   padding: 2rem;
   font-family: Roboto;
   max-width: 500px;
+  margin: auto;
+  position: fixed;
 }
-.form .checkbox {
+.form .container {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.form .container .checkbox {
   font-weight: 400;
 }
-.form .checkbox input {
+.form .container .checkbox input {
   margin-right: 19px;
 }
-.form label {
+.form .container label {
   font-weight: 600;
 }
 .form h3 {

@@ -27,7 +27,7 @@ export default function LoginPage() {
       <Head>
         <title>Login</title>
       </Head>
-        <div className={styles.container}>
+      <>
         <form method="post" className={styles.form} onSubmit={handleLogin}>
           <h3>Login</h3>
           <div className={styles.container}>
@@ -56,7 +56,7 @@ export default function LoginPage() {
             <span className={styles.psw}><a href="#">Forgot password?</a></span>
           </div>
         </form>
-        </div>
+      </>
     </>
   );
 }
