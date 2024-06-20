@@ -61,7 +61,7 @@ span.psw {
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
   .form {
-    height: -webkit-fill-available;
+    height: calc(100% - 124px);
     display: grid;
     align-content: center;
   }
