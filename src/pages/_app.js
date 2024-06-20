@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -21,8 +22,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const analytics = app.name && typeof window !== 'undefined' ? getAnalytics(app) : null;
-
-export { auth };
+// Initialize Realtime Database and get a reference to the service
+const database = getDatabase(app);
+export { auth, database  };
 
 async function getCities(db) {
   const citiesCol = collection(db, 'cities');

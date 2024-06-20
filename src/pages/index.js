@@ -6,7 +6,8 @@ export default function Home() {
       <Head>
           <title>Home</title>
       </Head>
-      
+      <a href="/profile">Profile</a>
+      <a href="/addDevice">Add Device</a>
       <p>Hello</p>
       <p>Hello</p>
       <p>Hello</p>

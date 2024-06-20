@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { push, ref, set } from "firebase/database";
-import { database } from "@./lib/firebaseConfig";
+import { database } from "./_app";
 
 export default function addDevice() {
   const [firstName, setFirstName] = useState("");
