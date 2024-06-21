@@ -16,7 +16,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/profile"); // Redirect to homepage (or wherever you like) after login
+      router.push("/account"); // Redirect to account (or wherever you like) after login
     } catch (error) {
       console.error("Login Error: ", error);
       // Handle errors appropriately (e.g., display an error message to the user)

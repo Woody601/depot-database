@@ -1,32 +1,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'; // Import Firebase auth functions
-import { auth, db } from "../firebase/firebaseConfig";
+import { auth } from "@/firebase/firebaseConfig";
 import styles from '@/styles/Navbar.module.css';
 
 export default function Navbar() {
   const [screenWidth, setScreenWidth] = useState(0);
   const [isToggled, setToggled] = useState(false);
   const [user, loading, error] = useAuthState(auth);
-  const [username, setUsername] = useState(null);
-  const router = useRouter();
-  useEffect(() => {
-    const fetchUsername = async () => {
-      if (user) {
-        // Check if the user is actually logged in
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists()) {
-          setUsername(userDoc.data().username);
-        } // handle if doc doesn't exist
-      }
-    };
-    fetchUsername();
-  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -75,7 +58,7 @@ export default function Navbar() {
           <Link href="/database" onClick={toggleNav}>Database</Link>
           {user ? (
             <>
-              <Link href="/profile" onClick={toggleNav}>{username}'s Profile</Link>
+              <Link href="/account" onClick={toggleNav}>Profile</Link>
               <Link href="" onClick={handleLogout}>Logout</Link>
             </>
           ) : (

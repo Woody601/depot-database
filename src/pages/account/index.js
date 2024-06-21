@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/firebase/firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth';
+import Link from 'next/link';
 
 export default function Profile () {
   const [user, setUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
@@ -25,7 +26,8 @@ export default function Profile () {
   return (
     <div>
       <h1>Profile</h1>
-      <p>Welcome, {user.email}</p>
+      <p>Welcome, {user.displayName}</p>
+      <Link href="account/edit">Edit Profile</Link>
     </div>
   );
 };

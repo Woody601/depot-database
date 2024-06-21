@@ -1,11 +1,10 @@
 .form {
-  padding: 2rem;
+  padding: 0 2rem;
   font-family: Roboto;
   max-width: 500px;
   width: -webkit-fill-available;
   margin: auto;
   position: fixed;
-  user-select: none;
   .container {
     .checkbox {
       font-weight: 400;
@@ -17,6 +16,7 @@
     }
     label {
       font-weight: 600;
+      
     }
   }
   h3, p {
@@ -51,12 +51,59 @@
     outline: none;
   }
 }
+.settingsContainer {
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 
+  h1 {
+    font-size: 32px;
+    margin: auto;
+    padding: 40px 1.5rem;
+    max-width: 1000px;
+  }
+  
+  .form {
+    width: auto;
+    position: unset;
+    margin: auto 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    max-width: 860px;
+    padding: 1.5rem;
+    padding-bottom: 0;
+    border: 1px solid #C9CED1;
+    border-radius: 1rem;
+    p {
+      margin: 0.75rem 0;
+      font-size: 1rem;
+      width: fit-content
+    }
+    label {
+      font-size: 1.25rem;
+      width: fit-content
+    }
+    h3 {
+      margin-bottom: .75rem;
+    }
+    input {
+      max-width: 300px;
+      margin: unset;
+      margin-bottom: 1.5rem;
+    }
+    button {
+      width: fit-content;
+      margin: 0.75rem 1.5rem;
+      margin-left: auto;
+    }
+  }
+}
 
 span.psw {
   float: inline-end;
   margin-top: 1.5rem;
-  user-select: none;
   font-weight: 400;
   width: 100%;
   text-align: center;
