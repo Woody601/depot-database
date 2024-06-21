@@ -2,12 +2,15 @@
   padding: 2rem;
   font-family: Roboto;
   max-width: 500px;
+  width: -webkit-fill-available;
   margin: auto;
   position: fixed;
+  user-select: none;
   .container {
-    user-select: none;
     .checkbox {
       font-weight: 400;
+      margin-bottom: 2rem;
+      display: block;
       input {
         margin-right: 19px;
       }
@@ -16,10 +19,11 @@
       font-weight: 600;
     }
   }
-  h3 {
+  h3, p {
+    margin-bottom: 2rem;  
+  }
+  h2, h3 {
     font-size: 20px;
-    margin-bottom: 2rem;
-    user-select: none;
   }
   input[type=text], input[type=email],input[type=password] {
       width: 100%;
@@ -46,17 +50,19 @@
     box-shadow: 0 0 0 4px rgba(207, 75, 4, 0.2);
     outline: none;
   }
-  button {
-    margin: 2rem 0 8px;      
-  }
 }
 
 
 span.psw {
-  float: right;
-  padding-top: 16px;
+  float: inline-end;
+  margin-top: 1.5rem;
   user-select: none;
   font-weight: 400;
+  width: 100%;
+  text-align: center;
+  a {
+    color: #cf4b04;
+  }
 }
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */

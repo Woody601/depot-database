@@ -2,10 +2,9 @@
   padding: 2rem;
   font-family: Roboto;
   max-width: 500px;
+  width: -webkit-fill-available;
   margin: auto;
   position: fixed;
-}
-.form .container {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -13,6 +12,8 @@
 }
 .form .container .checkbox {
   font-weight: 400;
+  margin-bottom: 2rem;
+  display: block;
 }
 .form .container .checkbox input {
   margin-right: 19px;
@@ -20,13 +21,11 @@
 .form .container label {
   font-weight: 600;
 }
-.form h3 {
-  font-size: 20px;
+.form h3, .form p {
   margin-bottom: 2rem;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+}
+.form h2, .form h3 {
+  font-size: 20px;
 }
 .form input[type=text], .form input[type=email], .form input[type=password] {
   width: 100%;
@@ -59,18 +58,20 @@
           box-shadow: 0 0 0 4px rgba(207, 75, 4, 0.2);
   outline: none;
 }
-.form button {
-  margin: 2rem 0 8px;
-}
 
 span.psw {
-  float: right;
-  padding-top: 16px;
+  float: inline-end;
+  margin-top: 1.5rem;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   font-weight: 400;
+  width: 100%;
+  text-align: center;
+}
+span.psw a {
+  color: #cf4b04;
 }
 
 @supports (-webkit-touch-callout: none) {

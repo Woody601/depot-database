@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import styles from '@/styles/signinup.module.css';
 import Button from '@/components/Button';
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -53,7 +54,7 @@ export default function LoginPage() {
             <Button type="submit" className={styles.buttomform}>Log In</Button>
           </div>
           <div className={styles.container}>
-            <span className={styles.psw}><a href="#">Forgot password?</a></span>
+            <span className={styles.psw}><Link href="/passwordreset">Forgot your password?</Link></span>
           </div>
         </form>
       </>
