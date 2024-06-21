@@ -22,9 +22,6 @@
     overflow-y:hidden;
     transition: height .4s;
   }
-  .navHolder .links a:last-child {
-    margin-top: 51px;
-  }
   .navHolder.active {
     height: calc(5.125rem + (3.188rem * 5));
   }

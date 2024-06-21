@@ -247,9 +247,6 @@ p {
     -webkit-transition: height 0.4s;
     transition: height 0.4s;
   }
-  .navHolder .links a:last-child {
-    margin-top: 51px;
-  }
   .navHolder.active {
     height: 21.065rem;
   }
