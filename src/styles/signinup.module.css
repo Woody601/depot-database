@@ -80,6 +80,7 @@
 }
 .settingsContainer .form {
   width: auto;
+  height: auto;
   position: unset;
   margin: auto 1.5rem;
   margin-bottom: 2rem;
