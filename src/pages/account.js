@@ -156,20 +156,21 @@ export default function EditPage() {
       </form> */}
        <form method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
           <div className={styles.sectionContainer}>
-            <img src={avatar} alt="Avatar" className={styles.userAvatar}/>
+            <img src={avatar} alt="Avatar" className={styles.userAvatar}onClick={() => document.getElementById('avatarInput').click()}/>
             <h4>Avatar</h4>
             <p>This is your avatar. <br/> Click on the avatar to upload a custom one from your files.</p>
             <input
-              id="avatar"
+              id="avatarInput"
               type="file"
               accept="image/*"
               onChange={handleAvatarChange}
               required
+              style={{display: 'none'}}
             ></input>
           </div>
           <div className={styles.sectionFooter}>
             <p>An avatar is optional but strongly recommended.</p>
-            <Button type="submit">Save</Button>
+            <Button type="submit button">Save</Button>
           </div>
         </form>
       <form method="post" className={styles.form} onSubmit={updateDisplayName}>
