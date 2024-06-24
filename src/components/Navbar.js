@@ -14,6 +14,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      closeNav();
     } catch (error) {
       console.error("Logout Error: ", error);
     }
@@ -58,7 +59,7 @@ export default function Navbar() {
           <Link href="/database" onClick={toggleNav}>Database</Link>
           {user ? (
             <>
-              <Link href="/account" onClick={toggleNav}>Profile</Link>
+              <Link href="/profile" onClick={toggleNav}>Profile</Link>
               <Link href="" onClick={handleLogout}>Logout</Link>
             </>
           ) : (

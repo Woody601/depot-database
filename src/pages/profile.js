@@ -27,7 +27,7 @@ export default function Profile () {
     <div>
       <h1>Profile</h1>
       <p>Welcome, {user.displayName}</p>
-      <Link href="account/edit">Edit Profile</Link>
+      <Link href="account">Edit Profile</Link>
     </div>
   );
 };
