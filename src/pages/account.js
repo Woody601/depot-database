@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { onAuthStateChanged, verifyBeforeUpdateEmail, updateEmail, EmailAuthProvider, reauthenticateWithCredential, updatePassword, updateProfile } from "firebase/auth";
-import { auth } from "@/firebase/firebaseConfig";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth, storage } from "@/firebase/firebaseConfig";
 import styles from '@/styles/signinup.module.css';
 import Button from '@/components/Button';
-import Link from "next/link";
+
 
 export default function EditPage() {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [currentPassword, setCurrentPassword] = useState(""); // Add this for current password
+  const [currentPassword, setCurrentPassword] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [avatarFile, setAvatarFile] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -104,20 +106,33 @@ export default function EditPage() {
     }
   };
 
+  const handleAvatarChange = (e) => {
+    if (e.target.files[0]) {
+      setAvatarFile(e.target.files[0]);
+      setAvatar(URL.createObjectURL(e.target.files[0]));
+    }
+  };
 
   const handleUpdateAvatar = async (e) => {
     e.preventDefault();
+    if (!avatarFile) {
+      alert("Please select an image to upload.");
+      return;
+    }
+
+    const storageRef = ref(storage, `avatars/${auth.currentUser.uid}`);
     try {
-      updateProfile(auth.currentUser, {
-       photoURL: avatar,
-      });
-      // Email updated!
+      await uploadBytes(storageRef, avatarFile);
+      const photoURL = await getDownloadURL(storageRef);
+      await updateProfile(auth.currentUser, { photoURL });
+      setAvatar(photoURL);
+      alert("Avatar updated successfully!");
     } catch (error) {
-      // An error occurred
       console.error("Profile Picture Error: ", error);
-      alert(error.message);
+      alert("An error occurred while updating the avatar: " + error.message);
     }
   };
+
 
   return (
     <>
@@ -139,19 +154,24 @@ export default function EditPage() {
           />
           <Button type="submit button" >Save</Button>
       </form> */}
-      <form method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
-      <div className={styles.sectionContainer}>
-      <img src={avatar} alt="Avatar" className={styles.userAvatar}/>
-      <h4>Avatar</h4>
-      <p>This is your avatar. <br/>
-        Click on the avatar to upload a custom one from your files.</p>
-          
-      </div>
-      <div className={styles.sectionFooter}>
-      <p>An avatar is optional but strongly recommended.</p>
-      </div>
-          
-      </form>
+       <form method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
+          <div className={styles.sectionContainer}>
+            <img src={avatar} alt="Avatar" className={styles.userAvatar}/>
+            <h4>Avatar</h4>
+            <p>This is your avatar. <br/> Click on the avatar to upload a custom one from your files.</p>
+            <input
+              id="avatar"
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              required
+            ></input>
+          </div>
+          <div className={styles.sectionFooter}>
+            <p>An avatar is optional but strongly recommended.</p>
+            <Button type="submit">Save</Button>
+          </div>
+        </form>
       <form method="post" className={styles.form} onSubmit={updateDisplayName}>
       
           <div className={styles.sectionContainer}>

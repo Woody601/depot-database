@@ -1,0 +1,9 @@
+[
+    {
+      "origin": ["http://localhost:3000", "https://depot-database.vercel.app"],
+      "method": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
+      "maxAgeSeconds": 3600,
+      "responseHeader": ["Content-Type", "Authorization"]
+    }
+  ]
+  
