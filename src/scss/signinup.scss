@@ -63,6 +63,9 @@
     padding: 40px 1.5rem;
     max-width: 1000px;
   }
+  p {
+    font-size: 14px;
+  }
   
   .form {
     width: auto;
@@ -72,21 +75,34 @@
     display: flex;
     flex-direction: column;
     max-width: 860px;
-    padding: 1.5rem;
-    padding-bottom: 0;
+    padding: 0;
     border: 1px solid #C9CED1;
     border-radius: 1rem;
+    .sectionContainer {
+      padding: 1.5rem;
+    }
+    .sectionFooter {
+      border-top: 1px solid #C9CED1;
+      padding: 0.75rem 1.5rem;
+      display: inherit;
+      align-items: center;
+      justify-content: space-between;
+      p {
+        margin: 0.625rem 0;
+      }
+    }
     p {
       margin: 0.75rem 0;
-      font-size: 1rem;
       width: fit-content
     }
     label {
       font-size: 1.25rem;
-      width: fit-content
+      width: fit-content;
+      font-weight: 600;
     }
     h3 {
       margin-bottom: .75rem;
+      
     }
     input {
       max-width: 300px;
@@ -95,8 +111,6 @@
     }
     button {
       width: fit-content;
-      margin: 0.75rem 1.5rem;
-      margin-left: auto;
     }
   }
 }
