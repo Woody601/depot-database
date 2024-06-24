@@ -16,7 +16,7 @@
       e.preventDefault();
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        router.push("/account"); // Redirect to account (or wherever you like) after login
+        router.push("/profile"); // Redirect to account (or wherever you like) after login
       } catch (error) {
         if (error.code == "auth/wrong-password") {
           alert("The password is incorrect.");

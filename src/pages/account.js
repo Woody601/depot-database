@@ -195,8 +195,7 @@ export default function EditPage() {
       <div className={styles.sectionContainer}>
       <h4>Password</h4>
       <p>Enter the email addresses you want to use to log in with. Your primary email will be used for account-related notifications.</p>
-          {/* <h5>{email}</h5> */}
-          <input
+      <input
               id="currentPassword"
               type="password"
               value={currentPassword}
@@ -214,7 +213,7 @@ export default function EditPage() {
               suggested= "new-password"
               minLength={6}
               required
-            />
+            />        
       </div>
       <div className={styles.sectionFooter}>
           <p>Emails must be verified to be able to login with them or be used as primary email.</p>
