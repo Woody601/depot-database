@@ -80,7 +80,6 @@
 }
 .settingsContainer .form {
   width: auto;
-  height: auto;
   position: unset;
   margin: auto 1.5rem;
   margin-bottom: 2rem;
@@ -183,6 +182,15 @@ span.psw a {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  .settingsContainer {
+    height: auto;
+  }
+  .settingsContainer .form {
+    height: auto;
   }
 }
 /* Change styles for span and cancel button on extra small screens */

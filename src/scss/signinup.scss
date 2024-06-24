@@ -71,7 +71,6 @@
   }
   .form {
     width: auto;
-    height: auto;
     position: unset;
     margin: auto 1.5rem;
     margin-bottom: 2rem;
@@ -159,7 +158,15 @@ span.psw {
     }
   }
 }
-
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  .settingsContainer {
+    height: auto;
+    .form {
+      height: auto;
+    }
+  }
+}
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
   span.psw {
