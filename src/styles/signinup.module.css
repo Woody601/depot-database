@@ -141,12 +141,18 @@
 .settingsContainer .overlayContent .overlayBody {
   padding: 1.5rem;
   display: inherit;
+  margin: auto;
+  max-width: 350px;
+  width: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .settingsContainer .overlayContent .overlayBody .userAvatar {
   max-height: 350px;
-  max-width: 350px;
   width: 100%;
-  margin: auto;
+  cursor: default;
 }
 .settingsContainer .overlayContent .overlayFooter {
   display: -webkit-box;

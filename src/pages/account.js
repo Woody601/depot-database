@@ -7,6 +7,7 @@ import { auth, storage } from "@/firebase/firebaseConfig";
 import styles from '@/styles/signinup.module.css';
 import Button from '@/components/Button';
 import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 export default function EditPage() {
   const [user, setUser] = useState(null);
@@ -18,12 +19,15 @@ export default function EditPage() {
   const [newAvatar, setNewAvatar] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
   const [isICOToggled, setICOToggled] = useState(false);
+  const initialCropState = { aspect: 1/1, unit: '%', width: 50, height: 50, x: 25, y: 25, keepSelection: true };
+  const [crop, setCrop] = useState("");
+
+  const [completedCrop, setCompletedCrop] = useState(null);
   const router = useRouter();
+  
   function closeImageCropOverlay() {
     setICOToggled(false);
-    setTimeout(() => {
-      setNewAvatar(null);
-    }, 400);
+    document.getElementById('avatarUpload').reset();
   }
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -39,7 +43,18 @@ export default function EditPage() {
 
     return () => unsubscribe();
   }, [router]);
-
+  useEffect(() => {
+    const handleEscKeyDown = (event) => {
+      if (event.key == "Escape" && isICOToggled) {
+        closeImageCropOverlay();
+      }
+    };
+    window.addEventListener("keydown", handleEscKeyDown);
+    
+    return () => {
+      window.removeEventListener("keydown", handleEscKeyDown);
+    };
+  }, [isICOToggled]);
 
   if (!user) return null;
   const updateIcon = async (e) => {
@@ -117,8 +132,10 @@ export default function EditPage() {
     if (e.target.files[0]) {
       setAvatarFile(e.target.files[0]);
       setNewAvatar(URL.createObjectURL(e.target.files[0]));
+      setCrop(initialCropState); // Reset crop when a new avatar is selected
       setICOToggled(true);
     }
+    
     else if (e.target.files[null]) {
       alert("Please select an image to upload.");
       setICOToggled(false);
@@ -135,17 +152,17 @@ export default function EditPage() {
 
     const storageRef = ref(storage, `avatars/${auth.currentUser.uid}`);
     try {
+      closeImageCropOverlay();
       await uploadBytes(storageRef, avatarFile);
       const photoURL = await getDownloadURL(storageRef);
       await updateProfile(auth.currentUser, { photoURL });
       setAvatar(photoURL);
-      alert("Avatar updated successfully!");
     } catch (error) {
       console.error("Profile Picture Error: ", error);
       alert("An error occurred while updating the avatar: " + error.message);
     }
   };
-
+  
 
   return (
     <>
@@ -168,29 +185,31 @@ export default function EditPage() {
           />
           <Button type="submit button" >Save</Button>
       </form> */}
-       <form method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
-       <div className={isICOToggled ? "overlay active" : "overlay" }>
-      <div className={styles.overlayContent}>
-      <div className={styles.overlayBody}>
-      <img src={newAvatar} alt="Avatar" className={styles.userAvatar}/>
-      </div>
-      <div className={styles.overlayFooter}>
-      <Button type="button" onClick={closeImageCropOverlay}>Cancel</Button>
-      <Button type="submit button">Save</Button>
-      </div>
-      </div>
-        </div>
+       <form id="avatarUpload" method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
+          <div className={isICOToggled ? "overlay active" : "overlay"}>
+            <div className={styles.overlayContent}>
+              <div className={styles.overlayBody}>
+                <ReactCrop crop={crop} onChange={(c) => setCrop(c)} aspect={1 / 1} keepSelection={true} onComplete={(c) => setCompletedCrop(c)}>
+                  <img src={newAvatar} alt="Avatar" className={styles.userAvatar} />
+                </ReactCrop>
+              </div>
+              <div className={styles.overlayFooter}>
+                <Button type="button" onClick={closeImageCropOverlay}>Cancel</Button>
+                <Button type="submit button">Set Avatar</Button>
+              </div>
+            </div>
+          </div>
           <div className={styles.sectionContainer}>
-            <img src={avatar} alt="Avatar" className={styles.userAvatar}onClick={() => document.getElementById('avatarInput').click()}/>
+            <img src={avatar} alt="Avatar" className={styles.userAvatar} onClick={() => document.getElementById('avatarInput').click()} />
             <h4>Avatar</h4>
-            <p>This is your avatar. <br/> Click on the avatar to upload a custom one from your files.</p>
+            <p>This is your avatar. <br /> Click on the avatar to upload a custom one from your files.</p>
             <input
               id="avatarInput"
               type="file"
               accept="image/*"
               onChange={handleAvatarChange}
               required
-              style={{display: 'none'}}
+              style={{ display: 'none' }}
             ></input>
           </div>
           <div className={styles.sectionFooter}>
