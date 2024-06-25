@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { onAuthStateChanged, verifyBeforeUpdateEmail, updateEmail, EmailAuthProvider, reauthenticateWithCredential, updatePassword, updateProfile } from "firebase/auth";
@@ -12,6 +12,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 export default function EditPage() {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
+  const [currentEmail, setCurrentEmail] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -21,19 +22,21 @@ export default function EditPage() {
   const [isICOToggled, setICOToggled] = useState(false);
   const initialCropState = { aspect: 1/1, unit: '%', width: 50, height: 50, x: 25, y: 25, keepSelection: true };
   const [crop, setCrop] = useState("");
-
   const [completedCrop, setCompletedCrop] = useState(null);
   const router = useRouter();
+  const imageRef = useRef(null);
+  const canvasRef = useRef(null);
   
   function closeImageCropOverlay() {
     setICOToggled(false);
     document.getElementById('avatarUpload').reset();
   }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        setEmail(user.email || "");
+        setCurrentEmail(user.email || "");
         setUsername(user.displayName || "");
         setAvatar(user.photoURL || "");
       } else {
@@ -43,6 +46,7 @@ export default function EditPage() {
 
     return () => unsubscribe();
   }, [router]);
+
   useEffect(() => {
     const handleEscKeyDown = (event) => {
       if (event.key == "Escape" && isICOToggled) {
@@ -57,21 +61,7 @@ export default function EditPage() {
   }, [isICOToggled]);
 
   if (!user) return null;
-  const updateIcon = async (e) => {
-    e.preventDefault();
-    try {
-      await updateProfile(auth.currentUser, {
-        displayName: username,
-      });
-      await updateEmail(auth.currentUser, email);      
-      // Profile updated!
-    } catch (error) {
-      // An error occurred
-      console.error("Profile Error: ", error);
-      // Handle errors appropriately (e.g., display an error message to the user)
-      alert(error);
-    }
-  };
+
   const updateDisplayName = async (e) => {
     e.preventDefault();
     try {
@@ -81,30 +71,33 @@ export default function EditPage() {
       await updateEmail(auth.currentUser, email);      
       // Profile updated!
     } catch (error) {
-      // An error occurred
       console.error("Profile Error: ", error);
-      // Handle errors appropriately (e.g., display an error message to the user)
       alert(error);
     }
   };
+
   const handleUpdateEmail = async (e) => {
     e.preventDefault();
-    verifyBeforeUpdateEmail (auth.currentUser, email)
-  .then(() => {
-    // Email verification sent!
-    alert("Email verification sent");
-  });
+    if (email == currentEmail) {
+      alert("This is your current email address. Please enter a new email you would like to use.");
+      return;
+    }
+    else {
+      verifyBeforeUpdateEmail(auth.currentUser, email)
+    .then(() => {
+      // Email verification sent!
+      alert("Email verification sent");
+    });
+    }
     try {
       await updateEmail(auth.currentUser, email);
       // Email updated!
-      
-
     } catch (error) {
-      // An error occurred
       console.error("Email Error: ", error);
       alert(error.message);
     }
   };
+
   const reauthenticate = async () => {
     const credential = EmailAuthProvider.credential(auth.currentUser.email, currentPassword);
     try {
@@ -134,63 +127,86 @@ export default function EditPage() {
       setNewAvatar(URL.createObjectURL(e.target.files[0]));
       setCrop(initialCropState); // Reset crop when a new avatar is selected
       setICOToggled(true);
-    }
-    
-    else if (e.target.files[null]) {
+    } else if (e.target.files[null]) {
       alert("Please select an image to upload.");
       setICOToggled(false);
     }
-    
+  };
+
+  const getCroppedImg = (image, crop) => {
+    const canvas = canvasRef.current;
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    const ctx = canvas.getContext("2d");
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error("Canvas is empty"));
+          return;
+        }
+        blob.name = avatarFile.name;
+        resolve(blob);
+      }, "image/jpeg");
+    });
   };
 
   const handleUpdateAvatar = async (e) => {
     e.preventDefault();
-    if (!avatarFile) {
-      alert("Please select an image to upload.");
+    if (!avatarFile || !completedCrop) {
+      alert("Please select and crop an image to upload.");
       return;
     }
+
+    const croppedImageBlob = await getCroppedImg(imageRef.current, completedCrop);
 
     const storageRef = ref(storage, `avatars/${auth.currentUser.uid}`);
     try {
       closeImageCropOverlay();
-      await uploadBytes(storageRef, avatarFile);
+      await uploadBytes(storageRef, croppedImageBlob);
       const photoURL = await getDownloadURL(storageRef);
-      await updateProfile(auth.currentUser, { photoURL });
       setAvatar(photoURL);
+      await updateProfile(auth.currentUser, { photoURL });
+      alert("Profile picture updated successfully!");
     } catch (error) {
       console.error("Profile Picture Error: ", error);
       alert("An error occurred while updating the avatar: " + error.message);
     }
   };
-  
 
   return (
     <>
-    
       <Head>
         <title>Account</title>
       </Head>
-      
       <div className={styles.settingsContainer}>
-      <h1>Account Settings</h1>
-      {/* <form method="post" className={styles.form} onSubmit={updateIcon}>
-      <label htmlFor="username">Display Name</label>
-      <p>Please enter your full name, or a display name you are comfortable with.</p>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <Button type="submit button" >Save</Button>
-      </form> */}
-       <form id="avatarUpload" method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
+        <h1>Account Settings</h1>
+        <form id="avatarUpload" method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
           <div className={isICOToggled ? "overlay active" : "overlay"}>
             <div className={styles.overlayContent}>
               <div className={styles.overlayBody}>
-                <ReactCrop crop={crop} onChange={(c) => setCrop(c)} aspect={1 / 1} keepSelection={true} onComplete={(c) => setCompletedCrop(c)}>
-                  <img src={newAvatar} alt="Avatar" className={styles.userAvatar} />
+                <ReactCrop 
+                  crop={crop} 
+                  onChange={(c) => setCrop(c)} 
+                  aspect={1 / 1} 
+                  keepSelection={true} 
+                  onComplete={(c) => setCompletedCrop(c)}
+                >
+                  <img ref={imageRef} src={newAvatar} alt="Avatar" className={styles.userAvatar} />
                 </ReactCrop>
               </div>
               <div className={styles.overlayFooter}>
@@ -211,55 +227,52 @@ export default function EditPage() {
               required
               style={{ display: 'none' }}
             ></input>
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
           </div>
           <div className={styles.sectionFooter}>
             <p>An avatar is optional but strongly recommended.</p>
           </div>
         </form>
-      <form method="post" className={styles.form} onSubmit={updateDisplayName}>
-      
+        <form method="post" className={styles.form} onSubmit={updateDisplayName}>
           <div className={styles.sectionContainer}>
-          <h4 htmlFor="username">Display Name</h4>
-      <p>Please enter your full name, or a display name you are comfortable with.</p>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            maxLength="32"
-            required
-          />
+            <h4 htmlFor="username">Display Name</h4>
+            <p>Please enter your full name, or a display name you are comfortable with.</p>
+            <input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              maxLength="32"
+              required
+            />
           </div>
           <div className={styles.sectionFooter}>
-          <p>Please use 32 characters at maximum.</p>
-          <Button type="submit button" >Save</Button>
+            <p>Please use 32 characters at maximum.</p>
+            <Button type="submit button">Save</Button>
           </div>
-          
-      </form>
-      
-      <form method="post" className={styles.form} onSubmit={handleUpdateEmail}>
-      <div className={styles.sectionContainer}>
-      <h4>Email</h4>
-      <p>Enter the email addresses you want to use to log in with. Your primary email will be used for account-related notifications.</p>
-          {/* <h5>{email}</h5> */}
-          <input
-            id="email"
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-      </div>
-      <div className={styles.sectionFooter}>
-          <p>Emails must be verified to be able to login with them or be used as primary email.</p>
-          <Button type="submit button" >Save</Button>
-     </div>
-      </form>
-      <form method="post" className={styles.form} onSubmit={handleUpdatePassword}>
-      <div className={styles.sectionContainer}>
-      <h4>Password</h4>
-      <p>Enter the email addresses you want to use to log in with. Your primary email will be used for account-related notifications.</p>
-      <input
+        </form>
+        <form method="post" className={styles.form} onSubmit={handleUpdateEmail}>
+          <div className={styles.sectionContainer}>
+            <h4>Email</h4>
+            <p>Enter the email addresses you want to use to log in with. Your primary email will be used for account-related notifications.</p>
+            <input
+              id="email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.sectionFooter}>
+            <p>Emails must be verified to be able to login with them or be used as primary email.</p>
+            <Button type="submit button">Save</Button>
+          </div>
+        </form>
+        <form method="post" className={styles.form} onSubmit={handleUpdatePassword}>
+          <div className={styles.sectionContainer}>
+            <h4>Password</h4>
+            <p>Enter the email addresses you want to use to log in with. Your primary email will be used for account-related notifications.</p>
+            <input
               id="currentPassword"
               type="password"
               value={currentPassword}
@@ -274,18 +287,16 @@ export default function EditPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="New Password"
-              suggested= "new-password"
               minLength={6}
               required
-            />        
+            />
+          </div>
+          <div className={styles.sectionFooter}>
+            <p>Emails must be verified to be able to login with them or be used as primary email.</p>
+            <Button type="submit button">Save</Button>
+          </div>
+        </form>
       </div>
-      <div className={styles.sectionFooter}>
-          <p>Emails must be verified to be able to login with them or be used as primary email.</p>
-          <Button type="submit button" >Save</Button>
-     </div>
-      </form>
-      </div>
-      
     </>
   );
 }
