@@ -20,7 +20,7 @@ export default function EditPage() {
   const [newAvatar, setNewAvatar] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
   const [isICOToggled, setICOToggled] = useState(false);
-  const initialCropState = { aspect: 1/1, unit: '%', width: 50, height: 50, x: 25, y: 25, keepSelection: true };
+  const initialCropState = { aspect: 1/1 };
   const [crop, setCrop] = useState("");
   const [completedCrop, setCompletedCrop] = useState(null);
   const router = useRouter();
@@ -202,8 +202,7 @@ export default function EditPage() {
                 <ReactCrop 
                   crop={crop} 
                   onChange={(c) => setCrop(c)} 
-                  aspect={1 / 1} 
-                  keepSelection={true} 
+                  aspect={1}  
                   onComplete={(c) => setCompletedCrop(c)}
                 >
                   <img ref={imageRef} src={newAvatar} alt="Avatar" className={styles.userAvatar} />
