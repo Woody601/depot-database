@@ -6,7 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { auth, storage } from "@/firebase/firebaseConfig";
 import styles from '@/styles/signinup.module.css';
 import Button from '@/components/Button';
-
+import ReactCrop from 'react-image-crop';
 
 export default function EditPage() {
   const [user, setUser] = useState(null);
@@ -15,9 +15,16 @@ export default function EditPage() {
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [newAvatar, setNewAvatar] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
+  const [isICOToggled, setICOToggled] = useState(false);
   const router = useRouter();
-
+  function closeImageCropOverlay() {
+    setICOToggled(false);
+    setTimeout(() => {
+      setNewAvatar(null);
+    }, 400);
+  }
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -109,8 +116,14 @@ export default function EditPage() {
   const handleAvatarChange = (e) => {
     if (e.target.files[0]) {
       setAvatarFile(e.target.files[0]);
-      setAvatar(URL.createObjectURL(e.target.files[0]));
+      setNewAvatar(URL.createObjectURL(e.target.files[0]));
+      setICOToggled(true);
     }
+    else if (e.target.files[null]) {
+      alert("Please select an image to upload.");
+      setICOToggled(false);
+    }
+    
   };
 
   const handleUpdateAvatar = async (e) => {
@@ -140,6 +153,7 @@ export default function EditPage() {
       <Head>
         <title>Account</title>
       </Head>
+      
       <div className={styles.settingsContainer}>
       <h1>Account Settings</h1>
       {/* <form method="post" className={styles.form} onSubmit={updateIcon}>
@@ -155,6 +169,17 @@ export default function EditPage() {
           <Button type="submit button" >Save</Button>
       </form> */}
        <form method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
+       <div className={isICOToggled ? "overlay active" : "overlay" }>
+      <div className={styles.overlayContent}>
+      <div className={styles.overlayBody}>
+      <img src={newAvatar} alt="Avatar" className={styles.userAvatar}/>
+      </div>
+      <div className={styles.overlayFooter}>
+      <Button type="button" onClick={closeImageCropOverlay}>Cancel</Button>
+      <Button type="submit button">Save</Button>
+      </div>
+      </div>
+        </div>
           <div className={styles.sectionContainer}>
             <img src={avatar} alt="Avatar" className={styles.userAvatar}onClick={() => document.getElementById('avatarInput').click()}/>
             <h4>Avatar</h4>
@@ -170,7 +195,6 @@ export default function EditPage() {
           </div>
           <div className={styles.sectionFooter}>
             <p>An avatar is optional but strongly recommended.</p>
-            <Button type="submit button">Save</Button>
           </div>
         </form>
       <form method="post" className={styles.form} onSubmit={updateDisplayName}>

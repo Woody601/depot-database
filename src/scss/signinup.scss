@@ -1,3 +1,4 @@
+@import "OverlayContent.scss";
 .form {
   padding: 0 2rem;
   font-family: Roboto;
@@ -55,7 +56,33 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-
+  .overlayContent {
+    padding: 0;
+    border: 1px solid #C9CED1;
+    border-radius: 12px;
+    grid-row-gap: 0;
+    width: 100%;
+    max-width: 492px;
+    .overlayBody {
+      padding: 1.5rem;
+      display: inherit;
+      .userAvatar {
+        max-height: 350px;
+        max-width: 350px;
+        width: 100%;
+        margin: auto;
+      }
+    }
+    .overlayFooter {
+      display: flex;
+      min-height: 40px;
+      height: fit-content;
+      padding: 1rem;
+      column-gap: 1rem;
+      justify-content: space-between;
+      border-top: 1px solid #C9CED1;
+    }
+}
   h1 {
     font-size: 32px;
     margin: auto;
@@ -92,6 +119,9 @@
       }
       .userAvatar:hover {
         cursor: pointer;
+      }
+      input {
+        margin-right: 2rem;
       }
     }
     .sectionFooter {
