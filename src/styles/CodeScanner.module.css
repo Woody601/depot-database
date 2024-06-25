@@ -58,7 +58,7 @@
   margin-top: 3.75rem;
   top: 0;
   left: 0;
-  width: 100%;
+  width: -webkit-fill-available;
   height: calc(100% - 3.75rem);
   background: rgba(0, 0, 0, 0.75);
   -webkit-transition: opacity 0.4s, z-index 1.2s;

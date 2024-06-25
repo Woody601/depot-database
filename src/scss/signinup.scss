@@ -69,11 +69,11 @@
       display: inherit;
       margin: auto;
       max-width: 350px;
-      width: 100%;
+      width: fit-content;
       user-select: none;
       .userAvatar {
         max-height: 350px;
-        width: 100%;
+        width: max-content;
         cursor: default;
       }
     }

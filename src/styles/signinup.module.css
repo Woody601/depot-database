@@ -143,7 +143,9 @@
   display: inherit;
   margin: auto;
   max-width: 350px;
-  width: 100%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -151,7 +153,9 @@
 }
 .settingsContainer .overlayContent .overlayBody .userAvatar {
   max-height: 350px;
-  width: 100%;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
   cursor: default;
 }
 .settingsContainer .overlayContent .overlayFooter {
