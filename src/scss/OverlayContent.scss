@@ -1,3 +1,4 @@
+
 .overlayContent {
     background-color: #fff;
     padding: 1rem;
@@ -5,6 +6,24 @@
     display: grid;
     column-gap: 1rem;
     grid-row-gap: 1rem;
+    .settingsOption {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      overflow: clip;
+      column-gap: 1rem;
+      row-gap: 0.5rem;
+      user-select: none;
+      .settingLabel {
+       
+        width: 10.5rem;
+        width: 8.5rem;
+      }
+      // button {
+      //   margin: auto;
+      // }
+    }
     h3 {
       font-size: 1.25rem;
       margin-bottom: 0;

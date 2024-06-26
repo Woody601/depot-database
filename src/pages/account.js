@@ -7,7 +7,9 @@ import { auth, storage } from "@/firebase/firebaseConfig";
 import styles from '@/styles/signinup.module.css';
 import Button from '@/components/Button';
 import ReactCrop from 'react-image-crop';
+import ToggleSwitch from "@/components/ToggleSwitch";
 import 'react-image-crop/dist/ReactCrop.css';
+import { set } from "firebase/database";
 
 export default function EditPage() {
   const [user, setUser] = useState(null);
@@ -17,19 +19,33 @@ export default function EditPage() {
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [isICOToggled, setICOToggled] = useState(false);
+  const [isRuleOfThirds, setRuleOfThirds] = useState(false);
   const [newAvatar, setNewAvatar] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
-  const [isICOToggled, setICOToggled] = useState(false);
-  const initialCropState = { aspect: 1/1 };
+  const [disabled, setDisabled] = useState(true);
   const [crop, setCrop] = useState("");
-  const [completedCrop, setCompletedCrop] = useState(null);
   const router = useRouter();
   const imageRef = useRef(null);
   const canvasRef = useRef(null);
-  
+  function onChange(e) {
+    setCrop(e);
+    setDisabled(true);
+  }
+  function onComplete(e) {
+    setCrop(e);
+    setDisabled(false);
+  }
+
+  function toggleRuleofThirds() {
+    setRuleOfThirds(!isRuleOfThirds);
+  }
   function closeImageCropOverlay() {
     setICOToggled(false);
-    document.getElementById('avatarUpload').reset();
+    document.getElementById('avatarInput').value = '';
+    setTimeout(() => {
+      setDisabled(true);
+    }, 400)
   }
 
   useEffect(() => {
@@ -125,7 +141,7 @@ export default function EditPage() {
     if (e.target.files[0]) {
       setAvatarFile(e.target.files[0]);
       setNewAvatar(URL.createObjectURL(e.target.files[0]));
-      setCrop(initialCropState); // Reset crop when a new avatar is selected
+      setCrop({ aspect: 1/1 });
       setICOToggled(true);
     } else if (e.target.files[null]) {
       alert("Please select an image to upload.");
@@ -167,12 +183,16 @@ export default function EditPage() {
 
   const handleUpdateAvatar = async (e) => {
     e.preventDefault();
-    if (!avatarFile || !completedCrop) {
+    if (!avatarFile || !crop) {
       alert("Please select and crop an image to upload.");
       return;
     }
-
-    const croppedImageBlob = await getCroppedImg(imageRef.current, completedCrop);
+    if (canvasRef == null) {
+      alert("Canvas is null. Please refresh the page and try again.");
+      return;
+    }
+    else {
+      const croppedImageBlob = await getCroppedImg(imageRef.current, crop);
 
     const storageRef = ref(storage, `avatars/${auth.currentUser.uid}`);
     try {
@@ -181,10 +201,11 @@ export default function EditPage() {
       const photoURL = await getDownloadURL(storageRef);
       setAvatar(photoURL);
       await updateProfile(auth.currentUser, { photoURL });
-      alert("Profile picture updated successfully!");
+      alert("Avatar updated successfully!");
     } catch (error) {
-      console.error("Profile Picture Error: ", error);
+      console.error("Avatar Error: ", error);
       alert("An error occurred while updating the avatar: " + error.message);
+    }
     }
   };
 
@@ -199,18 +220,30 @@ export default function EditPage() {
           <div className={isICOToggled ? "overlay active" : "overlay"}>
             <div className={styles.overlayContent}>
               <div className={styles.overlayBody}>
-                <ReactCrop 
+              <ReactCrop 
                   crop={crop} 
-                  onChange={(c) => setCrop(c)} 
-                  aspect={1}  
-                  onComplete={(c) => setCompletedCrop(c)}
+                  onChange={(c) => onChange(c)} 
+                  aspect={1}
+                  onComplete={(c) => onComplete(c)}
+                  centerCrop ={true}
+                  minWidth={50}
+                  minHeight={50}
+                  maxWidth={350}
+                  maxHeight={350}
+                  ruleOfThirds={isRuleOfThirds}
+                  className={styles.AvatarWrapper}
                 >
                   <img ref={imageRef} src={newAvatar} alt="Avatar" className={styles.userAvatar} />
                 </ReactCrop>
               </div>
               <div className={styles.overlayFooter}>
                 <Button type="button" onClick={closeImageCropOverlay}>Cancel</Button>
-                <Button type="submit button">Set Avatar</Button>
+                <div className={styles.settingsOption}>
+                  <p className={styles.settingLabel}>Rule of Thirds</p>
+                  <ToggleSwitch round onChange={toggleRuleofThirds} />
+                </div>
+                
+                <Button type="submit button" disabled={disabled}>Set Avatar</Button>
               </div>
             </div>
           </div>

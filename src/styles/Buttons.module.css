@@ -26,6 +26,13 @@
   cursor: pointer;
 }
 
+.button:disabled {
+  background-color: #d1d1d1; /* gray out background */
+  color: #888888; /* gray out text */
+  cursor: not-allowed; /* show disabled cursor */
+  pointer-events: none; /* disable pointer events */
+}
+
 .formbutton {
   width: 100%;
   padding: 1rem 1.5rem;
