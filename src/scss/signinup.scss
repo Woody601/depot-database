@@ -18,6 +18,7 @@
     label {
       font-weight: 600;
     }
+    margin-bottom: 1.5rem;
   }
   h3, p {
     margin-bottom: 2rem;  
@@ -186,7 +187,6 @@
 
 span.psw {
   float: inline-end;
-  margin-top: 1.5rem;
   font-weight: 400;
   width: 100%;
   text-align: center;
@@ -194,10 +194,13 @@ span.psw {
     color: #cf4b04;
   }
 }
+.signup-container {
+  margin-bottom: 1.5rem;
+}
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
   .form {
-    height: calc(100% - 124px);
+    height: calc(100% - 60px);
     display: grid;
     align-content: center;
   }

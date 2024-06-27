@@ -97,6 +97,9 @@
   margin: auto;
   position: fixed;
 }
+.form .container {
+  margin-bottom: 1.5rem;
+}
 .form .container .checkbox {
   font-weight: 400;
   margin-bottom: 2rem;
@@ -310,7 +313,6 @@
 
 span.psw {
   float: inline-end;
-  margin-top: 1.5rem;
   font-weight: 400;
   width: 100%;
   text-align: center;
@@ -319,10 +321,14 @@ span.psw a {
   color: #cf4b04;
 }
 
+.signup-container {
+  margin-bottom: 1.5rem;
+}
+
 @supports (-webkit-touch-callout: none) {
   /* CSS specific to iOS devices */
   .form {
-    height: calc(100% - 124px);
+    height: calc(100% - 60px);
     display: -ms-grid;
     display: grid;
     -ms-flex-line-pack: center;
