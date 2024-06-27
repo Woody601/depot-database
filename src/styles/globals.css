@@ -343,6 +343,7 @@ p {
   @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
     .pagescroll {
       width: 100vw;
+      position: fixed;
     }
     .apps {
       width: 100%;
