@@ -217,7 +217,7 @@ export default function CodeScanner() {
               <ToggleSwitch round onChange={toggleAspectRatio} />
             </div>
             <div id='resetCamSetting' className={styles.settingsOption}>
-              <Button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>Reset Camera</Button>
+              <Button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>RESET CAMERA</Button>
             </div>
           </div>
         </div>

@@ -9,7 +9,6 @@ import Button from '@/components/Button';
 import ReactCrop from 'react-image-crop';
 import ToggleSwitch from "@/components/ToggleSwitch";
 import 'react-image-crop/dist/ReactCrop.css';
-import { set } from "firebase/database";
 
 export default function EditPage() {
   const [user, setUser] = useState(null);
@@ -238,11 +237,7 @@ export default function EditPage() {
               </div>
               <div className={styles.overlayFooter}>
                 <Button type="button" onClick={closeImageCropOverlay}>Cancel</Button>
-                <div className={styles.settingsOption}>
-                  <p className={styles.settingLabel}>Rule of Thirds</p>
-                  <ToggleSwitch round onChange={toggleRuleofThirds} />
-                </div>
-                
+                <ToggleSwitch icon='grid_off' onChange={toggleRuleofThirds} />
                 <Button type="submit button" disabled={disabled}>Set Avatar</Button>
               </div>
             </div>

@@ -12,7 +12,6 @@
     color: #fff;
     font-family: Roboto;
     font-weight: 700;
-    text-transform: uppercase;
     user-select: none;
     pointer-events: fill;
 }
@@ -33,7 +32,6 @@
     border-radius: 50px;
     font-size: 20px;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    text-transform: none;
 }
 .formbutton:hover {
     background-color: #9d3903;

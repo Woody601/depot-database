@@ -70,6 +70,7 @@
       padding: 1.5rem;
       max-height: 608px;
       overflow-y: auto;
+      
     }
     .AvatarWrapper {
       display: block;
@@ -82,6 +83,7 @@
     
     .overlayFooter {
       display: flex;
+      flex-wrap: wrap;
       min-height: 40px;
       height: fit-content;
       padding: 1rem;
@@ -135,6 +137,11 @@
         }
         input {
           margin-right: 2rem;
+        }
+        label {
+          input {
+            margin-right: 0;
+          }
         }
       }
       .sectionFooter {

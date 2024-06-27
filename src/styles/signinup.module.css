@@ -182,6 +182,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   min-height: 40px;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -253,6 +255,9 @@
 }
 .settingsContainer .form .sectionContainer input {
   margin-right: 2rem;
+}
+.settingsContainer .form .sectionContainer label input {
+  margin-right: 0;
 }
 .settingsContainer .form .sectionFooter {
   border-top: 1px solid #C9CED1;
