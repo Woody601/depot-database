@@ -217,14 +217,16 @@ span.psw {
   .settingsContainer {
     .overlayContent {
       border-radius: 0;
+      position: absolute;
+      bottom: 0;
       .overlayBody {
         max-width: -webkit-fill-available;
         overflow-y: auto;
-        max-height: calc(100vh - 6.688rem - 73px);
+        max-height: calc(75vh - 6.688rem - 73px);
       }
       @media (pointer: coarse), (hover: none) {
         .overlayBody {
-          max-height: calc(100vh - 6.688rem - 76px);
+          max-height: calc(75vh - 63px);
         }
       }
       

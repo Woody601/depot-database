@@ -341,16 +341,18 @@ span.psw a {
 @media screen and (max-width: 492px) {
   .settingsContainer .overlayContent {
     border-radius: 0;
+    position: absolute;
+    bottom: 0;
   }
   .settingsContainer .overlayContent .overlayBody {
     max-width: -webkit-fill-available;
     overflow-y: auto;
-    max-height: calc(100vh - 6.688rem - 73px);
+    max-height: calc(75vh - 6.688rem - 73px);
   }
 }
 @media screen and (max-width: 492px) and (pointer: coarse), screen and (max-width: 492px) and (hover: none) {
   .settingsContainer .overlayContent .overlayBody {
-    max-height: calc(100vh - 6.688rem - 76px);
+    max-height: calc(75vh - 63px);
   }
 }
 @supports (-webkit-touch-callout: none) {
