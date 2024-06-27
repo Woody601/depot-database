@@ -120,7 +120,9 @@ export default function CodeScanner() {
       return newState;
     });
   }
-
+  function openResults() {
+    setROToggled(true);
+  };
   function toggleAspectRatio() {
     const videoElement = document.getElementById('video');
     const videoContainerElement = document.getElementById('videoContainer');
@@ -200,8 +202,12 @@ export default function CodeScanner() {
         </div>
         <div className={isSOToggled ? "overlay active" : "overlay" }>
           <div className={styles.overlayContent}>
+          <div className={styles.overlayBody}>
+            
+            </div>
             <div className={styles.settingsControls}>
               <Button icon='close' onClick={closeSettingsOverlay} title='Close' />
+              <Button icon='expand' onClick={openResults} title='Full screen' />
               <Button icon='expand' onClick={toggleFullScreen} title='Full screen' />
             </div>
             <div id="sourceSelectOption" className={styles.settingsOption}>
@@ -223,8 +229,10 @@ export default function CodeScanner() {
         </div>
         <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay" }>
           <div className={styles.overlayContent}>
+            <div className={styles.overlayBody}>
             <h3>Result:</h3>
             <pre><code id="result"/></pre>
+            </div>
             <div className={styles.overlayButtons}>
               <Button onClick={closeResultsOverlay}>Rescan</Button>
               <Button onClick={()=> continueButtonClicked(result)}>Continue</Button>

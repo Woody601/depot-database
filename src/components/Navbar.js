@@ -41,7 +41,19 @@ export default function Navbar() {
     }
     return () => window.removeEventListener('resize', updateScreenWidth);
   }, [screenWidth, isToggled]);
-
+  
+  useEffect(() => {
+    const handleEscKeyDown = (event) => {
+      if (event.key == "Escape" && isToggled) {
+        closeNav();
+      }
+    };
+    window.addEventListener("keydown", handleEscKeyDown);
+    
+    return () => {
+      window.removeEventListener("keydown", handleEscKeyDown);
+    };
+  }, [isToggled]);
   return (
     <>
       <div className={isToggled ? 'navHolder active' : 'navHolder'}>
