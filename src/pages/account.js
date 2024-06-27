@@ -18,6 +18,7 @@ export default function EditPage() {
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [isEmptyCrop, setEmptyCrop] = useState(true);
   const [isICOToggled, setICOToggled] = useState(false);
   const [isRuleOfThirds, setRuleOfThirds] = useState(false);
   const [newAvatar, setNewAvatar] = useState("");
@@ -33,9 +34,8 @@ export default function EditPage() {
   }
   function onComplete(e) {
     setCrop(e);
-    setDisabled(false);
+    getCroppedImg(imageRef.current, crop);
   }
-
   function toggleRuleofThirds() {
     setRuleOfThirds(!isRuleOfThirds);
   }
@@ -171,8 +171,14 @@ export default function EditPage() {
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {
         if (!blob) {
-          reject(new Error("Canvas is empty"));
+          setDisabled(true);
           return;
+        }
+        if (disabled && blob != null) {
+          setDisabled(false);
+        }
+        if (disabled && blob == null) {
+          reject(new Error("Canvas is empty"));
         }
         blob.name = avatarFile.name;
         resolve(blob);

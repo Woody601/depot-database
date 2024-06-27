@@ -175,6 +175,10 @@
   max-width: 350px;
   margin: auto;
 }
+.settingsContainer .AvatarWrapper .cropArea {
+  width: 100%;
+  height: 100%;
+}
 .settingsContainer .userAvatar {
   width: 100%;
 }
