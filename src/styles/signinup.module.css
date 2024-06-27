@@ -99,6 +99,8 @@
 }
 .form .container {
   margin-bottom: 1.5rem;
+  display: -ms-grid;
+  display: grid;
 }
 .form .container .checkbox {
   font-weight: 400;
