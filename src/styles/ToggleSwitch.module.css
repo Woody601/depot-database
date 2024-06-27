@@ -58,3 +58,9 @@
 .switch .slider.round:before {
   border-radius: 50%;
 }
+
+@media screen and (max-width: 768px) {
+  .icon i {
+    font-size: 2.5rem;
+  }
+}

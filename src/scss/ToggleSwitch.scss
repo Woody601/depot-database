@@ -57,7 +57,13 @@
   }
   }
   
-  
+  @media screen and (max-width: 768px) {
+    .icon {
+      i {
+        font-size: 2.5rem;
+      }
+    }
+  }
 
   // @media screen and (max-width: 768px) {
   //   .switch { 
