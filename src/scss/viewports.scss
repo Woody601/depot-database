@@ -72,7 +72,11 @@
     }
   }
 }
-
+@media screen and (max-width: 260px) {
+  .logo {
+    display: none;
+  }
+}
 @media screen and (max-width: 16.938rem) {
   .logo {
     width: 100%;

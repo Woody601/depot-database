@@ -25,9 +25,7 @@ export default function CodeScanner() {
       setResult(result.getText());
       const isLink = result.text.startsWith("http://") || result.text.startsWith("https://");
       document.getElementById("result").innerHTML = isLink ? `<a href="${result.text}" target="_blank">${result.text}</a>` : result.text;
-      setSOToggled(false);
-      setVideoPaused(true);
-      setROToggled(true);
+      openResultsOverlay();
     },
     paused: isVideoPaused,
     deviceId: selectedDeviceId,
@@ -108,8 +106,10 @@ export default function CodeScanner() {
       return newState;
     });
   }
-  function openResults() {
-	setROToggled(true);
+  function openResultsOverlay() {
+	setSOToggled(false);
+    setVideoPaused(true);
+    setROToggled(true);
   }
 
   function toggleAspectRatio() {
@@ -143,6 +143,11 @@ export default function CodeScanner() {
    * @param {string} resultText - The text content of the scanned QR code.
    */
   function continueButtonClicked(resultText) {
+	if (!result) {
+		alert("There is no result to continue with. Please try rescanning.");
+		closeResultsOverlay();
+		return
+	}
     setROToggled(false);
     localStorage.setItem("qrCodeResult", resultText);
     setTimeout(() => {
@@ -192,12 +197,12 @@ export default function CodeScanner() {
         </div>
         <div className={isSOToggled ? "overlay active" : "overlay"}>
           <div className={styles.overlayContent}>
-            <div className={styles.overlayBody}>
-              <div className={styles.settingsControls}>
+		  <div className={styles.overlayControls}>
                 <Button icon="close" onClick={closeSettingsOverlay} title="Close" />
-				<Button icon="expand" onClick={openResults} title="Full screen" />
+				<Button icon="expand" onClick={openResultsOverlay} title="Full screen" />
                 <Button icon="expand" onClick={toggleFullScreen} title="Full screen" />
               </div>
+            <div className={styles.overlayBody}>
               <div id="sourceSelectOption" className={styles.settingsOption}>
                 <p htmlFor="sourceSelect" title="Choose from available camera sources to change the video input device." className={styles.settingLabel}>
                   Camera Source

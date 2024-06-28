@@ -1,15 +1,17 @@
 .overlayContent {
     background-color: #fff;
     max-width: 35rem;
+    border-radius: 0.75rem;
+    .overlayControls {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 0.063rem solid #C9CED1;
+    }
     .overlayBody {
         padding: 1rem;
         display: grid;
         row-gap: 1rem;
-        .settingsControls {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
         .settingsOption {
             display: flex;
             flex-wrap: wrap;
@@ -71,15 +73,17 @@
 }
 
 @media (pointer: coarse), (hover: none) {
+  @media screen and (max-width: 768px) {
     .overlayContent p, .overlayContent pre code {
       font-size: 1.125rem;
     }
     .overlayContent {
       grid-row-gap: 1.5rem;
-      .overlayBody {
+      .overlayControls, .overlayBody, .overlayFooter {
         padding: 1.5rem;
       }
     }
+  }
   }
   @supports (-webkit-touch-callout: none) {
     /* CSS specific to iOS devices */ 

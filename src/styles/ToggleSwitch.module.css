@@ -47,9 +47,17 @@
 }
 
 .icon {
+  width: 2rem;
+  height: 2rem;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -61,6 +69,10 @@
 }
 
 @media screen and (pointer: coarse) and (max-width: 768px), screen and (hover: none) and (max-width: 768px) {
+  .icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
   .icon i {
     font-size: 2.5rem;
   }

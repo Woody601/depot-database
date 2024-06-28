@@ -87,21 +87,23 @@
 .overlayContent {
   background-color: #fff;
   max-width: 35rem;
+  border-radius: 0.75rem;
 }
-.overlayContent .overlayBody {
-  padding: 1rem;
-  display: -ms-grid;
-  display: grid;
-  row-gap: 1rem;
-}
-.overlayContent .overlayBody .settingsControls {
+.overlayContent .overlayControls {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  border-bottom: 0.063rem solid #C9CED1;
+}
+.overlayContent .overlayBody {
+  padding: 1rem;
+  display: -ms-grid;
+  display: grid;
+  row-gap: 1rem;
 }
 .overlayContent .overlayBody .settingsOption {
   display: -webkit-box;
@@ -193,14 +195,14 @@
   border-top: 0.063rem solid #C9CED1;
 }
 
-@media (pointer: coarse), (hover: none) {
+@media screen and (pointer: coarse) and (max-width: 768px), screen and (hover: none) and (max-width: 768px) {
   .overlayContent p, .overlayContent pre code {
     font-size: 1.125rem;
   }
   .overlayContent {
     grid-row-gap: 1.5rem;
   }
-  .overlayContent .overlayBody {
+  .overlayContent .overlayControls, .overlayContent .overlayBody, .overlayContent .overlayFooter {
     padding: 1.5rem;
   }
 }

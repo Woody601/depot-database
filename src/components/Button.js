@@ -22,7 +22,7 @@ export default function Button({ id, onClick, title, icon, children, disabled, t
     }
     else {
         return(
-            <button id={id} className={styles.button + " " + styles.iconButton} onClick={onClick} title={title}>
+            <button id={id} className={styles.button + " " + styles.iconButton} onClick={onClick} title={title} disabled={disabled}>
             {icon && <i className={iconClass} disabled={disabled}/>}
             </button>
         )

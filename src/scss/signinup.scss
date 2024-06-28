@@ -67,11 +67,18 @@
       grid-row-gap: 0;
       width: 100%;
       max-width: 492px;
+      .overlayControls {
+        justify-content: space-evenly;
+        border-top: 0.063rem solid #C9CED1;
+        border-bottom: 0;
+        padding: 1rem 1.5rem;
+      }
       .overlayBody {
         padding: 1.5rem;
         max-height: 608px;
         overflow-y: auto;
         display: block;
+        
         .AvatarWrapper {
           display: block;
           max-width: 350px;
@@ -172,9 +179,6 @@
         margin-bottom: 1.5rem;
         font-size: 14px;
       }
-      button {
-        width: fit-content;
-      }
     }
   }
 
@@ -215,6 +219,7 @@ span.psw {
       border-radius: 0;
       position: absolute;
       bottom: 0;
+      
       .overlayBody {
         max-width: -webkit-fill-available;
         overflow-y: auto;
@@ -222,7 +227,7 @@ span.psw {
       }
       @media (pointer: coarse), (hover: none) {
         .overlayBody {
-          max-height: calc(75vh - 63px);
+          max-height: calc(75vh - 89px)
         }
       }
     }

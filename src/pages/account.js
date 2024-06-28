@@ -19,6 +19,7 @@ export default function EditPage() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [avatar, setAvatar] = useState("");
   const [isICOToggled, setICOToggled] = useState(false);
+  const [isCircularCrop, setCircularCrop] = useState(false);
   const [isRuleOfThirds, setRuleOfThirds] = useState(false);
   const [newAvatar, setNewAvatar] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
@@ -34,6 +35,9 @@ export default function EditPage() {
   function onComplete(e) {
     setCrop(e);
     getCroppedImg(imageRef.current, crop);
+  }
+  function toggleCircularCrop() {
+    setCircularCrop(!isCircularCrop);
   }
   function toggleRuleofThirds() {
     setRuleOfThirds(!isRuleOfThirds);
@@ -223,6 +227,7 @@ export default function EditPage() {
         <form id="avatarUpload" method="post" className={styles.form} onSubmit={handleUpdateAvatar}>
           <div className={isICOToggled ? "overlay active" : "overlay"}>
             <div className={styles.overlayContent}>
+              
               <div className={styles.overlayBody}>
               <ReactCrop 
                   crop={crop} 
@@ -234,15 +239,19 @@ export default function EditPage() {
                   minHeight={50}
                   maxWidth={350}
                   maxHeight={350}
+                  circularCrop={isCircularCrop}
                   ruleOfThirds={isRuleOfThirds}
                   className={styles.AvatarWrapper}
                 >
                   <img ref={imageRef} src={newAvatar} alt="Avatar" className={styles.userAvatar} />
                 </ReactCrop>
               </div>
+              <div className={styles.overlayControls}>
+              <ToggleSwitch  icon='square-o' onChange={toggleCircularCrop} fa4 />
+              <ToggleSwitch icon='grid_off' onChange={toggleRuleofThirds} />
+              </div>
               <div className={styles.overlayFooter}>
                 <Button type="button" onClick={closeImageCropOverlay}>Cancel</Button>
-                <ToggleSwitch icon='grid_off' onChange={toggleRuleofThirds} />
                 <Button type="submit button" disabled={disabled}>Set Avatar</Button>
               </div>
             </div>
@@ -251,6 +260,7 @@ export default function EditPage() {
             <img src={avatar} alt="Avatar" className={styles.userAvatar} onClick={() => document.getElementById('avatarInput').click()} />
             <h4>Avatar</h4>
             <p>This is your avatar. <br /> Click on the avatar to upload a custom one from your files.</p>
+            
             <input
               id="avatarInput"
               type="file"

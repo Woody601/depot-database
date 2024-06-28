@@ -1,21 +1,23 @@
 .overlayContent {
   background-color: #fff;
   max-width: 35rem;
+  border-radius: 0.75rem;
 }
-.overlayContent .overlayBody {
-  padding: 1rem;
-  display: -ms-grid;
-  display: grid;
-  row-gap: 1rem;
-}
-.overlayContent .overlayBody .settingsControls {
+.overlayContent .overlayControls {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  border-bottom: 0.063rem solid #C9CED1;
+}
+.overlayContent .overlayBody {
+  padding: 1rem;
+  display: -ms-grid;
+  display: grid;
+  row-gap: 1rem;
 }
 .overlayContent .overlayBody .settingsOption {
   display: -webkit-box;
@@ -107,14 +109,14 @@
   border-top: 0.063rem solid #C9CED1;
 }
 
-@media (pointer: coarse), (hover: none) {
+@media screen and (pointer: coarse) and (max-width: 768px), screen and (hover: none) and (max-width: 768px) {
   .overlayContent p, .overlayContent pre code {
     font-size: 1.125rem;
   }
   .overlayContent {
     grid-row-gap: 1.5rem;
   }
-  .overlayContent .overlayBody {
+  .overlayContent .overlayControls, .overlayContent .overlayBody, .overlayContent .overlayFooter {
     padding: 1.5rem;
   }
 }
@@ -231,6 +233,14 @@
   grid-row-gap: 0;
   width: 100%;
   max-width: 492px;
+}
+.settingsContainer .overlayContent .overlayControls {
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  border-top: 0.063rem solid #C9CED1;
+  border-bottom: 0;
+  padding: 1rem 1.5rem;
 }
 .settingsContainer .overlayContent .overlayBody {
   padding: 1.5rem;
@@ -357,11 +367,6 @@
   margin-bottom: 1.5rem;
   font-size: 14px;
 }
-.settingsContainer .form button {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
 
 span.psw {
   float: inline-end;
@@ -410,7 +415,7 @@ span.psw a {
 }
 @media screen and (max-width: 492px) and (pointer: coarse), screen and (max-width: 492px) and (hover: none) {
   .settingsContainer .overlayContent .overlayBody {
-    max-height: calc(75vh - 63px);
+    max-height: calc(75vh - 89px);
   }
 }
 @supports (-webkit-touch-callout: none) {

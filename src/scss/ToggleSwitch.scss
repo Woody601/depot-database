@@ -44,7 +44,11 @@
 	display: none;
 }
 .icon {
+	width: 2rem;
+	height: 2rem;
 	display: inline-flex;
+	justify-content: center;
+    align-items: center;
 	user-select: none;
 	cursor: pointer;
 	i {
@@ -55,6 +59,8 @@
 @media (pointer: coarse), (hover: none) {
 	@media screen and (max-width: 768px) {
 		.icon {
+			width: 2.5rem;
+			height: 2.5rem;
 			i {
 				font-size: 2.5rem;
 			}
