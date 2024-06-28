@@ -120,9 +120,7 @@ export default function CodeScanner() {
       return newState;
     });
   }
-  function openResults() {
-    setROToggled(true);
-  };
+
   function toggleAspectRatio() {
     const videoElement = document.getElementById('video');
     const videoContainerElement = document.getElementById('videoContainer');
@@ -202,15 +200,13 @@ export default function CodeScanner() {
         </div>
         <div className={isSOToggled ? "overlay active" : "overlay" }>
           <div className={styles.overlayContent}>
+          
           <div className={styles.overlayBody}>
-            
-            </div>
-            <div className={styles.settingsControls}>
+          <div className={styles.settingsControls}>
               <Button icon='close' onClick={closeSettingsOverlay} title='Close' />
-              <Button icon='expand' onClick={openResults} title='Full screen' />
               <Button icon='expand' onClick={toggleFullScreen} title='Full screen' />
             </div>
-            <div id="sourceSelectOption" className={styles.settingsOption}>
+          <div id="sourceSelectOption" className={styles.settingsOption}>
               <p htmlFor="sourceSelect" title='Choose from available camera sources to change the video input device.' className={styles.settingLabel}>Camera Source</p>
               <select id="sourceSelect" value={selectedDeviceId} onChange={(e)=> changeCamera(e.target.value)} style={{ maxWidth: '400px' }}> {/* {devices && devices .filter(device => device.label) // Filter out devices with blank labels .map((device) => ( <option key={device.deviceId} value={device.deviceId}>{device.label}</option> ))} */} {cameras.map((camera) => ( <option key={camera.deviceId} value={camera.deviceId}>{camera.label.replace(/\([^()]*\)/g, '').trim()}</option> ))} </select>
             </div>
@@ -225,6 +221,9 @@ export default function CodeScanner() {
             <div id='resetCamSetting' className={styles.settingsOption}>
               <Button onClick={reloadPage} title='Reset the camera, if there are issues with it.'>RESET CAMERA</Button>
             </div>
+            </div>
+            
+            
           </div>
         </div>
         <div id="resultsOverlay" className={isROToggled ? "overlay active" : "overlay" }>
@@ -233,7 +232,7 @@ export default function CodeScanner() {
             <h3>Result:</h3>
             <pre><code id="result"/></pre>
             </div>
-            <div className={styles.overlayButtons}>
+            <div className={styles.overlayFooter}>
               <Button onClick={closeResultsOverlay}>Rescan</Button>
               <Button onClick={()=> continueButtonClicked(result)}>Continue</Button>
             </div>

@@ -2,8 +2,11 @@
 .overlayContent {
     background-color: #fff;
     max-width: 35rem;
-    display: grid;
-    column-gap: 1rem;
+    .overlayBody {
+      padding: 1rem;
+      display: grid;
+      row-gap: 1rem;
+    }
     .settingsOption {
       display: flex;
       flex-wrap: wrap;
@@ -22,13 +25,10 @@
       //   margin: auto;
       // }
     }
-    .overlayBody {
-      padding: 1rem;
-    }
     h3 {
       font-size: 1.25rem;
-      margin-bottom: 1rem;
       user-select: none;
+      margin-bottom: 0rem;
     }
     p {
       margin-bottom: 0;
@@ -50,14 +50,16 @@
     .settingsControls {
       display: flex;
       justify-content: space-between;
-  
     }
-    .overlayButtons {
+    .overlayFooter {
       display: flex;
+      align-items: center;
       flex-wrap: wrap;
-      justify-content: center;
-      column-gap: 1rem;
-      row-gap: 1rem;
+      min-height: 2.5rem;
+      height: fit-content;
       padding: 1rem;
+      column-gap: 1rem;
+      justify-content: space-between;
+      border-top: 0.063rem solid #C9CED1;
     }
   }

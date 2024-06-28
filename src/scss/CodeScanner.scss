@@ -84,7 +84,10 @@
   }
   .overlayContent {
     grid-row-gap: 1.5rem;
-    padding: 1.5rem;
+    .overlayBody {
+      padding: 1.5rem;
+      
+    }
   }
 }
 @media screen and ((min-width: 810px) and (min-height: 1010px)), ((min-width: 1080px) and (min-height: 740px)) {
@@ -115,7 +118,6 @@
       grid-row-gap: 1.5rem;
       display: flex;
       flex-direction: column;
-      padding: 1.5rem;
       p {
         font-size: 1.125rem;
       }

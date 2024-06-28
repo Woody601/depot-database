@@ -18,7 +18,6 @@ export default function EditPage() {
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [isEmptyCrop, setEmptyCrop] = useState(true);
   const [isICOToggled, setICOToggled] = useState(false);
   const [isRuleOfThirds, setRuleOfThirds] = useState(false);
   const [newAvatar, setNewAvatar] = useState("");
@@ -62,18 +61,18 @@ export default function EditPage() {
     return () => unsubscribe();
   }, [router]);
 
-  useEffect(() => {
-    const handleEscKeyDown = (event) => {
-      if (event.key == "Escape" && isICOToggled) {
-        closeImageCropOverlay();
-      }
-    };
-    window.addEventListener("keydown", handleEscKeyDown);
-    
-    return () => {
-      window.removeEventListener("keydown", handleEscKeyDown);
-    };
-  }, [isICOToggled]);
+    useEffect(() => {
+      const handleEscKeyDown = (event) => {
+        if (event.key == "Escape" && isICOToggled) {
+          closeImageCropOverlay();
+        }
+      };
+      window.addEventListener("keydown", handleEscKeyDown);
+      
+      return () => {
+        window.removeEventListener("keydown", handleEscKeyDown);
+      };
+    }, [isICOToggled]);
 
   if (!user) return null;
 
