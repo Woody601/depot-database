@@ -1,21 +1,3 @@
-.icon {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  cursor: pointer;
-}
-.icon i {
-  font-size: 2rem;
-}
-
-.icon input, .switch input {
-  display: none;
-}
-
 .switch {
   position: relative;
   display: inline-block;
@@ -59,7 +41,26 @@
   border-radius: 50%;
 }
 
-@media screen and (max-width: 768px) {
+.switch input,
+.icon input {
+  display: none;
+}
+
+.icon {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
+}
+.icon i {
+  font-size: 2rem;
+}
+
+@media screen and (pointer: coarse) and (max-width: 768px), screen and (hover: none) and (max-width: 768px) {
   .icon i {
     font-size: 2.5rem;
   }

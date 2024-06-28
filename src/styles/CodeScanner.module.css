@@ -94,7 +94,16 @@
   display: grid;
   row-gap: 1rem;
 }
-.overlayContent .settingsOption {
+.overlayContent .overlayBody .settingsControls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.overlayContent .overlayBody .settingsOption {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -116,11 +125,20 @@
       -ms-user-select: none;
           user-select: none;
 }
-.overlayContent .settingsOption .settingLabel {
-  width: 10.5rem;
+.overlayContent .overlayBody .settingsOption .settingLabel {
   width: 8.5rem;
 }
-.overlayContent h3 {
+.overlayContent .overlayBody .settingsOption select {
+  height: 1.594rem;
+  outline: none;
+  border: 1px solid #000;
+  border-radius: 0;
+  background-color: #fff;
+  color: #000;
+  font-family: Roboto;
+  font-size: 1rem;
+}
+.overlayContent .overlayBody h3 {
   font-size: 1.25rem;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -128,36 +146,28 @@
           user-select: none;
   margin-bottom: 0rem;
 }
-.overlayContent p {
+.overlayContent .overlayBody p {
   margin-bottom: 0;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
 }
-.overlayContent pre {
+.overlayContent .overlayBody pre {
   display: block;
   margin-bottom: 0.5rem;
 }
-.overlayContent pre code {
+.overlayContent .overlayBody pre code {
   font-size: 1rem;
   text-wrap: wrap;
   word-break: break-all;
 }
-.overlayContent pre .errorMSG {
+.overlayContent .overlayBody pre .errorMSG {
   word-break: normal;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
-.overlayContent .settingsControls {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
 .overlayContent .overlayFooter {
   display: -webkit-box;
@@ -176,67 +186,11 @@
   -webkit-column-gap: 1rem;
      -moz-column-gap: 1rem;
           column-gap: 1rem;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  border-top: 0.063rem solid #C9CED1;
-}
-
-.overlayContent .settingsOption button {
-  margin: auto;
-}
-
-.settingsOption {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  overflow: clip;
-  -webkit-column-gap: 1rem;
-     -moz-column-gap: 1rem;
-          column-gap: 1rem;
   row-gap: 0.5rem;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.settingsOption .settingLabel {
-  width: 10.5rem;
-  width: 8.5rem;
-}
-.settingsOption select {
-  height: 1.594rem;
-  outline: none;
-  border: 1px solid #000;
-  border-radius: 0;
-  background-color: #fff;
-  color: #000;
-  font-family: Roboto;
-}
-
-.aspectRatioSetting {
-  display: none;
-}
-
-#overlaySettings {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-top: 0.063rem solid #C9CED1;
 }
 
 @media (pointer: coarse), (hover: none) {
@@ -251,23 +205,11 @@
   }
 }
 @supports (-webkit-touch-callout: none) {
-  .videoContainer {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-  }
-  .videoContainer .video {
-    height: -webkit-fill-available;
-    width: auto;
-  }
   /* CSS specific to iOS devices */
   .settingsOption select {
     font-size: 1rem;
   }
   @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
-    .videoContainer .video {
-      height: 100%;
-    }
     .overlayContent {
       max-width: 75%;
       grid-row-gap: 1.5rem;
@@ -291,6 +233,24 @@
     }
     .overlayContent .overlayButtons button:first-child {
       margin-right: 1rem;
+    }
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  .videoContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .videoContainer .video {
+    height: -webkit-fill-available;
+    width: auto;
+  }
+  @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
+    /* CSS specific to the older generation iPad. */
+    .videoContainer .video {
+      height: 100%;
     }
   }
 }

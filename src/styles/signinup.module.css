@@ -8,7 +8,16 @@
   display: grid;
   row-gap: 1rem;
 }
-.overlayContent .settingsOption {
+.overlayContent .overlayBody .settingsControls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.overlayContent .overlayBody .settingsOption {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -30,11 +39,20 @@
       -ms-user-select: none;
           user-select: none;
 }
-.overlayContent .settingsOption .settingLabel {
-  width: 10.5rem;
+.overlayContent .overlayBody .settingsOption .settingLabel {
   width: 8.5rem;
 }
-.overlayContent h3 {
+.overlayContent .overlayBody .settingsOption select {
+  height: 1.594rem;
+  outline: none;
+  border: 1px solid #000;
+  border-radius: 0;
+  background-color: #fff;
+  color: #000;
+  font-family: Roboto;
+  font-size: 1rem;
+}
+.overlayContent .overlayBody h3 {
   font-size: 1.25rem;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -42,36 +60,28 @@
           user-select: none;
   margin-bottom: 0rem;
 }
-.overlayContent p {
+.overlayContent .overlayBody p {
   margin-bottom: 0;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
 }
-.overlayContent pre {
+.overlayContent .overlayBody pre {
   display: block;
   margin-bottom: 0.5rem;
 }
-.overlayContent pre code {
+.overlayContent .overlayBody pre code {
   font-size: 1rem;
   text-wrap: wrap;
   word-break: break-all;
 }
-.overlayContent pre .errorMSG {
+.overlayContent .overlayBody pre .errorMSG {
   word-break: normal;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
-.overlayContent .settingsControls {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
 .overlayContent .overlayFooter {
   display: -webkit-box;
@@ -90,12 +100,56 @@
   -webkit-column-gap: 1rem;
      -moz-column-gap: 1rem;
           column-gap: 1rem;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  row-gap: 0.5rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   border-top: 0.063rem solid #C9CED1;
 }
 
+@media (pointer: coarse), (hover: none) {
+  .overlayContent p, .overlayContent pre code {
+    font-size: 1.125rem;
+  }
+  .overlayContent {
+    grid-row-gap: 1.5rem;
+  }
+  .overlayContent .overlayBody {
+    padding: 1.5rem;
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  .settingsOption select {
+    font-size: 1rem;
+  }
+  @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
+    .overlayContent {
+      max-width: 75%;
+      grid-row-gap: 1.5rem;
+      -webkit-column-gap: 0;
+         -moz-column-gap: 0;
+              column-gap: 0;
+      row-gap: 0;
+    }
+    .overlayContent p {
+      font-size: 1.125rem;
+    }
+    .overlayContent pre code {
+      font-size: 1.125rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .overlayContent .overlayButtons {
+      -webkit-column-gap: 0;
+         -moz-column-gap: 0;
+              column-gap: 0;
+    }
+    .overlayContent .overlayButtons button:first-child {
+      margin-right: 1rem;
+    }
+  }
+}
 .form {
   padding: 0 2rem;
   font-family: Roboto;
@@ -178,22 +232,32 @@
   width: 100%;
   max-width: 492px;
 }
-.settingsContainer .overlayBody {
+.settingsContainer .overlayContent .overlayBody {
   padding: 1.5rem;
   max-height: 608px;
   overflow-y: auto;
+  display: block;
 }
-.settingsContainer .AvatarWrapper {
+.settingsContainer .overlayContent .overlayBody .AvatarWrapper {
   display: block;
   max-width: 350px;
   margin: auto;
 }
-.settingsContainer .AvatarWrapper .cropArea {
+.settingsContainer .overlayContent .overlayBody .AvatarWrapper .cropArea {
   width: 100%;
   height: 100%;
 }
-.settingsContainer .userAvatar {
+.settingsContainer .overlayContent .overlayBody .userAvatar {
   width: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.settingsContainer .overlayContent .overlayFooter {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .settingsContainer h1 {
   font-size: 32px;

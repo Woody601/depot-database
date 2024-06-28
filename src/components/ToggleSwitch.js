@@ -19,7 +19,6 @@ export default function ToggleSwitchWithIcon({ round, onChange, icon}) {
         }
     };
     const sliderClass = round ? `${styles.slider} ${styles.round}` : styles.slider;
-    
 
     return (
         <label className={icon ? styles.icon : styles.switch}>
