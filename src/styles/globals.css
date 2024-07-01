@@ -268,6 +268,7 @@ div.sectionDivider {
   overflow-x: hidden;
   color: #666666;
   font-size: 15px;
+  list-style: none;
 }
 .userProfile .dropdown-content .userDetails {
   display: inherit;
@@ -434,6 +435,9 @@ div.sectionDivider {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+  }
+  .navHolder {
+    margin-right: 2.188rem;
   }
   @media not all and (max-height: 899px) and (-webkit-min-device-pixel-ratio: 0.0010416666666666667), not all and (max-height: 899px) and (min-resolution: 0.1dpi) {
     .pagescroll {

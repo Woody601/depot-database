@@ -111,6 +111,9 @@
     flex-direction: column;
     align-items: center;
   }
+  .navHolder {
+    margin-right: 2.188rem;
+  }
   @media not all and (max-height: 899px) and (min-resolution:.1dpi) {
     .pagescroll {
       width: 100vw;

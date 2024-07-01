@@ -125,7 +125,7 @@ export default function Navbar() {
                       </div>
                     </li>
                     <li className='sectionDivider'/>
-                    <li onClick={handleLogout}><Link href="" onClick={toggleNav}>Log Out<i className="material-symbols-outlined">logout</i></Link></li>
+                    <li onClick={closeAvatar}><Link href="" onClick={handleLogout}>Log Out<i className="material-symbols-outlined">logout</i></Link></li>
                   </ul>
               </div>
             </>
