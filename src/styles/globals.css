@@ -268,7 +268,6 @@ div.sectionDivider {
   overflow-x: hidden;
   color: #666666;
   font-size: 15px;
-  list-style: none;
 }
 .userProfile .dropdown-content .userDetails {
   display: inherit;
@@ -285,6 +284,9 @@ div.sectionDivider {
 }
 .userProfile .dropdown-content .userDetails .userName {
   color: #171717;
+}
+.userProfile .dropdown-content li {
+  list-style: none;
 }
 .userProfile .dropdown-content li i {
   font-size: 18px;
