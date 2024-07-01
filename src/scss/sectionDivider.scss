@@ -1,0 +1,11 @@
+.sectionDivider {
+    background-color: #C9CED1;
+    border: none;
+    height: 1px;
+    width: calc(100% + 16px);
+    margin: .5rem -.5rem;
+}
+div.sectionDivider {
+    width: 100%;
+    margin: 0;
+}

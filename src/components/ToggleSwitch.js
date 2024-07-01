@@ -40,7 +40,7 @@ export default function ToggleSwitchWithIcon({ round, onChange, icon, fa4 }) {
         <label className={icon ? styles.icon : styles.switch}>
             <input type="checkbox" onChange={handleChange} />
             {icon ? (
-                <i className={fa4 ? "fa fa-" + Icon : "material-icons"}>{IconText}</i>
+                <i className={fa4 ? "fa fa-" + Icon : "material-symbols-outlined"}>{IconText}</i>
             ) : (
                 <span className={sliderClass}></span>
             )}

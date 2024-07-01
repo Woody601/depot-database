@@ -107,7 +107,7 @@ export default function CodeScanner() {
     });
   }
   function openResultsOverlay() {
-	setSOToggled(false);
+	  setSOToggled(false);
     setVideoPaused(true);
     setROToggled(true);
   }
@@ -199,9 +199,9 @@ export default function CodeScanner() {
           <div className={styles.overlayContent}>
 		  <div className={styles.overlayControls}>
                 <Button icon="close" onClick={closeSettingsOverlay} title="Close" />
-				<Button icon="expand" onClick={openResultsOverlay} title="Full screen" />
                 <Button icon="expand" onClick={toggleFullScreen} title="Full screen" />
               </div>
+              <div className='sectionDivider'/>
             <div className={styles.overlayBody}>
               <div id="sourceSelectOption" className={styles.settingsOption}>
                 <p htmlFor="sourceSelect" title="Choose from available camera sources to change the video input device." className={styles.settingLabel}>
@@ -230,6 +230,7 @@ export default function CodeScanner() {
                 <ToggleSwitch round onChange={toggleAspectRatio} />
               </div>
             </div>
+            <div className='sectionDivider'/>
             <div className={styles.overlayFooter}>
               <div id="resetCamSetting" className={styles.settingsOption}>
                 <Button onClick={reloadPage} title="Reset the camera, if there are issues with it.">
@@ -247,6 +248,7 @@ export default function CodeScanner() {
                 <code id="result" />
               </pre>
             </div>
+            <div className='sectionDivider'/>
             <div className={styles.overlayFooter}>
               <Button onClick={closeResultsOverlay}>RESCAN</Button>
               <Button onClick={() => continueButtonClicked(result)}>CONTINUE</Button>
@@ -261,6 +263,7 @@ export default function CodeScanner() {
                 <code id="error" className={styles.errorMSG} />
               </pre>
             </div>
+            <div className='sectionDivider'/>
             <div className={styles.overlayFooter}>
               <Button onClick={reloadPage}>Reload</Button>
             </div>

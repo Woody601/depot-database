@@ -246,10 +246,12 @@ export default function EditPage() {
                   <img ref={imageRef} src={newAvatar} alt="Avatar" className={styles.userAvatar} />
                 </ReactCrop>
               </div>
+              <div className={styles.sectionDivider}/>
               <div className={styles.overlayControls}>
               <ToggleSwitch  icon='square-o' onChange={toggleCircularCrop} fa4 />
-              <ToggleSwitch icon='grid_off' onChange={toggleRuleofThirds} />
+              <ToggleSwitch icon='grid_off' style="outlined" onChange={toggleRuleofThirds} />
               </div>
+              <div className={styles.sectionDivider}/>
               <div className={styles.overlayFooter}>
                 <Button type="button" onClick={closeImageCropOverlay}>Cancel</Button>
                 <Button type="submit button" disabled={disabled}>Set Avatar</Button>
@@ -271,6 +273,7 @@ export default function EditPage() {
             ></input>
             <canvas ref={canvasRef} style={{ display: 'none' }} />
           </div>
+          <div className={styles.sectionDivider}/>
           <div className={styles.sectionFooter}>
             <p>An avatar is optional but strongly recommended.</p>
           </div>
@@ -288,6 +291,7 @@ export default function EditPage() {
               required
             />
           </div>
+          <div className={styles.sectionDivider}/>
           <div className={styles.sectionFooter}>
             <p>Please use 32 characters at maximum.</p>
             <Button type="submit button">Save</Button>
@@ -305,6 +309,7 @@ export default function EditPage() {
               required
             />
           </div>
+          <div className={styles.sectionDivider}/>
           <div className={styles.sectionFooter}>
             <p>Emails must be verified to be able to login with them or be used as primary email.</p>
             <Button type="submit button">Save</Button>
@@ -333,6 +338,7 @@ export default function EditPage() {
               required
             />
           </div>
+          <div className={styles.sectionDivider}/>
           <div className={styles.sectionFooter}>
             <p>Emails must be verified to be able to login with them or be used as primary email.</p>
             <Button type="submit button">Save</Button>

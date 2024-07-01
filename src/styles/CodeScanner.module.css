@@ -1,3 +1,16 @@
+.sectionDivider {
+  background-color: #C9CED1;
+  border: none;
+  height: 1px;
+  width: calc(100% + 16px);
+  margin: 0.5rem -0.5rem;
+}
+
+div.sectionDivider {
+  width: 100%;
+  margin: 0;
+}
+
 .videoContainer {
   overflow-y: hidden;
   overflow-x: clip;
@@ -97,7 +110,6 @@
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 1rem;
-  border-bottom: 0.063rem solid #C9CED1;
 }
 .overlayContent .overlayBody {
   padding: 1rem;
@@ -192,7 +204,6 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  border-top: 0.063rem solid #C9CED1;
 }
 
 @media screen and (pointer: coarse) and (max-width: 768px), screen and (hover: none) and (max-width: 768px) {
